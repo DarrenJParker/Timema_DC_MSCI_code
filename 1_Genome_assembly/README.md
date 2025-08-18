@@ -227,7 +227,7 @@ source juicer/1.6.sh
 
 ./scripts/juicer.sh -g Tpa -z Tpa_flye_racon_pilon3_blobtools_purgehap.fasta -y draft_Sau3AI.txt -p Tpa_flye_racon_pilon3_blobtools_purgehap.chrom.sizes -D Tpa_juicer
 
-
+```
 
 
 5.2) Perform scaffolding
