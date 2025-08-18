@@ -1,5 +1,7 @@
 ## Pipeline description for genome assembly.
 
+Genome assemblies have been deposited at DDBJ/ENA/GenBank under the accessions JBOIUC000000000 (T. cristinae (Tce)) and JBOIUD000000000 (T. podura (Tpa)).
+
 ## Table of contents
 
 1. [Oxford Nanopore reads filtration](#1)
@@ -10,6 +12,8 @@
 
 
 #### <a name="1"></a>1) Oxford Nanopore reads filtration. 
+
+Reads for Tpa available in the European Nucleotide Archive under the following project PRJEB94285.
 
 Using [Filtlong](https://github.com/rrwick/Filtlong).
 
