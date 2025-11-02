@@ -3,8 +3,9 @@
 ##########################################################################################################################
 ### get reads
 
-## TceTms: 2019 WB single end stuff, WB dev stuff, fasteris adults, Old antennae 
-## TpaTge: 2019 WB single end stuff, WB dev stuff, fasteris adults
+##### all Tce, Tms. Tpa, Tge reads from: PRJNA1320679, PRJNA1327219, PRJNA380865, PRJNA504764, PRJNA679785,PRJNA1295360
+### also prep Tps Tdi reads for expression analyses: PRJNA1128554, PRJNA1128519)
+
 
 mkdir raw_reads_paired
 mkdir raw_reads_single
