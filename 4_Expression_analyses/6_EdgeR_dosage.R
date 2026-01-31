@@ -1,4 +1,4 @@
-/*§#### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### 
+### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### 
 ### libraries
 # 
 # if (!require("BiocManager", quietly = TRUE))
@@ -26,14 +26,14 @@ library(hash)
 
 
 print (sessionInfo())
-# 
-# R version 4.3.1 (2023-06-16)
-# Platform: aarch64-apple-darwin20 (64-bit)
-# Running under: macOS Monterey 12.6.8
+# # 
+# R version 4.4.2 (2024-10-31)
+# Platform: aarch64-apple-darwin20
+# Running under: macOS 26.0.1
 # 
 # Matrix products: default
 # BLAS:   /System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libBLAS.dylib 
-# LAPACK: /Library/Frameworks/R.framework/Versions/4.3-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.11.0
+# LAPACK: /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.0
 # 
 # locale:
 #   [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
@@ -45,22 +45,25 @@ print (sessionInfo())
 #   [1] grid      stats     graphics  grDevices utils     datasets  methods   base     
 # 
 # other attached packages:
-#   [1] hash_2.2.6.3         dplyr_1.1.3          Rtsne_0.16           SuperExactTest_1.1.0 raster_3.6-23       
-# [6] sp_2.1-0             pvclust_2.2-0        vegan_2.6-4          permute_0.9-7        RColorBrewer_1.1-3  
-# [11] pheatmap_1.0.12      gtable_0.3.4         stringr_1.5.0        cowplot_1.1.1        lattice_0.21-8      
-# [16] ggplot2_3.4.3        gridExtra_2.3        VennDiagram_1.7.3    futile.logger_1.4.3  edgeR_3.42.4        
-# [21] limma_3.56.2         BiocManager_1.30.22 
+#   [1] hash_2.2.6.3         dplyr_1.1.4          Rtsne_0.17           SuperExactTest_1.1.0
+# [5] raster_3.6-32        sp_2.2-0             pvclust_2.2-0        vegan_2.7-1         
+# [9] permute_0.9-8        RColorBrewer_1.1-3   pheatmap_1.0.13      gtable_0.3.6        
+# [13] stringr_1.5.1        cowplot_1.1.3        lattice_0.22-6       ggplot2_3.5.2       
+# [17] gridExtra_2.3        VennDiagram_1.7.3    futile.logger_1.4.3  edgeR_4.4.2         
+# [21] limma_3.62.2        
 # 
 # loaded via a namespace (and not attached):
-#   [1] utf8_1.2.3           generics_0.1.3       futile.options_1.0.1 stringi_1.7.12       magrittr_2.0.3      
-# [6] Matrix_1.5-4.1       formatR_1.14         mgcv_1.8-42          fansi_1.0.4          scales_1.2.1        
-# [11] codetools_0.2-19     cli_3.6.1            rlang_1.1.1          munsell_0.5.0        splines_4.3.1       
-# [16] withr_2.5.1          tools_4.3.1          parallel_4.3.1       colorspace_2.1-0     locfit_1.5-9.8      
-# [21] lambda.r_1.2.4       vctrs_0.6.3          R6_2.5.1             lifecycle_1.0.3      MASS_7.3-60         
-# [26] cluster_2.1.4        pkgconfig_2.0.3      terra_1.7-46         pillar_1.9.0         glue_1.6.2          
-# [31] Rcpp_1.0.11          tibble_3.2.1         tidyselect_1.2.0     nlme_3.1-162         compiler_4.3.1      
-# > 
-### DJP code
+#   [1] generics_0.1.4       futile.options_1.0.1 stringi_1.8.7        magrittr_2.0.3      
+# [5] Matrix_1.7-1         formatR_1.14         BiocManager_1.30.27  mgcv_1.9-1          
+# [9] scales_1.4.0         codetools_0.2-20     cli_3.6.5            rlang_1.1.6         
+# [13] splines_4.4.2        withr_3.0.2          tools_4.4.2          parallel_4.4.2      
+# [17] locfit_1.5-9.12      lambda.r_1.2.4       vctrs_0.6.5          R6_2.6.1            
+# [21] lifecycle_1.0.4      MASS_7.3-61          cluster_2.1.6        pkgconfig_2.0.3     
+# [25] terra_1.8-60         pillar_1.10.2        glue_1.8.0           Rcpp_1.0.14         
+# [29] statmod_1.5.1        tibble_3.2.1         tidyselect_1.2.1     rstudioapi_0.17.1   
+# [33] farver_2.1.2         nlme_3.1-166         compiler_4.4.2       
+# 
+
 #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### 
 #### filter and normalisation (code)
 
@@ -102,7 +105,7 @@ get_DE_genes <- function(fita,FDRa){
 
 
 
-setwd("data/read_counts")
+setwd("../data/read_counts")
 
 
 #### 
@@ -338,8 +341,8 @@ y_TpsTdi_A_Ad_to_Tps_F_FPKM    <- filt_and_norm_male_female_FPKM_SA(y_TpsTdi_A_A
 y_TpsTdi_B_Ad_to_Tps_F_FPKM    <- filt_and_norm_male_female_FPKM_SA(y_TpsTdi_B_Ad_to_Tps_UF, FPKM_filt_value,    2, dat_to_Tps$total_exon_length, length(grep("Tps_F_B_Ad_", colnames(dat_to_Tps))), length(grep("Tps_M_B_Ad_", colnames(dat_to_Tps))), length(grep("Tdi_F_B_Ad_", colnames(dat_to_Tps))), length(grep("Tdi_M_B_Ad_", colnames(dat_to_Tps))))
 y_TpsTdi_DG_Ad_to_Tps_F_FPKM   <- filt_and_norm_male_female_FPKM_SA(y_TpsTdi_DG_Ad_to_Tps_UF, FPKM_filt_value,   2, dat_to_Tps$total_exon_length, length(grep("Tps_F_DG_Ad_", colnames(dat_to_Tps))), length(grep("Tps_M_DG_Ad_", colnames(dat_to_Tps))), length(grep("Tdi_F_DG_Ad_", colnames(dat_to_Tps))), length(grep("Tdi_M_DG_Ad_", colnames(dat_to_Tps))))
 y_TpsTdi_FB_Ad_to_Tps_F_FPKM   <- filt_and_norm_male_female_FPKM_SA(y_TpsTdi_FB_Ad_to_Tps_UF, FPKM_filt_value,   2, dat_to_Tps$total_exon_length, length(grep("Tps_F_FB_Ad_", colnames(dat_to_Tps))), length(grep("Tps_M_FB_Ad_", colnames(dat_to_Tps))), length(grep("Tdi_F_FB_Ad_", colnames(dat_to_Tps))), length(grep("Tdi_M_FB_Ad_", colnames(dat_to_Tps))))
-y_TpsTdi_Fe_Ad_to_Tps_F_FPKM.  <- filt_and_norm_male_female_FPKM_SA(y_TpsTdi_Fe_Ad_to_Tps_UF, FPKM_filt_value,   2, dat_to_Tps$total_exon_length, length(grep("Tps_F_Fe_Ad_", colnames(dat_to_Tps))), length(grep("Tps_M_Fe_Ad_", colnames(dat_to_Tps))), length(grep("Tdi_F_Fe_Ad_", colnames(dat_to_Tps))), length(grep("Tdi_M_Fe_Ad_", colnames(dat_to_Tps))))
-y_TpsTdi_Gu_Ad_to_Tps_F_FPKM.  <- filt_and_norm_male_female_FPKM_SA(y_TpsTdi_Gu_Ad_to_Tps_UF, FPKM_filt_value,   2, dat_to_Tps$total_exon_length, length(grep("Tps_F_Gu_Ad_", colnames(dat_to_Tps))), length(grep("Tps_M_Gu_Ad_", colnames(dat_to_Tps))), length(grep("Tdi_F_Gu_Ad_", colnames(dat_to_Tps))), length(grep("Tdi_M_Gu_Ad_", colnames(dat_to_Tps))))
+y_TpsTdi_Fe_Ad_to_Tps_F_FPKM   <- filt_and_norm_male_female_FPKM_SA(y_TpsTdi_Fe_Ad_to_Tps_UF, FPKM_filt_value,   2, dat_to_Tps$total_exon_length, length(grep("Tps_F_Fe_Ad_", colnames(dat_to_Tps))), length(grep("Tps_M_Fe_Ad_", colnames(dat_to_Tps))), length(grep("Tdi_F_Fe_Ad_", colnames(dat_to_Tps))), length(grep("Tdi_M_Fe_Ad_", colnames(dat_to_Tps))))
+y_TpsTdi_Gu_Ad_to_Tps_F_FPKM   <- filt_and_norm_male_female_FPKM_SA(y_TpsTdi_Gu_Ad_to_Tps_UF, FPKM_filt_value,   2, dat_to_Tps$total_exon_length, length(grep("Tps_F_Gu_Ad_", colnames(dat_to_Tps))), length(grep("Tps_M_Gu_Ad_", colnames(dat_to_Tps))), length(grep("Tdi_F_Gu_Ad_", colnames(dat_to_Tps))), length(grep("Tdi_M_Gu_Ad_", colnames(dat_to_Tps))))
 y_TpsTdi_Ta_Ad_to_Tps_F_FPKM   <- filt_and_norm_male_female_FPKM_SA(y_TpsTdi_Ta_Ad_to_Tps_UF, FPKM_filt_value,   2, dat_to_Tps$total_exon_length, length(grep("Tps_F_Ta_Ad_", colnames(dat_to_Tps))), length(grep("Tps_M_Ta_Ad_", colnames(dat_to_Tps))), length(grep("Tdi_F_Ta_Ad_", colnames(dat_to_Tps))), length(grep("Tdi_M_Ta_Ad_", colnames(dat_to_Tps))))
 y_TpsTdi_GoTe_Ad_to_Tps_F_FPKM <- filt_and_norm_male_female_FPKM_SA(y_TpsTdi_GoTe_Ad_to_Tps_UF, FPKM_filt_value, 2, dat_to_Tps$total_exon_length, length(grep("Tps_F_Go_Ad_", colnames(dat_to_Tps))), length(grep("Tps_M_Te_Ad_", colnames(dat_to_Tps))), length(grep("Tdi_F_Go_Ad_", colnames(dat_to_Tps))), length(grep("Tdi_M_Te_Ad_", colnames(dat_to_Tps)))) ### Te,Go together
 
