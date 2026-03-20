@@ -77,6 +77,32 @@ python3 Accessory_scripts/join_FPKM_for_heatmap.py -s output/sex_ref_combSA_v2/T
 python3 Accessory_scripts/join_MF_for_heatmap.py   -s output/sex_ref_combSA_v2/Tpa_Ad_to_Tpa_F_MF.csv       -a output/sex_ref_combSA_v2/Tge_Ad_to_Tpa_F_MF.csv       -o output/sex_ref_combSA_v2/TpaTge_Ad_to_Tpa_F_MF
 python3 Accessory_scripts/join_FPKM_for_heatmap.py -s output/sex_ref_combSA_v2/Tpa_Ad_to_Tpa_F_avFPKM_2.csv -a output/sex_ref_combSA_v2/Tge_Ad_to_Tpa_F_avFPKM_2.csv -o output/sex_ref_combSA_v2/TpaTge_Ad_to_Tpa_F_avFPKM_2
 
+########################################################################################################################################
+#### GO terms
+
+gzip -d data/annot/*.gz 
+
+python3 Accessory_scripts/gff_to_topGO.py -s droso_ontology_term -g data/annot/Tpa_LRv5a_mtDNAv350_v2.2_droso_b2g.gff -t ID
+#Number of genes with GO annot: 13579
+#Number of genes without GO annot: 20139
+
+
+python3 Accessory_scripts/gff_to_topGO.py -s droso_ontology_term -g data/annot/Tps_LRv5b_mtDNAv350_v2.2_droso_b2g.gff -t ID
+#Number of genes with GO annot: 13329
+#Number of genes without GO annot: 24575
+
+python3 Accessory_scripts/gff_to_topGO.py -s droso_ontology_term -g data/annot/Tce_LRv5a_mtDNAv350_v2.2_droso_b2g.gff -t ID
+#Number of genes with GO annot: 13153
+#Number of genes without GO annot: 19048
+
+
+cut -f 1  Tce_LRv5a_mtDNAv350_v2.2_droso_b2g.gff_droso_ontology_term_fortopgo.txt > Tce_LRv5a_mtDNAv350_v2.2_droso_b2g.gff_droso_ontology_term_fortopgo_genelist.txt
+cut -f 1  Tpa_LRv5a_mtDNAv350_v2.2_droso_b2g.gff_droso_ontology_term_fortopgo.txt > Tpa_LRv5a_mtDNAv350_v2.2_droso_b2g.gff_droso_ontology_term_fortopgo_genelist.txt
+cut -f 1  Tps_LRv5b_mtDNAv350_v2.2_droso_b2g.gff_droso_ontology_term_fortopgo.txt > Tps_LRv5b_mtDNAv350_v2.2_droso_b2g.gff_droso_ontology_term_fortopgo_genelist.txt
+
+
+
+
 
 
 

@@ -675,6 +675,836 @@ head(Tce_GoTe_Ad_to_Tce_F_FPKM)
 
 ##################################################################################################################################################################
 ##################################################################################################################################################################
+#### add Tau from 6_EdgeR_tissue_spec.R
+
+
+TpsTdi_Ad_to_Tps_wTau <- read.csv("TpsTdi_Ad_to_Tps_wTau.csv")
+TpaTge_Ad_to_Tpa_wTau <- read.csv("TpaTge_Ad_to_Tpa_wTau.csv")
+TceTms_Ad_to_Tps_wTau <- read.csv("TceTms_Ad_to_Tce_wTau.csv")
+
+merge_df_by_col <- function(match_vec,match_rep_name){
+  
+  ### so merge requires that the columns NOT to match on have different names or it tries to match on those too 
+  ### and even if I try to specify by.y and by.x it still doesn't work
+  ### so I will bang a prefix on all but the first (matching) column
+  ### add first df and replace names
+  
+  A1 = match_vec[1]
+  A1 = eval(parse(text=A1))
+  match_coln <- colnames(A1)[1]
+  
+  new_col_n <- c()
+  A1_col <- colnames(A1)
+  for(el in A1_col){
+    match_pre = match_rep_name[1]
+    new_names <- paste(match_pre,el,sep = "")
+    new_col_n = c(new_col_n,new_names )
+  }
+  
+  colnames(A1) <- new_col_n 
+  colnames(A1)[1] <- match_coln
+  df_merged <- A1
+  
+  for(i in 1:(length(match_vec))){
+    curr_df_name <- match_vec[i]
+    curr_df <- eval(parse(text=curr_df_name))
+    match_coln <- colnames(curr_df)[1]
+    curr_df_col <- colnames(curr_df)
+    new_col_n <- c()
+    
+    for(el in curr_df_col){
+      match_pre = match_rep_name[i]
+      new_names <- paste(match_pre,el,sep = "")
+      new_col_n = c(new_col_n,new_names )
+      #print(new_names)
+    }
+    colnames(curr_df) <- new_col_n 
+    colnames(curr_df)[1] <- match_coln
+    df_merged = merge(df_merged,curr_df)
+  }
+  return(df_merged)
+}
+
+
+colnames(Tms_A_Ad_to_Tce_F_FPKM)[1] <- "gene_id"
+colnames(Tce_A_Ad_to_Tce_F_FPKM)[1] <- "gene_id"
+colnames(Tms_B_Ad_to_Tce_F_FPKM)[1] <- "gene_id"
+colnames(Tce_B_Ad_to_Tce_F_FPKM)[1] <- "gene_id"
+colnames(Tms_DG_Ad_to_Tce_F_FPKM)[1] <- "gene_id"
+colnames(Tce_DG_Ad_to_Tce_F_FPKM)[1] <- "gene_id"
+colnames(Tms_FB_Ad_to_Tce_F_FPKM)[1] <- "gene_id"
+colnames(Tce_FB_Ad_to_Tce_F_FPKM)[1] <- "gene_id"
+colnames(Tms_Fe_Ad_to_Tce_F_FPKM)[1] <- "gene_id"
+colnames(Tce_Fe_Ad_to_Tce_F_FPKM)[1] <- "gene_id"
+colnames(Tms_Gu_Ad_to_Tce_F_FPKM)[1] <- "gene_id"
+colnames(Tce_Gu_Ad_to_Tce_F_FPKM)[1] <- "gene_id"
+colnames(Tms_Ta_Ad_to_Tce_F_FPKM)[1] <- "gene_id"
+colnames(Tce_Ta_Ad_to_Tce_F_FPKM)[1] <- "gene_id"
+colnames(Tms_GoTe_Ad_to_Tce_F_FPKM)[1] <- "gene_id"
+colnames(Tce_GoTe_Ad_to_Tce_F_FPKM)[1] <- "gene_id"
+
+
+merge_list <- c("Tms_A_Ad_to_Tce_F_FPKM", "TceTms_Ad_to_Tps_wTau")
+match_name <- c("","")
+Tms_A_Ad_to_Tce_F_FPKM_Tau <- merge_df_by_col(merge_list, match_name)
+merge_list <- c("Tce_A_Ad_to_Tce_F_FPKM", "TceTms_Ad_to_Tps_wTau")
+match_name <- c("","")
+Tce_A_Ad_to_Tce_F_FPKM_Tau <- merge_df_by_col(merge_list, match_name)
+
+merge_list <- c("Tms_B_Ad_to_Tce_F_FPKM", "TceTms_Ad_to_Tps_wTau")
+match_name <- c("","")
+Tms_B_Ad_to_Tce_F_FPKM_Tau <- merge_df_by_col(merge_list, match_name)
+merge_list <- c("Tce_B_Ad_to_Tce_F_FPKM", "TceTms_Ad_to_Tps_wTau")
+match_name <- c("","")
+Tce_B_Ad_to_Tce_F_FPKM_Tau <- merge_df_by_col(merge_list, match_name)
+
+merge_list <- c("Tms_DG_Ad_to_Tce_F_FPKM", "TceTms_Ad_to_Tps_wTau")
+match_name <- c("","")
+Tms_DG_Ad_to_Tce_F_FPKM_Tau <- merge_df_by_col(merge_list, match_name)
+merge_list <- c("Tce_DG_Ad_to_Tce_F_FPKM", "TceTms_Ad_to_Tps_wTau")
+match_name <- c("","")
+Tce_DG_Ad_to_Tce_F_FPKM_Tau <- merge_df_by_col(merge_list, match_name)
+
+merge_list <- c("Tms_FB_Ad_to_Tce_F_FPKM", "TceTms_Ad_to_Tps_wTau")
+match_name <- c("","")
+Tms_FB_Ad_to_Tce_F_FPKM_Tau <- merge_df_by_col(merge_list, match_name)
+merge_list <- c("Tce_FB_Ad_to_Tce_F_FPKM", "TceTms_Ad_to_Tps_wTau")
+match_name <- c("","")
+Tce_FB_Ad_to_Tce_F_FPKM_Tau <- merge_df_by_col(merge_list, match_name)
+
+merge_list <- c("Tms_Fe_Ad_to_Tce_F_FPKM", "TceTms_Ad_to_Tps_wTau")
+match_name <- c("","")
+Tms_Fe_Ad_to_Tce_F_FPKM_Tau <- merge_df_by_col(merge_list, match_name)
+merge_list <- c("Tce_Fe_Ad_to_Tce_F_FPKM", "TceTms_Ad_to_Tps_wTau")
+match_name <- c("","")
+Tce_Fe_Ad_to_Tce_F_FPKM_Tau <- merge_df_by_col(merge_list, match_name)
+
+
+merge_list <- c("Tms_Gu_Ad_to_Tce_F_FPKM", "TceTms_Ad_to_Tps_wTau")
+match_name <- c("","")
+Tms_Gu_Ad_to_Tce_F_FPKM_Tau <- merge_df_by_col(merge_list, match_name)
+merge_list <- c("Tce_Gu_Ad_to_Tce_F_FPKM", "TceTms_Ad_to_Tps_wTau")
+match_name <- c("","")
+Tce_Gu_Ad_to_Tce_F_FPKM_Tau <- merge_df_by_col(merge_list, match_name)
+
+merge_list <- c("Tms_Ta_Ad_to_Tce_F_FPKM", "TceTms_Ad_to_Tps_wTau")
+match_name <- c("","")
+Tms_Ta_Ad_to_Tce_F_FPKM_Tau <- merge_df_by_col(merge_list, match_name)
+merge_list <- c("Tce_Ta_Ad_to_Tce_F_FPKM", "TceTms_Ad_to_Tps_wTau")
+match_name <- c("","")
+Tce_Ta_Ad_to_Tce_F_FPKM_Tau <- merge_df_by_col(merge_list, match_name)
+
+merge_list <- c("Tms_GoTe_Ad_to_Tce_F_FPKM", "TceTms_Ad_to_Tps_wTau")
+match_name <- c("","")
+Tms_GoTe_Ad_to_Tce_F_FPKM_Tau <- merge_df_by_col(merge_list, match_name)
+merge_list <- c("Tce_GoTe_Ad_to_Tce_F_FPKM", "TceTms_Ad_to_Tps_wTau")
+match_name <- c("","")
+Tce_GoTe_Ad_to_Tce_F_FPKM_Tau <- merge_df_by_col(merge_list, match_name)
+
+
+Tms_A_Ad_to_Tce_F_FPKM_Tau$rep_m <- rep('asex', length(Tms_A_Ad_to_Tce_F_FPKM_Tau[,1]))
+Tce_A_Ad_to_Tce_F_FPKM_Tau$rep_m <- rep('sex', length(Tce_A_Ad_to_Tce_F_FPKM_Tau[,1]))
+Tms_B_Ad_to_Tce_F_FPKM_Tau$rep_m <- rep('asex', length(Tms_B_Ad_to_Tce_F_FPKM_Tau[,1]))
+Tce_B_Ad_to_Tce_F_FPKM_Tau$rep_m <- rep('sex', length(Tce_B_Ad_to_Tce_F_FPKM_Tau[,1]))
+Tms_DG_Ad_to_Tce_F_FPKM_Tau$rep_m <- rep('asex', length(Tms_DG_Ad_to_Tce_F_FPKM_Tau[,1]))
+Tce_DG_Ad_to_Tce_F_FPKM_Tau$rep_m <- rep('sex', length(Tce_DG_Ad_to_Tce_F_FPKM_Tau[,1]))
+Tms_FB_Ad_to_Tce_F_FPKM_Tau$rep_m <- rep('asex', length(Tms_FB_Ad_to_Tce_F_FPKM_Tau[,1]))
+Tce_FB_Ad_to_Tce_F_FPKM_Tau$rep_m <- rep('sex', length(Tce_FB_Ad_to_Tce_F_FPKM_Tau[,1]))
+Tms_Fe_Ad_to_Tce_F_FPKM_Tau$rep_m <- rep('asex', length(Tms_Fe_Ad_to_Tce_F_FPKM_Tau[,1]))
+Tce_Fe_Ad_to_Tce_F_FPKM_Tau$rep_m <- rep('sex', length(Tce_Fe_Ad_to_Tce_F_FPKM_Tau[,1]))
+Tms_Gu_Ad_to_Tce_F_FPKM_Tau$rep_m <- rep('asex', length(Tms_Gu_Ad_to_Tce_F_FPKM_Tau[,1]))
+Tce_Gu_Ad_to_Tce_F_FPKM_Tau$rep_m <- rep('sex', length(Tce_Gu_Ad_to_Tce_F_FPKM_Tau[,1]))
+Tms_Ta_Ad_to_Tce_F_FPKM_Tau$rep_m <- rep('asex', length(Tms_Ta_Ad_to_Tce_F_FPKM_Tau[,1]))
+Tce_Ta_Ad_to_Tce_F_FPKM_Tau$rep_m <- rep('sex', length(Tce_Ta_Ad_to_Tce_F_FPKM_Tau[,1]))
+Tms_GoTe_Ad_to_Tce_F_FPKM_Tau$rep_m <- rep('asex', length(Tms_GoTe_Ad_to_Tce_F_FPKM_Tau[,1]))
+Tce_GoTe_Ad_to_Tce_F_FPKM_Tau$rep_m <- rep('sex', length(Tce_GoTe_Ad_to_Tce_F_FPKM_Tau[,1]))
+
+Tms_A_Ad_to_Tce_F_FPKM_Tau$tiss <- rep('A', length(Tms_A_Ad_to_Tce_F_FPKM_Tau[,1]))
+Tce_A_Ad_to_Tce_F_FPKM_Tau$tiss <- rep('A', length(Tce_A_Ad_to_Tce_F_FPKM_Tau[,1]))
+Tms_B_Ad_to_Tce_F_FPKM_Tau$tiss <- rep('B', length(Tms_B_Ad_to_Tce_F_FPKM_Tau[,1]))
+Tce_B_Ad_to_Tce_F_FPKM_Tau$tiss <- rep('B', length(Tce_B_Ad_to_Tce_F_FPKM_Tau[,1]))
+Tms_DG_Ad_to_Tce_F_FPKM_Tau$tiss <- rep('DG', length(Tms_DG_Ad_to_Tce_F_FPKM_Tau[,1]))
+Tce_DG_Ad_to_Tce_F_FPKM_Tau$tiss <- rep('DG', length(Tce_DG_Ad_to_Tce_F_FPKM_Tau[,1]))
+Tms_FB_Ad_to_Tce_F_FPKM_Tau$tiss <- rep('FB', length(Tms_FB_Ad_to_Tce_F_FPKM_Tau[,1]))
+Tce_FB_Ad_to_Tce_F_FPKM_Tau$tiss <- rep('FB', length(Tce_FB_Ad_to_Tce_F_FPKM_Tau[,1]))
+Tms_Fe_Ad_to_Tce_F_FPKM_Tau$tiss <- rep('Fe', length(Tms_Fe_Ad_to_Tce_F_FPKM_Tau[,1]))
+Tce_Fe_Ad_to_Tce_F_FPKM_Tau$tiss <- rep('Fe', length(Tce_Fe_Ad_to_Tce_F_FPKM_Tau[,1]))
+Tms_Gu_Ad_to_Tce_F_FPKM_Tau$tiss <- rep('Gu', length(Tms_Gu_Ad_to_Tce_F_FPKM_Tau[,1]))
+Tce_Gu_Ad_to_Tce_F_FPKM_Tau$tiss <- rep('Gu', length(Tce_Gu_Ad_to_Tce_F_FPKM_Tau[,1]))
+Tms_Ta_Ad_to_Tce_F_FPKM_Tau$tiss <- rep('Ta', length(Tms_Ta_Ad_to_Tce_F_FPKM_Tau[,1]))
+Tce_Ta_Ad_to_Tce_F_FPKM_Tau$tiss <- rep('Ta', length(Tce_Ta_Ad_to_Tce_F_FPKM_Tau[,1]))
+Tms_GoTe_Ad_to_Tce_F_FPKM_Tau$tiss <- rep('GoTe', length(Tms_GoTe_Ad_to_Tce_F_FPKM_Tau[,1]))
+Tce_GoTe_Ad_to_Tce_F_FPKM_Tau$tiss <- rep('GoTe', length(Tce_GoTe_Ad_to_Tce_F_FPKM_Tau[,1]))
+
+
+TceTms_somatic_FPKM_Tau <- rbind(
+  Tms_A_Ad_to_Tce_F_FPKM_Tau[c("gene_id","XA", "rep_m", "tiss","log2MF", "Tau")],
+  Tce_A_Ad_to_Tce_F_FPKM_Tau[c("gene_id","XA", "rep_m", "tiss","log2MF", "Tau")],
+  Tms_B_Ad_to_Tce_F_FPKM_Tau[c("gene_id","XA", "rep_m", "tiss","log2MF", "Tau")],
+  Tce_B_Ad_to_Tce_F_FPKM_Tau[c("gene_id","XA", "rep_m", "tiss","log2MF", "Tau")],
+  Tms_DG_Ad_to_Tce_F_FPKM_Tau[c("gene_id","XA", "rep_m", "tiss","log2MF", "Tau")],
+  Tce_DG_Ad_to_Tce_F_FPKM_Tau[c("gene_id","XA", "rep_m", "tiss","log2MF", "Tau")],
+  Tms_FB_Ad_to_Tce_F_FPKM_Tau[c("gene_id","XA", "rep_m", "tiss","log2MF", "Tau")],
+  Tce_FB_Ad_to_Tce_F_FPKM_Tau[c("gene_id","XA", "rep_m", "tiss","log2MF", "Tau")],
+  Tms_Fe_Ad_to_Tce_F_FPKM_Tau[c("gene_id","XA", "rep_m", "tiss","log2MF", "Tau")],
+  Tce_Fe_Ad_to_Tce_F_FPKM_Tau[c("gene_id","XA", "rep_m", "tiss","log2MF", "Tau")],
+  Tms_Gu_Ad_to_Tce_F_FPKM_Tau[c("gene_id","XA", "rep_m", "tiss","log2MF", "Tau")],
+  Tce_Gu_Ad_to_Tce_F_FPKM_Tau[c("gene_id","XA", "rep_m", "tiss","log2MF", "Tau")],
+  Tms_Ta_Ad_to_Tce_F_FPKM_Tau[c("gene_id","XA", "rep_m", "tiss","log2MF", "Tau")],
+  Tce_Ta_Ad_to_Tce_F_FPKM_Tau[c("gene_id","XA", "rep_m", "tiss","log2MF", "Tau")])
+
+
+TceTms_somatic_FPKM_Tau$group <- paste(TceTms_somatic_FPKM_Tau$rep_m, TceTms_somatic_FPKM_Tau$XA, sep = "_")
+TceTms_somatic_FPKM_Tau$group_o <- ordered(TceTms_somatic_FPKM_Tau$group, c("sex_A", "sex_X", "asex_A", "asex_X"))  
+
+
+
+# TceTms_somatic_FPKM_Tau$tiss_spec  <- ifelse(TceTms_somatic_FPKM_Tau$Tau <0.5, "low", ifelse(TceTms_somatic_FPKM_Tau$Tau >0.7, "high", "mid")) 
+# TceTms_somatic_FPKM_Tau_low  <- subset(TceTms_somatic_FPKM_Tau, TceTms_somatic_FPKM_Tau$tiss_spec == "low")
+# TceTms_somatic_FPKM_Tau_mid  <- subset(TceTms_somatic_FPKM_Tau, TceTms_somatic_FPKM_Tau$tiss_spec == "mid")
+# TceTms_somatic_FPKM_Tau_high <- subset(TceTms_somatic_FPKM_Tau, TceTms_somatic_FPKM_Tau$tiss_spec == "high")
+# 
+# TceTms_somatic_FPKM_Tau_low_ngenes  = length(TceTms_somatic_FPKM_Tau_low[,1]) / 7
+# TceTms_somatic_FPKM_Tau_mid_ngenes  = length(TceTms_somatic_FPKM_Tau_mid[,1]) / 7
+# TceTms_somatic_FPKM_Tau_high_ngenes = length(TceTms_somatic_FPKM_Tau_high[,1]) / 7
+# 
+# 
+# TceTms_somatic_FPKM_Tau_low_ngenes
+# TceTms_somatic_FPKM_Tau_mid_ngenes 
+# TceTms_somatic_FPKM_Tau_high_ngenes 
+
+TceTms_somatic_FPKM_Tau$tiss_spec <- ifelse(TceTms_somatic_FPKM_Tau$Tau <0.6, "low","high") 
+TceTms_somatic_FPKM_Tau_low  <- subset(TceTms_somatic_FPKM_Tau, TceTms_somatic_FPKM_Tau$tiss_spec == "low")
+TceTms_somatic_FPKM_Tau_high <- subset(TceTms_somatic_FPKM_Tau, TceTms_somatic_FPKM_Tau$tiss_spec == "high")
+TceTms_somatic_FPKM_Tau_low_ngenes  = as.integer(length(TceTms_somatic_FPKM_Tau_low[,1]) / 7)
+TceTms_somatic_FPKM_Tau_high_ngenes = as.integer(length(TceTms_somatic_FPKM_Tau_high[,1]) / 7) 
+TceTms_somatic_FPKM_Tau_low_ngenes
+TceTms_somatic_FPKM_Tau_high_ngenes 
+
+
+
+Tce_somatic_MF_tau_low_plot <- ggplot(TceTms_somatic_FPKM_Tau_low, aes(tiss, log2MF)) + 
+  theme_classic() +
+  geom_boxplot(aes(fill = factor(group_o)),position=position_dodge(0.6), width = 0.5, outlier.size = 0, outlier.shape = NA, notch=T) +
+  coord_cartesian(ylim=c(-3,3)) +
+  ylab ("log2(Male FPKM / Female FPKM)")  +
+  xlab ("Tissue") + 
+  scale_fill_manual(values=c("white", "darkorange","grey", "#2297E6"))   + geom_hline(yintercept = 0) + geom_hline(yintercept = -1, linetype = 2) +
+  ggtitle(paste("Tce - Tms | Tau < 0.6, ngenes = ", TceTms_somatic_FPKM_Tau_low_ngenes) ) + theme(legend.position = "none")
+
+
+Tce_somatic_MF_tau_high_plot <- ggplot(TceTms_somatic_FPKM_Tau_high, aes(tiss, log2MF)) + 
+  theme_classic() +
+  geom_boxplot(aes(fill = factor(group_o)),position=position_dodge(0.6), width = 0.5, outlier.size = 0, outlier.shape = NA, notch=T) +
+  coord_cartesian(ylim=c(-3,3)) +
+  ylab ("log2(Male FPKM / Female FPKM)")  +
+  xlab ("Tissue") + 
+  scale_fill_manual(values=c("white", "darkorange","grey", "#2297E6"))   + geom_hline(yintercept = 0) + geom_hline(yintercept = -1, linetype = 2) +
+  ggtitle(paste("Tce - Tms | Tau >= 0.6, ngenes = ", TceTms_somatic_FPKM_Tau_high_ngenes) ) + theme(legend.position = "none")
+
+
+
+
+
+
+
+
+
+colnames(Tdi_A_Ad_to_Tps_F_FPKM)[1] <- "gene_id"
+colnames(Tps_A_Ad_to_Tps_F_FPKM)[1] <- "gene_id"
+colnames(Tdi_B_Ad_to_Tps_F_FPKM)[1] <- "gene_id"
+colnames(Tps_B_Ad_to_Tps_F_FPKM)[1] <- "gene_id"
+colnames(Tdi_DG_Ad_to_Tps_F_FPKM)[1] <- "gene_id"
+colnames(Tps_DG_Ad_to_Tps_F_FPKM)[1] <- "gene_id"
+colnames(Tdi_FB_Ad_to_Tps_F_FPKM)[1] <- "gene_id"
+colnames(Tps_FB_Ad_to_Tps_F_FPKM)[1] <- "gene_id"
+colnames(Tdi_Fe_Ad_to_Tps_F_FPKM)[1] <- "gene_id"
+colnames(Tps_Fe_Ad_to_Tps_F_FPKM)[1] <- "gene_id"
+colnames(Tdi_Gu_Ad_to_Tps_F_FPKM)[1] <- "gene_id"
+colnames(Tps_Gu_Ad_to_Tps_F_FPKM)[1] <- "gene_id"
+colnames(Tdi_Ta_Ad_to_Tps_F_FPKM)[1] <- "gene_id"
+colnames(Tps_Ta_Ad_to_Tps_F_FPKM)[1] <- "gene_id"
+colnames(Tdi_GoTe_Ad_to_Tps_F_FPKM)[1] <- "gene_id"
+colnames(Tps_GoTe_Ad_to_Tps_F_FPKM)[1] <- "gene_id"
+
+
+merge_list <- c("Tdi_A_Ad_to_Tps_F_FPKM", "TpsTdi_Ad_to_Tps_wTau")
+match_name <- c("","")
+Tdi_A_Ad_to_Tps_F_FPKM_Tau <- merge_df_by_col(merge_list, match_name)
+merge_list <- c("Tps_A_Ad_to_Tps_F_FPKM", "TpsTdi_Ad_to_Tps_wTau")
+match_name <- c("","")
+Tps_A_Ad_to_Tps_F_FPKM_Tau <- merge_df_by_col(merge_list, match_name)
+
+merge_list <- c("Tdi_B_Ad_to_Tps_F_FPKM", "TpsTdi_Ad_to_Tps_wTau")
+match_name <- c("","")
+Tdi_B_Ad_to_Tps_F_FPKM_Tau <- merge_df_by_col(merge_list, match_name)
+merge_list <- c("Tps_B_Ad_to_Tps_F_FPKM", "TpsTdi_Ad_to_Tps_wTau")
+match_name <- c("","")
+Tps_B_Ad_to_Tps_F_FPKM_Tau <- merge_df_by_col(merge_list, match_name)
+
+merge_list <- c("Tdi_DG_Ad_to_Tps_F_FPKM", "TpsTdi_Ad_to_Tps_wTau")
+match_name <- c("","")
+Tdi_DG_Ad_to_Tps_F_FPKM_Tau <- merge_df_by_col(merge_list, match_name)
+merge_list <- c("Tps_DG_Ad_to_Tps_F_FPKM", "TpsTdi_Ad_to_Tps_wTau")
+match_name <- c("","")
+Tps_DG_Ad_to_Tps_F_FPKM_Tau <- merge_df_by_col(merge_list, match_name)
+
+merge_list <- c("Tdi_FB_Ad_to_Tps_F_FPKM", "TpsTdi_Ad_to_Tps_wTau")
+match_name <- c("","")
+Tdi_FB_Ad_to_Tps_F_FPKM_Tau <- merge_df_by_col(merge_list, match_name)
+merge_list <- c("Tps_FB_Ad_to_Tps_F_FPKM", "TpsTdi_Ad_to_Tps_wTau")
+match_name <- c("","")
+Tps_FB_Ad_to_Tps_F_FPKM_Tau <- merge_df_by_col(merge_list, match_name)
+
+merge_list <- c("Tdi_Fe_Ad_to_Tps_F_FPKM", "TpsTdi_Ad_to_Tps_wTau")
+match_name <- c("","")
+Tdi_Fe_Ad_to_Tps_F_FPKM_Tau <- merge_df_by_col(merge_list, match_name)
+merge_list <- c("Tps_Fe_Ad_to_Tps_F_FPKM", "TpsTdi_Ad_to_Tps_wTau")
+match_name <- c("","")
+Tps_Fe_Ad_to_Tps_F_FPKM_Tau <- merge_df_by_col(merge_list, match_name)
+
+
+merge_list <- c("Tdi_Gu_Ad_to_Tps_F_FPKM", "TpsTdi_Ad_to_Tps_wTau")
+match_name <- c("","")
+Tdi_Gu_Ad_to_Tps_F_FPKM_Tau <- merge_df_by_col(merge_list, match_name)
+merge_list <- c("Tps_Gu_Ad_to_Tps_F_FPKM", "TpsTdi_Ad_to_Tps_wTau")
+match_name <- c("","")
+Tps_Gu_Ad_to_Tps_F_FPKM_Tau <- merge_df_by_col(merge_list, match_name)
+
+merge_list <- c("Tdi_Ta_Ad_to_Tps_F_FPKM", "TpsTdi_Ad_to_Tps_wTau")
+match_name <- c("","")
+Tdi_Ta_Ad_to_Tps_F_FPKM_Tau <- merge_df_by_col(merge_list, match_name)
+merge_list <- c("Tps_Ta_Ad_to_Tps_F_FPKM", "TpsTdi_Ad_to_Tps_wTau")
+match_name <- c("","")
+Tps_Ta_Ad_to_Tps_F_FPKM_Tau <- merge_df_by_col(merge_list, match_name)
+
+merge_list <- c("Tdi_GoTe_Ad_to_Tps_F_FPKM", "TpsTdi_Ad_to_Tps_wTau")
+match_name <- c("","")
+Tdi_GoTe_Ad_to_Tps_F_FPKM_Tau <- merge_df_by_col(merge_list, match_name)
+merge_list <- c("Tps_GoTe_Ad_to_Tps_F_FPKM", "TpsTdi_Ad_to_Tps_wTau")
+match_name <- c("","")
+Tps_GoTe_Ad_to_Tps_F_FPKM_Tau <- merge_df_by_col(merge_list, match_name)
+
+
+Tdi_A_Ad_to_Tps_F_FPKM_Tau$rep_m <- rep('asex', length(Tdi_A_Ad_to_Tps_F_FPKM_Tau[,1]))
+Tps_A_Ad_to_Tps_F_FPKM_Tau$rep_m <- rep('sex', length(Tps_A_Ad_to_Tps_F_FPKM_Tau[,1]))
+Tdi_B_Ad_to_Tps_F_FPKM_Tau$rep_m <- rep('asex', length(Tdi_B_Ad_to_Tps_F_FPKM_Tau[,1]))
+Tps_B_Ad_to_Tps_F_FPKM_Tau$rep_m <- rep('sex', length(Tps_B_Ad_to_Tps_F_FPKM_Tau[,1]))
+Tdi_DG_Ad_to_Tps_F_FPKM_Tau$rep_m <- rep('asex', length(Tdi_DG_Ad_to_Tps_F_FPKM_Tau[,1]))
+Tps_DG_Ad_to_Tps_F_FPKM_Tau$rep_m <- rep('sex', length(Tps_DG_Ad_to_Tps_F_FPKM_Tau[,1]))
+Tdi_FB_Ad_to_Tps_F_FPKM_Tau$rep_m <- rep('asex', length(Tdi_FB_Ad_to_Tps_F_FPKM_Tau[,1]))
+Tps_FB_Ad_to_Tps_F_FPKM_Tau$rep_m <- rep('sex', length(Tps_FB_Ad_to_Tps_F_FPKM_Tau[,1]))
+Tdi_Fe_Ad_to_Tps_F_FPKM_Tau$rep_m <- rep('asex', length(Tdi_Fe_Ad_to_Tps_F_FPKM_Tau[,1]))
+Tps_Fe_Ad_to_Tps_F_FPKM_Tau$rep_m <- rep('sex', length(Tps_Fe_Ad_to_Tps_F_FPKM_Tau[,1]))
+Tdi_Gu_Ad_to_Tps_F_FPKM_Tau$rep_m <- rep('asex', length(Tdi_Gu_Ad_to_Tps_F_FPKM_Tau[,1]))
+Tps_Gu_Ad_to_Tps_F_FPKM_Tau$rep_m <- rep('sex', length(Tps_Gu_Ad_to_Tps_F_FPKM_Tau[,1]))
+Tdi_Ta_Ad_to_Tps_F_FPKM_Tau$rep_m <- rep('asex', length(Tdi_Ta_Ad_to_Tps_F_FPKM_Tau[,1]))
+Tps_Ta_Ad_to_Tps_F_FPKM_Tau$rep_m <- rep('sex', length(Tps_Ta_Ad_to_Tps_F_FPKM_Tau[,1]))
+Tdi_GoTe_Ad_to_Tps_F_FPKM_Tau$rep_m <- rep('asex', length(Tdi_GoTe_Ad_to_Tps_F_FPKM_Tau[,1]))
+Tps_GoTe_Ad_to_Tps_F_FPKM_Tau$rep_m <- rep('sex', length(Tps_GoTe_Ad_to_Tps_F_FPKM_Tau[,1]))
+
+Tdi_A_Ad_to_Tps_F_FPKM_Tau$tiss <- rep('A', length(Tdi_A_Ad_to_Tps_F_FPKM_Tau[,1]))
+Tps_A_Ad_to_Tps_F_FPKM_Tau$tiss <- rep('A', length(Tps_A_Ad_to_Tps_F_FPKM_Tau[,1]))
+Tdi_B_Ad_to_Tps_F_FPKM_Tau$tiss <- rep('B', length(Tdi_B_Ad_to_Tps_F_FPKM_Tau[,1]))
+Tps_B_Ad_to_Tps_F_FPKM_Tau$tiss <- rep('B', length(Tps_B_Ad_to_Tps_F_FPKM_Tau[,1]))
+Tdi_DG_Ad_to_Tps_F_FPKM_Tau$tiss <- rep('DG', length(Tdi_DG_Ad_to_Tps_F_FPKM_Tau[,1]))
+Tps_DG_Ad_to_Tps_F_FPKM_Tau$tiss <- rep('DG', length(Tps_DG_Ad_to_Tps_F_FPKM_Tau[,1]))
+Tdi_FB_Ad_to_Tps_F_FPKM_Tau$tiss <- rep('FB', length(Tdi_FB_Ad_to_Tps_F_FPKM_Tau[,1]))
+Tps_FB_Ad_to_Tps_F_FPKM_Tau$tiss <- rep('FB', length(Tps_FB_Ad_to_Tps_F_FPKM_Tau[,1]))
+Tdi_Fe_Ad_to_Tps_F_FPKM_Tau$tiss <- rep('Fe', length(Tdi_Fe_Ad_to_Tps_F_FPKM_Tau[,1]))
+Tps_Fe_Ad_to_Tps_F_FPKM_Tau$tiss <- rep('Fe', length(Tps_Fe_Ad_to_Tps_F_FPKM_Tau[,1]))
+Tdi_Gu_Ad_to_Tps_F_FPKM_Tau$tiss <- rep('Gu', length(Tdi_Gu_Ad_to_Tps_F_FPKM_Tau[,1]))
+Tps_Gu_Ad_to_Tps_F_FPKM_Tau$tiss <- rep('Gu', length(Tps_Gu_Ad_to_Tps_F_FPKM_Tau[,1]))
+Tdi_Ta_Ad_to_Tps_F_FPKM_Tau$tiss <- rep('Ta', length(Tdi_Ta_Ad_to_Tps_F_FPKM_Tau[,1]))
+Tps_Ta_Ad_to_Tps_F_FPKM_Tau$tiss <- rep('Ta', length(Tps_Ta_Ad_to_Tps_F_FPKM_Tau[,1]))
+Tdi_GoTe_Ad_to_Tps_F_FPKM_Tau$tiss <- rep('GoTe', length(Tdi_GoTe_Ad_to_Tps_F_FPKM_Tau[,1]))
+Tps_GoTe_Ad_to_Tps_F_FPKM_Tau$tiss <- rep('GoTe', length(Tps_GoTe_Ad_to_Tps_F_FPKM_Tau[,1]))
+
+
+TpsTdi_somatic_FPKM_Tau <- rbind(
+  Tdi_A_Ad_to_Tps_F_FPKM_Tau[c("gene_id","XA", "rep_m", "tiss","log2MF", "Tau")],
+  Tps_A_Ad_to_Tps_F_FPKM_Tau[c("gene_id","XA", "rep_m", "tiss","log2MF", "Tau")],
+  Tdi_B_Ad_to_Tps_F_FPKM_Tau[c("gene_id","XA", "rep_m", "tiss","log2MF", "Tau")],
+  Tps_B_Ad_to_Tps_F_FPKM_Tau[c("gene_id","XA", "rep_m", "tiss","log2MF", "Tau")],
+  Tdi_DG_Ad_to_Tps_F_FPKM_Tau[c("gene_id","XA", "rep_m", "tiss","log2MF", "Tau")],
+  Tps_DG_Ad_to_Tps_F_FPKM_Tau[c("gene_id","XA", "rep_m", "tiss","log2MF", "Tau")],
+  Tdi_FB_Ad_to_Tps_F_FPKM_Tau[c("gene_id","XA", "rep_m", "tiss","log2MF", "Tau")],
+  Tps_FB_Ad_to_Tps_F_FPKM_Tau[c("gene_id","XA", "rep_m", "tiss","log2MF", "Tau")],
+  Tdi_Fe_Ad_to_Tps_F_FPKM_Tau[c("gene_id","XA", "rep_m", "tiss","log2MF", "Tau")],
+  Tps_Fe_Ad_to_Tps_F_FPKM_Tau[c("gene_id","XA", "rep_m", "tiss","log2MF", "Tau")],
+  Tdi_Gu_Ad_to_Tps_F_FPKM_Tau[c("gene_id","XA", "rep_m", "tiss","log2MF", "Tau")],
+  Tps_Gu_Ad_to_Tps_F_FPKM_Tau[c("gene_id","XA", "rep_m", "tiss","log2MF", "Tau")],
+  Tdi_Ta_Ad_to_Tps_F_FPKM_Tau[c("gene_id","XA", "rep_m", "tiss","log2MF", "Tau")],
+  Tps_Ta_Ad_to_Tps_F_FPKM_Tau[c("gene_id","XA", "rep_m", "tiss","log2MF", "Tau")])
+
+
+TpsTdi_somatic_FPKM_Tau$group <- paste(TpsTdi_somatic_FPKM_Tau$rep_m, TpsTdi_somatic_FPKM_Tau$XA, sep = "_")
+TpsTdi_somatic_FPKM_Tau$group_o <- ordered(TpsTdi_somatic_FPKM_Tau$group, c("sex_A", "sex_X", "asex_A", "asex_X"))  
+
+
+
+# TpsTdi_somatic_FPKM_Tau$tiss_spec  <- ifelse(TpsTdi_somatic_FPKM_Tau$Tau <0.5, "low", ifelse(TpsTdi_somatic_FPKM_Tau$Tau >0.7, "high", "mid")) 
+# TpsTdi_somatic_FPKM_Tau_low  <- subset(TpsTdi_somatic_FPKM_Tau, TpsTdi_somatic_FPKM_Tau$tiss_spec == "low")
+# TpsTdi_somatic_FPKM_Tau_mid  <- subset(TpsTdi_somatic_FPKM_Tau, TpsTdi_somatic_FPKM_Tau$tiss_spec == "mid")
+# TpsTdi_somatic_FPKM_Tau_high <- subset(TpsTdi_somatic_FPKM_Tau, TpsTdi_somatic_FPKM_Tau$tiss_spec == "high")
+# 
+# TpsTdi_somatic_FPKM_Tau_low_ngenes  = length(TpsTdi_somatic_FPKM_Tau_low[,1]) / 7
+# TpsTdi_somatic_FPKM_Tau_mid_ngenes  = length(TpsTdi_somatic_FPKM_Tau_mid[,1]) / 7
+# TpsTdi_somatic_FPKM_Tau_high_ngenes = length(TpsTdi_somatic_FPKM_Tau_high[,1]) / 7
+# 
+# 
+# TpsTdi_somatic_FPKM_Tau_low_ngenes
+# TpsTdi_somatic_FPKM_Tau_mid_ngenes 
+# TpsTdi_somatic_FPKM_Tau_high_ngenes 
+
+TpsTdi_somatic_FPKM_Tau$tiss_spec <- ifelse(TpsTdi_somatic_FPKM_Tau$Tau <0.6, "low","high") 
+TpsTdi_somatic_FPKM_Tau_low  <- subset(TpsTdi_somatic_FPKM_Tau, TpsTdi_somatic_FPKM_Tau$tiss_spec == "low")
+TpsTdi_somatic_FPKM_Tau_high <- subset(TpsTdi_somatic_FPKM_Tau, TpsTdi_somatic_FPKM_Tau$tiss_spec == "high")
+TpsTdi_somatic_FPKM_Tau_low_ngenes  = as.integer(length(TpsTdi_somatic_FPKM_Tau_low[,1]) / 7)
+TpsTdi_somatic_FPKM_Tau_high_ngenes = as.integer(length(TpsTdi_somatic_FPKM_Tau_high[,1]) / 7) 
+TpsTdi_somatic_FPKM_Tau_low_ngenes
+TpsTdi_somatic_FPKM_Tau_high_ngenes 
+
+
+
+Tps_somatic_MF_tau_low_plot <- ggplot(TpsTdi_somatic_FPKM_Tau_low, aes(tiss, log2MF)) + 
+  theme_classic() +
+  geom_boxplot(aes(fill = factor(group_o)),position=position_dodge(0.6), width = 0.5, outlier.size = 0, outlier.shape = NA, notch=T) +
+  coord_cartesian(ylim=c(-3,3)) +
+  ylab ("log2(Male FPKM / Female FPKM)")  +
+  xlab ("Tissue") + 
+  scale_fill_manual(values=c("white", "darkorange","grey", "#2297E6"))   + geom_hline(yintercept = 0) + geom_hline(yintercept = -1, linetype = 2) +
+  ggtitle(paste("Tps - Tdi | Tau < 0.6, ngenes = ", TpsTdi_somatic_FPKM_Tau_low_ngenes) ) + theme(legend.position = "none")
+
+
+Tps_somatic_MF_tau_high_plot <- ggplot(TpsTdi_somatic_FPKM_Tau_high, aes(tiss, log2MF)) + 
+  theme_classic() +
+  geom_boxplot(aes(fill = factor(group_o)),position=position_dodge(0.6), width = 0.5, outlier.size = 0, outlier.shape = NA, notch=T) +
+  coord_cartesian(ylim=c(-3,3)) +
+  ylab ("log2(Male FPKM / Female FPKM)")  +
+  xlab ("Tissue") + 
+  scale_fill_manual(values=c("white", "darkorange","grey", "#2297E6"))   + geom_hline(yintercept = 0) + geom_hline(yintercept = -1, linetype = 2) +
+  ggtitle(paste("Tps - Tdi | >= 0.6, ngenes = ", TpsTdi_somatic_FPKM_Tau_high_ngenes) ) + theme(legend.position = "none")
+
+
+
+
+
+colnames(Tge_A_Ad_to_Tpa_F_FPKM)[1] <- "gene_id"
+colnames(Tpa_A_Ad_to_Tpa_F_FPKM)[1] <- "gene_id"
+colnames(Tge_B_Ad_to_Tpa_F_FPKM)[1] <- "gene_id"
+colnames(Tpa_B_Ad_to_Tpa_F_FPKM)[1] <- "gene_id"
+colnames(Tge_DG_Ad_to_Tpa_F_FPKM)[1] <- "gene_id"
+colnames(Tpa_DG_Ad_to_Tpa_F_FPKM)[1] <- "gene_id"
+colnames(Tge_FB_Ad_to_Tpa_F_FPKM)[1] <- "gene_id"
+colnames(Tpa_FB_Ad_to_Tpa_F_FPKM)[1] <- "gene_id"
+colnames(Tge_Fe_Ad_to_Tpa_F_FPKM)[1] <- "gene_id"
+colnames(Tpa_Fe_Ad_to_Tpa_F_FPKM)[1] <- "gene_id"
+colnames(Tge_Gu_Ad_to_Tpa_F_FPKM)[1] <- "gene_id"
+colnames(Tpa_Gu_Ad_to_Tpa_F_FPKM)[1] <- "gene_id"
+colnames(Tge_Ta_Ad_to_Tpa_F_FPKM)[1] <- "gene_id"
+colnames(Tpa_Ta_Ad_to_Tpa_F_FPKM)[1] <- "gene_id"
+colnames(Tge_GoTe_Ad_to_Tpa_F_FPKM)[1] <- "gene_id"
+colnames(Tpa_GoTe_Ad_to_Tpa_F_FPKM)[1] <- "gene_id"
+
+
+merge_list <- c("Tge_A_Ad_to_Tpa_F_FPKM", "TpaTge_Ad_to_Tpa_wTau")
+match_name <- c("","")
+Tge_A_Ad_to_Tpa_F_FPKM_Tau <- merge_df_by_col(merge_list, match_name)
+merge_list <- c("Tpa_A_Ad_to_Tpa_F_FPKM", "TpaTge_Ad_to_Tpa_wTau")
+match_name <- c("","")
+Tpa_A_Ad_to_Tpa_F_FPKM_Tau <- merge_df_by_col(merge_list, match_name)
+
+merge_list <- c("Tge_B_Ad_to_Tpa_F_FPKM", "TpaTge_Ad_to_Tpa_wTau")
+match_name <- c("","")
+Tge_B_Ad_to_Tpa_F_FPKM_Tau <- merge_df_by_col(merge_list, match_name)
+merge_list <- c("Tpa_B_Ad_to_Tpa_F_FPKM", "TpaTge_Ad_to_Tpa_wTau")
+match_name <- c("","")
+Tpa_B_Ad_to_Tpa_F_FPKM_Tau <- merge_df_by_col(merge_list, match_name)
+
+merge_list <- c("Tge_DG_Ad_to_Tpa_F_FPKM", "TpaTge_Ad_to_Tpa_wTau")
+match_name <- c("","")
+Tge_DG_Ad_to_Tpa_F_FPKM_Tau <- merge_df_by_col(merge_list, match_name)
+merge_list <- c("Tpa_DG_Ad_to_Tpa_F_FPKM", "TpaTge_Ad_to_Tpa_wTau")
+match_name <- c("","")
+Tpa_DG_Ad_to_Tpa_F_FPKM_Tau <- merge_df_by_col(merge_list, match_name)
+
+merge_list <- c("Tge_FB_Ad_to_Tpa_F_FPKM", "TpaTge_Ad_to_Tpa_wTau")
+match_name <- c("","")
+Tge_FB_Ad_to_Tpa_F_FPKM_Tau <- merge_df_by_col(merge_list, match_name)
+merge_list <- c("Tpa_FB_Ad_to_Tpa_F_FPKM", "TpaTge_Ad_to_Tpa_wTau")
+match_name <- c("","")
+Tpa_FB_Ad_to_Tpa_F_FPKM_Tau <- merge_df_by_col(merge_list, match_name)
+
+merge_list <- c("Tge_Fe_Ad_to_Tpa_F_FPKM", "TpaTge_Ad_to_Tpa_wTau")
+match_name <- c("","")
+Tge_Fe_Ad_to_Tpa_F_FPKM_Tau <- merge_df_by_col(merge_list, match_name)
+merge_list <- c("Tpa_Fe_Ad_to_Tpa_F_FPKM", "TpaTge_Ad_to_Tpa_wTau")
+match_name <- c("","")
+Tpa_Fe_Ad_to_Tpa_F_FPKM_Tau <- merge_df_by_col(merge_list, match_name)
+
+
+merge_list <- c("Tge_Gu_Ad_to_Tpa_F_FPKM", "TpaTge_Ad_to_Tpa_wTau")
+match_name <- c("","")
+Tge_Gu_Ad_to_Tpa_F_FPKM_Tau <- merge_df_by_col(merge_list, match_name)
+merge_list <- c("Tpa_Gu_Ad_to_Tpa_F_FPKM", "TpaTge_Ad_to_Tpa_wTau")
+match_name <- c("","")
+Tpa_Gu_Ad_to_Tpa_F_FPKM_Tau <- merge_df_by_col(merge_list, match_name)
+
+merge_list <- c("Tge_Ta_Ad_to_Tpa_F_FPKM", "TpaTge_Ad_to_Tpa_wTau")
+match_name <- c("","")
+Tge_Ta_Ad_to_Tpa_F_FPKM_Tau <- merge_df_by_col(merge_list, match_name)
+merge_list <- c("Tpa_Ta_Ad_to_Tpa_F_FPKM", "TpaTge_Ad_to_Tpa_wTau")
+match_name <- c("","")
+Tpa_Ta_Ad_to_Tpa_F_FPKM_Tau <- merge_df_by_col(merge_list, match_name)
+
+merge_list <- c("Tge_GoTe_Ad_to_Tpa_F_FPKM", "TpaTge_Ad_to_Tpa_wTau")
+match_name <- c("","")
+Tge_GoTe_Ad_to_Tpa_F_FPKM_Tau <- merge_df_by_col(merge_list, match_name)
+merge_list <- c("Tpa_GoTe_Ad_to_Tpa_F_FPKM", "TpaTge_Ad_to_Tpa_wTau")
+match_name <- c("","")
+Tpa_GoTe_Ad_to_Tpa_F_FPKM_Tau <- merge_df_by_col(merge_list, match_name)
+
+
+Tge_A_Ad_to_Tpa_F_FPKM_Tau$rep_m <- rep('asex', length(Tge_A_Ad_to_Tpa_F_FPKM_Tau[,1]))
+Tpa_A_Ad_to_Tpa_F_FPKM_Tau$rep_m <- rep('sex', length(Tpa_A_Ad_to_Tpa_F_FPKM_Tau[,1]))
+Tge_B_Ad_to_Tpa_F_FPKM_Tau$rep_m <- rep('asex', length(Tge_B_Ad_to_Tpa_F_FPKM_Tau[,1]))
+Tpa_B_Ad_to_Tpa_F_FPKM_Tau$rep_m <- rep('sex', length(Tpa_B_Ad_to_Tpa_F_FPKM_Tau[,1]))
+Tge_DG_Ad_to_Tpa_F_FPKM_Tau$rep_m <- rep('asex', length(Tge_DG_Ad_to_Tpa_F_FPKM_Tau[,1]))
+Tpa_DG_Ad_to_Tpa_F_FPKM_Tau$rep_m <- rep('sex', length(Tpa_DG_Ad_to_Tpa_F_FPKM_Tau[,1]))
+Tge_FB_Ad_to_Tpa_F_FPKM_Tau$rep_m <- rep('asex', length(Tge_FB_Ad_to_Tpa_F_FPKM_Tau[,1]))
+Tpa_FB_Ad_to_Tpa_F_FPKM_Tau$rep_m <- rep('sex', length(Tpa_FB_Ad_to_Tpa_F_FPKM_Tau[,1]))
+Tge_Fe_Ad_to_Tpa_F_FPKM_Tau$rep_m <- rep('asex', length(Tge_Fe_Ad_to_Tpa_F_FPKM_Tau[,1]))
+Tpa_Fe_Ad_to_Tpa_F_FPKM_Tau$rep_m <- rep('sex', length(Tpa_Fe_Ad_to_Tpa_F_FPKM_Tau[,1]))
+Tge_Gu_Ad_to_Tpa_F_FPKM_Tau$rep_m <- rep('asex', length(Tge_Gu_Ad_to_Tpa_F_FPKM_Tau[,1]))
+Tpa_Gu_Ad_to_Tpa_F_FPKM_Tau$rep_m <- rep('sex', length(Tpa_Gu_Ad_to_Tpa_F_FPKM_Tau[,1]))
+Tge_Ta_Ad_to_Tpa_F_FPKM_Tau$rep_m <- rep('asex', length(Tge_Ta_Ad_to_Tpa_F_FPKM_Tau[,1]))
+Tpa_Ta_Ad_to_Tpa_F_FPKM_Tau$rep_m <- rep('sex', length(Tpa_Ta_Ad_to_Tpa_F_FPKM_Tau[,1]))
+Tge_GoTe_Ad_to_Tpa_F_FPKM_Tau$rep_m <- rep('asex', length(Tge_GoTe_Ad_to_Tpa_F_FPKM_Tau[,1]))
+Tpa_GoTe_Ad_to_Tpa_F_FPKM_Tau$rep_m <- rep('sex', length(Tpa_GoTe_Ad_to_Tpa_F_FPKM_Tau[,1]))
+
+Tge_A_Ad_to_Tpa_F_FPKM_Tau$tiss <- rep('A', length(Tge_A_Ad_to_Tpa_F_FPKM_Tau[,1]))
+Tpa_A_Ad_to_Tpa_F_FPKM_Tau$tiss <- rep('A', length(Tpa_A_Ad_to_Tpa_F_FPKM_Tau[,1]))
+Tge_B_Ad_to_Tpa_F_FPKM_Tau$tiss <- rep('B', length(Tge_B_Ad_to_Tpa_F_FPKM_Tau[,1]))
+Tpa_B_Ad_to_Tpa_F_FPKM_Tau$tiss <- rep('B', length(Tpa_B_Ad_to_Tpa_F_FPKM_Tau[,1]))
+Tge_DG_Ad_to_Tpa_F_FPKM_Tau$tiss <- rep('DG', length(Tge_DG_Ad_to_Tpa_F_FPKM_Tau[,1]))
+Tpa_DG_Ad_to_Tpa_F_FPKM_Tau$tiss <- rep('DG', length(Tpa_DG_Ad_to_Tpa_F_FPKM_Tau[,1]))
+Tge_FB_Ad_to_Tpa_F_FPKM_Tau$tiss <- rep('FB', length(Tge_FB_Ad_to_Tpa_F_FPKM_Tau[,1]))
+Tpa_FB_Ad_to_Tpa_F_FPKM_Tau$tiss <- rep('FB', length(Tpa_FB_Ad_to_Tpa_F_FPKM_Tau[,1]))
+Tge_Fe_Ad_to_Tpa_F_FPKM_Tau$tiss <- rep('Fe', length(Tge_Fe_Ad_to_Tpa_F_FPKM_Tau[,1]))
+Tpa_Fe_Ad_to_Tpa_F_FPKM_Tau$tiss <- rep('Fe', length(Tpa_Fe_Ad_to_Tpa_F_FPKM_Tau[,1]))
+Tge_Gu_Ad_to_Tpa_F_FPKM_Tau$tiss <- rep('Gu', length(Tge_Gu_Ad_to_Tpa_F_FPKM_Tau[,1]))
+Tpa_Gu_Ad_to_Tpa_F_FPKM_Tau$tiss <- rep('Gu', length(Tpa_Gu_Ad_to_Tpa_F_FPKM_Tau[,1]))
+Tge_Ta_Ad_to_Tpa_F_FPKM_Tau$tiss <- rep('Ta', length(Tge_Ta_Ad_to_Tpa_F_FPKM_Tau[,1]))
+Tpa_Ta_Ad_to_Tpa_F_FPKM_Tau$tiss <- rep('Ta', length(Tpa_Ta_Ad_to_Tpa_F_FPKM_Tau[,1]))
+Tge_GoTe_Ad_to_Tpa_F_FPKM_Tau$tiss <- rep('GoTe', length(Tge_GoTe_Ad_to_Tpa_F_FPKM_Tau[,1]))
+Tpa_GoTe_Ad_to_Tpa_F_FPKM_Tau$tiss <- rep('GoTe', length(Tpa_GoTe_Ad_to_Tpa_F_FPKM_Tau[,1]))
+
+
+TpaTge_somatic_FPKM_Tau <- rbind(
+  Tge_A_Ad_to_Tpa_F_FPKM_Tau[c("gene_id","XA", "rep_m", "tiss","log2MF", "Tau")],
+  Tpa_A_Ad_to_Tpa_F_FPKM_Tau[c("gene_id","XA", "rep_m", "tiss","log2MF", "Tau")],
+  Tge_B_Ad_to_Tpa_F_FPKM_Tau[c("gene_id","XA", "rep_m", "tiss","log2MF", "Tau")],
+  Tpa_B_Ad_to_Tpa_F_FPKM_Tau[c("gene_id","XA", "rep_m", "tiss","log2MF", "Tau")],
+  Tge_DG_Ad_to_Tpa_F_FPKM_Tau[c("gene_id","XA", "rep_m", "tiss","log2MF", "Tau")],
+  Tpa_DG_Ad_to_Tpa_F_FPKM_Tau[c("gene_id","XA", "rep_m", "tiss","log2MF", "Tau")],
+  Tge_FB_Ad_to_Tpa_F_FPKM_Tau[c("gene_id","XA", "rep_m", "tiss","log2MF", "Tau")],
+  Tpa_FB_Ad_to_Tpa_F_FPKM_Tau[c("gene_id","XA", "rep_m", "tiss","log2MF", "Tau")],
+  Tge_Fe_Ad_to_Tpa_F_FPKM_Tau[c("gene_id","XA", "rep_m", "tiss","log2MF", "Tau")],
+  Tpa_Fe_Ad_to_Tpa_F_FPKM_Tau[c("gene_id","XA", "rep_m", "tiss","log2MF", "Tau")],
+  Tge_Gu_Ad_to_Tpa_F_FPKM_Tau[c("gene_id","XA", "rep_m", "tiss","log2MF", "Tau")],
+  Tpa_Gu_Ad_to_Tpa_F_FPKM_Tau[c("gene_id","XA", "rep_m", "tiss","log2MF", "Tau")],
+  Tge_Ta_Ad_to_Tpa_F_FPKM_Tau[c("gene_id","XA", "rep_m", "tiss","log2MF", "Tau")],
+  Tpa_Ta_Ad_to_Tpa_F_FPKM_Tau[c("gene_id","XA", "rep_m", "tiss","log2MF", "Tau")])
+
+
+TpaTge_somatic_FPKM_Tau$group <- paste(TpaTge_somatic_FPKM_Tau$rep_m, TpaTge_somatic_FPKM_Tau$XA, sep = "_")
+TpaTge_somatic_FPKM_Tau$group_o <- ordered(TpaTge_somatic_FPKM_Tau$group, c("sex_A", "sex_X", "asex_A", "asex_X"))  
+
+
+
+# TpaTge_somatic_FPKM_Tau$tiss_spec  <- ifelse(TpaTge_somatic_FPKM_Tau$Tau <0.5, "low", ifelse(TpaTge_somatic_FPKM_Tau$Tau >0.7, "high", "mid")) 
+# TpaTge_somatic_FPKM_Tau_low  <- subset(TpaTge_somatic_FPKM_Tau, TpaTge_somatic_FPKM_Tau$tiss_spec == "low")
+# TpaTge_somatic_FPKM_Tau_mid  <- subset(TpaTge_somatic_FPKM_Tau, TpaTge_somatic_FPKM_Tau$tiss_spec == "mid")
+# TpaTge_somatic_FPKM_Tau_high <- subset(TpaTge_somatic_FPKM_Tau, TpaTge_somatic_FPKM_Tau$tiss_spec == "high")
+# 
+# TpaTge_somatic_FPKM_Tau_low_ngenes  = length(TpaTge_somatic_FPKM_Tau_low[,1]) / 7
+# TpaTge_somatic_FPKM_Tau_mid_ngenes  = length(TpaTge_somatic_FPKM_Tau_mid[,1]) / 7
+# TpaTge_somatic_FPKM_Tau_high_ngenes = length(TpaTge_somatic_FPKM_Tau_high[,1]) / 7
+# 
+# 
+# TpaTge_somatic_FPKM_Tau_low_ngenes
+# TpaTge_somatic_FPKM_Tau_mid_ngenes 
+# TpaTge_somatic_FPKM_Tau_high_ngenes 
+
+TpaTge_somatic_FPKM_Tau$tiss_spec <- ifelse(TpaTge_somatic_FPKM_Tau$Tau <0.6, "low","high") 
+TpaTge_somatic_FPKM_Tau_low  <- subset(TpaTge_somatic_FPKM_Tau, TpaTge_somatic_FPKM_Tau$tiss_spec == "low")
+TpaTge_somatic_FPKM_Tau_high <- subset(TpaTge_somatic_FPKM_Tau, TpaTge_somatic_FPKM_Tau$tiss_spec == "high")
+TpaTge_somatic_FPKM_Tau_low_ngenes  = as.integer(length(TpaTge_somatic_FPKM_Tau_low[,1]) / 7)
+TpaTge_somatic_FPKM_Tau_high_ngenes = as.integer(length(TpaTge_somatic_FPKM_Tau_high[,1]) / 7) 
+TpaTge_somatic_FPKM_Tau_low_ngenes
+TpaTge_somatic_FPKM_Tau_high_ngenes 
+
+
+
+Tpa_somatic_MF_tau_low_plot <- ggplot(TpaTge_somatic_FPKM_Tau_low, aes(tiss, log2MF)) + 
+  theme_classic() +
+  geom_boxplot(aes(fill = factor(group_o)),position=position_dodge(0.6), width = 0.5, outlier.size = 0, outlier.shape = NA, notch=T) +
+  coord_cartesian(ylim=c(-3,3)) +
+  ylab ("log2(Male FPKM / Female FPKM)")  +
+  xlab ("Tissue") + 
+  scale_fill_manual(values=c("white", "darkorange","grey", "#2297E6"))   + geom_hline(yintercept = 0) + geom_hline(yintercept = -1, linetype = 2) +
+  ggtitle(paste("Tpa - Tge | Tau < 0.6, ngenes = ", TpaTge_somatic_FPKM_Tau_low_ngenes) ) + theme(legend.position = "none")
+
+
+Tpa_somatic_MF_tau_high_plot <- ggplot(TpaTge_somatic_FPKM_Tau_high, aes(tiss, log2MF)) + 
+  theme_classic() +
+  geom_boxplot(aes(fill = factor(group_o)),position=position_dodge(0.6), width = 0.5, outlier.size = 0, outlier.shape = NA, notch=T) +
+  coord_cartesian(ylim=c(-3,3)) +
+  ylab ("log2(Male FPKM / Female FPKM)")  +
+  xlab ("Tissue") + 
+  scale_fill_manual(values=c("white", "darkorange","grey", "#2297E6"))   + geom_hline(yintercept = 0) + geom_hline(yintercept = -1, linetype = 2) +
+  ggtitle(paste("Tpa - Tge | Tau >= 0.6, ngenes = ", TpaTge_somatic_FPKM_Tau_high_ngenes) ) + theme(legend.position = "none")
+
+
+
+png(filename = "somatic_MF_tau_plots.png", width = 8, height = 18, units = "in", bg = "white", res = 300)
+plot_grid(
+  Tce_somatic_MF_tau_low_plot,
+  Tce_somatic_MF_tau_high_plot,
+  Tpa_somatic_MF_tau_low_plot,
+  Tpa_somatic_MF_tau_high_plot,
+  Tps_somatic_MF_tau_low_plot,
+  Tps_somatic_MF_tau_high_plot,
+  ncol = 1)
+dev.off()
+getwd() ## where has my plot gone...
+
+
+pdf("TceTms_MF_tau_plots.pdf", width = 8, height = 6)
+plot_grid(
+  Tce_somatic_MF_tau_low_plot,
+  Tce_somatic_MF_tau_high_plot,
+  ncol = 1)
+dev.off()
+getwd() ## where has my plot gone...
+
+pdf("TpaTge_MF_tau_plots.pdf", width = 8, height = 6)
+plot_grid(
+  Tpa_somatic_MF_tau_low_plot,
+  Tpa_somatic_MF_tau_high_plot,
+  ncol = 1)
+dev.off()
+getwd() ## where has my plot gone...
+
+pdf("TpsTdi_MF_tau_plots.pdf", width = 8, height = 6)
+plot_grid(
+  Tps_somatic_MF_tau_low_plot,
+  Tps_somatic_MF_tau_high_plot,
+  ncol = 1)
+dev.off()
+getwd() ## where has my plot gone...
+
+
+
+### rep tiss
+
+rep_tiss_FPKM_Tau <- rbind(
+  Tms_GoTe_Ad_to_Tce_F_FPKM_Tau[c("gene_id","XA", "rep_m", "tiss","log2MF", "Tau")],
+  Tce_GoTe_Ad_to_Tce_F_FPKM_Tau[c("gene_id","XA", "rep_m", "tiss","log2MF", "Tau")],
+  Tge_GoTe_Ad_to_Tpa_F_FPKM_Tau[c("gene_id","XA", "rep_m", "tiss","log2MF", "Tau")],
+  Tpa_GoTe_Ad_to_Tpa_F_FPKM_Tau[c("gene_id","XA", "rep_m", "tiss","log2MF", "Tau")],
+  Tdi_GoTe_Ad_to_Tps_F_FPKM_Tau[c("gene_id","XA", "rep_m", "tiss","log2MF", "Tau")],
+  Tps_GoTe_Ad_to_Tps_F_FPKM_Tau[c("gene_id","XA", "rep_m", "tiss","log2MF", "Tau")])
+
+
+rep_tiss_FPKM_Tau$sp_pair <- c(
+  rep("Tce_Tms", length(Tms_GoTe_Ad_to_Tce_F_FPKM_Tau[,1]) + length(Tce_GoTe_Ad_to_Tce_F_FPKM_Tau[,1])),
+  rep("Tpa_Tge", length(Tge_GoTe_Ad_to_Tpa_F_FPKM_Tau[,1]) + length(Tpa_GoTe_Ad_to_Tpa_F_FPKM_Tau[,1])),
+  rep("Tps_Tdi", length(Tdi_GoTe_Ad_to_Tps_F_FPKM_Tau[,1]) + length(Tps_GoTe_Ad_to_Tps_F_FPKM_Tau[,1]))
+)
+
+rep_tiss_FPKM_Tau$group <- paste(rep_tiss_FPKM_Tau$rep_m, rep_tiss_FPKM_Tau$XA, sep = "_")
+rep_tiss_FPKM_Tau$group_o <- ordered(rep_tiss_FPKM_Tau$group, c("sex_A", "sex_X", "asex_A", "asex_X"))  
+
+rep_tiss_FPKM_Tau$tiss_spec <- ifelse(rep_tiss_FPKM_Tau$Tau <0.6, "low","high") 
+rep_tiss_FPKM_Tau_low  <- subset(rep_tiss_FPKM_Tau, rep_tiss_FPKM_Tau$tiss_spec == "low")
+rep_tiss_FPKM_Tau_high <- subset(rep_tiss_FPKM_Tau, rep_tiss_FPKM_Tau$tiss_spec == "high")
+
+rep_Tau_Tce_Tms_Tau_low_ngenes  = length(subset(rep_tiss_FPKM_Tau_low, rep_tiss_FPKM_Tau_low$sp_pair == "Tce_Tms")[,1])
+rep_Tau_Tce_Tms_Tau_high_ngenes = length(subset(rep_tiss_FPKM_Tau_high, rep_tiss_FPKM_Tau_high$sp_pair == "Tce_Tms")[,1])
+rep_Tau_Tpa_Tge_Tau_low_ngenes  = length(subset(rep_tiss_FPKM_Tau_low, rep_tiss_FPKM_Tau_low$sp_pair == "Tpa_Tge")[,1])
+rep_Tau_Tpa_Tge_Tau_high_ngenes = length(subset(rep_tiss_FPKM_Tau_high, rep_tiss_FPKM_Tau_high$sp_pair == "Tpa_Tge")[,1])
+rep_Tau_Tps_Tdi_Tau_low_ngenes  = length(subset(rep_tiss_FPKM_Tau_low, rep_tiss_FPKM_Tau_low$sp_pair == "Tps_Tdi")[,1])
+rep_Tau_Tps_Tdi_Tau_high_ngenes = length(subset(rep_tiss_FPKM_Tau_high, rep_tiss_FPKM_Tau_high$sp_pair == "Tps_Tdi")[,1])
+
+rep_Tau_Tce_Tms_Tau_low_ngenes  
+rep_Tau_Tce_Tms_Tau_high_ngenes 
+rep_Tau_Tpa_Tge_Tau_low_ngenes  
+rep_Tau_Tpa_Tge_Tau_high_ngenes 
+rep_Tau_Tps_Tdi_Tau_low_ngenes 
+rep_Tau_Tps_Tdi_Tau_high_ngenes
+
+rep_low_ngenes = as.integer((rep_Tau_Tce_Tms_Tau_low_ngenes + rep_Tau_Tpa_Tge_Tau_low_ngenes + rep_Tau_Tps_Tdi_Tau_low_ngenes) / 3)
+rep_high_ngenes = as.integer((rep_Tau_Tce_Tms_Tau_high_ngenes + rep_Tau_Tpa_Tge_Tau_high_ngenes + rep_Tau_Tps_Tdi_Tau_high_ngenes) / 3)
+
+
+rep_MF_tau_low_plot <- ggplot(rep_tiss_FPKM_Tau_low, aes(sp_pair, log2MF)) + 
+  theme_classic() +
+  geom_boxplot(aes(fill = factor(group_o)),position=position_dodge(0.6), width = 0.5, outlier.size = 0, outlier.shape = NA, notch=T) +
+  coord_cartesian(ylim=c(-5,5)) +
+  ylab ("log2(Male FPKM / Female FPKM)")  +
+  xlab ("Species pair") + 
+  scale_fill_manual(values=c("white", "darkorange","grey", "#2297E6"))   + geom_hline(yintercept = 0) + geom_hline(yintercept = -1, linetype = 2) +
+  ggtitle(paste("Tau < 0.6, ngenes = ", rep_low_ngenes )) + theme(legend.position = "none")
+
+rep_MF_tau_high_plot <- ggplot(rep_tiss_FPKM_Tau_high, aes(sp_pair, log2MF)) + 
+  theme_classic() +
+  geom_boxplot(aes(fill = factor(group_o)),position=position_dodge(0.6), width = 0.5, outlier.size = 0, outlier.shape = NA, notch=T) +
+  coord_cartesian(ylim=c(-5,5)) +
+  ylab ("log2(Male FPKM / Female FPKM)")  +
+  xlab ("Species pair") + 
+  scale_fill_manual(values=c("white", "darkorange","grey", "#2297E6"))   + geom_hline(yintercept = 0) + geom_hline(yintercept = -1, linetype = 2)  +
+  ggtitle(paste("Tau >= 0.6, ngenes = ", rep_high_ngenes )) + theme(legend.position = "none")
+
+
+pdf("rep_MF_tau_plots.pdf", width = 8, height = 6)
+plot_grid(
+  rep_MF_tau_low_plot,
+  rep_MF_tau_high_plot,
+  ncol = 1)
+dev.off()
+getwd() ## where has my plot gone..
+
+
+
+
+
+
+
+
+
+corr_and_plot <- function(df,x,y, mtit){
+  
+  c1 <- cor.test(x,y, method = "spearman")
+  print(c1$estimate)
+  rho <- signif(c1$estimate, digits = 5)
+  rho2 <- paste(mtit, "\nrho =",rho, sep = " ")
+  print(c1)
+  
+  
+  x_name <- deparse(substitute(x))
+  x_name2 <- strsplit(x_name, "\\$")[[1]]
+  x_name3 <- x_name2[2]
+  print(x_name3)
+  
+  y_name <- deparse(substitute(y))
+  y_name2 <- strsplit(y_name, "\\$")[[1]]
+  y_name3 <- y_name2[2]
+  print(y_name3)
+  
+  ggplot(df, aes(x=x,y)) + geom_point(size = 0.7) +
+    theme_bw() +
+    scale_colour_hue(l=45) +
+    xlab(x_name3) + ylab(y_name3) +
+    ggtitle(rho2) + 
+    theme(plot.title = element_text(hjust = 0.5)) + ylim(c(-12, 12)) + xlim(c(0.2, 1))
+  
+}
+
+
+
+Tce_A_Ad_to_Tce_F_FPKM_Tau_Auto    <- subset(Tce_A_Ad_to_Tce_F_FPKM_Tau,     Tce_A_Ad_to_Tce_F_FPKM_Tau$XA == "A")
+Tce_B_Ad_to_Tce_F_FPKM_Tau_Auto    <- subset(Tce_B_Ad_to_Tce_F_FPKM_Tau,     Tce_B_Ad_to_Tce_F_FPKM_Tau$XA == "A")
+Tce_DG_Ad_to_Tce_F_FPKM_Tau_Auto   <- subset(Tce_DG_Ad_to_Tce_F_FPKM_Tau,    Tce_DG_Ad_to_Tce_F_FPKM_Tau$XA == "A")
+Tce_FB_Ad_to_Tce_F_FPKM_Tau_Auto   <- subset(Tce_FB_Ad_to_Tce_F_FPKM_Tau,    Tce_FB_Ad_to_Tce_F_FPKM_Tau$XA == "A")
+Tce_Fe_Ad_to_Tce_F_FPKM_Tau_Auto   <- subset(Tce_Fe_Ad_to_Tce_F_FPKM_Tau,    Tce_Fe_Ad_to_Tce_F_FPKM_Tau$XA == "A")
+Tce_Gu_Ad_to_Tce_F_FPKM_Tau_Auto   <- subset(Tce_Gu_Ad_to_Tce_F_FPKM_Tau,    Tce_Gu_Ad_to_Tce_F_FPKM_Tau$XA == "A")
+Tce_Ta_Ad_to_Tce_F_FPKM_Tau_Auto   <- subset(Tce_Ta_Ad_to_Tce_F_FPKM_Tau,    Tce_Ta_Ad_to_Tce_F_FPKM_Tau$XA == "A")
+Tce_GoTe_Ad_to_Tce_F_FPKM_Tau_Auto <- subset(Tce_GoTe_Ad_to_Tce_F_FPKM_Tau,  Tce_GoTe_Ad_to_Tce_F_FPKM_Tau$XA == "A")
+Tce_A_Ad_to_Tce_F_FPKM_Tau_X        <- subset(Tce_A_Ad_to_Tce_F_FPKM_Tau,     Tce_A_Ad_to_Tce_F_FPKM_Tau$XA == "X")
+Tce_B_Ad_to_Tce_F_FPKM_Tau_X        <- subset(Tce_B_Ad_to_Tce_F_FPKM_Tau,     Tce_B_Ad_to_Tce_F_FPKM_Tau$XA == "X")
+Tce_DG_Ad_to_Tce_F_FPKM_Tau_X       <- subset(Tce_DG_Ad_to_Tce_F_FPKM_Tau,    Tce_DG_Ad_to_Tce_F_FPKM_Tau$XA == "X")
+Tce_FB_Ad_to_Tce_F_FPKM_Tau_X       <- subset(Tce_FB_Ad_to_Tce_F_FPKM_Tau,    Tce_FB_Ad_to_Tce_F_FPKM_Tau$XA == "X")
+Tce_Fe_Ad_to_Tce_F_FPKM_Tau_X       <- subset(Tce_Fe_Ad_to_Tce_F_FPKM_Tau,    Tce_Fe_Ad_to_Tce_F_FPKM_Tau$XA == "X")
+Tce_Gu_Ad_to_Tce_F_FPKM_Tau_X       <- subset(Tce_Gu_Ad_to_Tce_F_FPKM_Tau,    Tce_Gu_Ad_to_Tce_F_FPKM_Tau$XA == "X")
+Tce_Ta_Ad_to_Tce_F_FPKM_Tau_X       <- subset(Tce_Ta_Ad_to_Tce_F_FPKM_Tau,    Tce_Ta_Ad_to_Tce_F_FPKM_Tau$XA == "X")
+Tce_GoTe_Ad_to_Tce_F_FPKM_Tau_X     <- subset(Tce_GoTe_Ad_to_Tce_F_FPKM_Tau,  Tce_GoTe_Ad_to_Tce_F_FPKM_Tau$XA == "X")
+
+Tms_A_Ad_to_Tce_F_FPKM_Tau_Auto    <- subset(Tms_A_Ad_to_Tce_F_FPKM_Tau,     Tms_A_Ad_to_Tce_F_FPKM_Tau$XA == "A")
+Tms_B_Ad_to_Tce_F_FPKM_Tau_Auto    <- subset(Tms_B_Ad_to_Tce_F_FPKM_Tau,     Tms_B_Ad_to_Tce_F_FPKM_Tau$XA == "A")
+Tms_DG_Ad_to_Tce_F_FPKM_Tau_Auto   <- subset(Tms_DG_Ad_to_Tce_F_FPKM_Tau,    Tms_DG_Ad_to_Tce_F_FPKM_Tau$XA == "A")
+Tms_FB_Ad_to_Tce_F_FPKM_Tau_Auto   <- subset(Tms_FB_Ad_to_Tce_F_FPKM_Tau,    Tms_FB_Ad_to_Tce_F_FPKM_Tau$XA == "A")
+Tms_Fe_Ad_to_Tce_F_FPKM_Tau_Auto   <- subset(Tms_Fe_Ad_to_Tce_F_FPKM_Tau,    Tms_Fe_Ad_to_Tce_F_FPKM_Tau$XA == "A")
+Tms_Gu_Ad_to_Tce_F_FPKM_Tau_Auto   <- subset(Tms_Gu_Ad_to_Tce_F_FPKM_Tau,    Tms_Gu_Ad_to_Tce_F_FPKM_Tau$XA == "A")
+Tms_Ta_Ad_to_Tce_F_FPKM_Tau_Auto   <- subset(Tms_Ta_Ad_to_Tce_F_FPKM_Tau,    Tms_Ta_Ad_to_Tce_F_FPKM_Tau$XA == "A")
+Tms_GoTe_Ad_to_Tce_F_FPKM_Tau_Auto <- subset(Tms_GoTe_Ad_to_Tce_F_FPKM_Tau,  Tms_GoTe_Ad_to_Tce_F_FPKM_Tau$XA == "A")
+Tms_A_Ad_to_Tce_F_FPKM_Tau_X        <- subset(Tms_A_Ad_to_Tce_F_FPKM_Tau,     Tms_A_Ad_to_Tce_F_FPKM_Tau$XA == "X")
+Tms_B_Ad_to_Tce_F_FPKM_Tau_X        <- subset(Tms_B_Ad_to_Tce_F_FPKM_Tau,     Tms_B_Ad_to_Tce_F_FPKM_Tau$XA == "X")
+Tms_DG_Ad_to_Tce_F_FPKM_Tau_X       <- subset(Tms_DG_Ad_to_Tce_F_FPKM_Tau,    Tms_DG_Ad_to_Tce_F_FPKM_Tau$XA == "X")
+Tms_FB_Ad_to_Tce_F_FPKM_Tau_X       <- subset(Tms_FB_Ad_to_Tce_F_FPKM_Tau,    Tms_FB_Ad_to_Tce_F_FPKM_Tau$XA == "X")
+Tms_Fe_Ad_to_Tce_F_FPKM_Tau_X       <- subset(Tms_Fe_Ad_to_Tce_F_FPKM_Tau,    Tms_Fe_Ad_to_Tce_F_FPKM_Tau$XA == "X")
+Tms_Gu_Ad_to_Tce_F_FPKM_Tau_X       <- subset(Tms_Gu_Ad_to_Tce_F_FPKM_Tau,    Tms_Gu_Ad_to_Tce_F_FPKM_Tau$XA == "X")
+Tms_Ta_Ad_to_Tce_F_FPKM_Tau_X       <- subset(Tms_Ta_Ad_to_Tce_F_FPKM_Tau,    Tms_Ta_Ad_to_Tce_F_FPKM_Tau$XA == "X")
+Tms_GoTe_Ad_to_Tce_F_FPKM_Tau_X     <- subset(Tms_GoTe_Ad_to_Tce_F_FPKM_Tau,  Tms_GoTe_Ad_to_Tce_F_FPKM_Tau$XA == "X")
+
+
+png(filename = "MF_tau_scatterplots.png", width = 8, height = 18, units = "in", bg = "white", res = 300)
+plot_grid(
+
+corr_and_plot(Tce_A_Ad_to_Tce_F_FPKM_Tau_Auto , Tce_A_Ad_to_Tce_F_FPKM_Tau_Auto$Tau,Tce_A_Ad_to_Tce_F_FPKM_Tau_Auto$log2MF, "Tce - A - A"),
+corr_and_plot(Tce_A_Ad_to_Tce_F_FPKM_Tau_X    , Tce_A_Ad_to_Tce_F_FPKM_Tau_X$Tau,   Tce_A_Ad_to_Tce_F_FPKM_Tau_X$log2MF,    "Tce - A - X"),
+corr_and_plot(Tms_A_Ad_to_Tce_F_FPKM_Tau_Auto , Tms_A_Ad_to_Tce_F_FPKM_Tau_Auto$Tau,Tms_A_Ad_to_Tce_F_FPKM_Tau_Auto$log2MF, "Tms - A - A"),
+corr_and_plot(Tms_A_Ad_to_Tce_F_FPKM_Tau_X    , Tms_A_Ad_to_Tce_F_FPKM_Tau_X$Tau,   Tms_A_Ad_to_Tce_F_FPKM_Tau_X$log2MF,    "Tms - A - X"),
+
+corr_and_plot(Tce_B_Ad_to_Tce_F_FPKM_Tau_Auto , Tce_B_Ad_to_Tce_F_FPKM_Tau_Auto$Tau,Tce_B_Ad_to_Tce_F_FPKM_Tau_Auto$log2MF, "Tce - B - A"),
+corr_and_plot(Tce_B_Ad_to_Tce_F_FPKM_Tau_X    , Tce_B_Ad_to_Tce_F_FPKM_Tau_X$Tau,   Tce_B_Ad_to_Tce_F_FPKM_Tau_X$log2MF,    "Tce - B - X"),
+corr_and_plot(Tms_B_Ad_to_Tce_F_FPKM_Tau_Auto , Tms_B_Ad_to_Tce_F_FPKM_Tau_Auto$Tau,Tms_B_Ad_to_Tce_F_FPKM_Tau_Auto$log2MF, "Tms - B - A"),
+corr_and_plot(Tms_B_Ad_to_Tce_F_FPKM_Tau_X    , Tms_B_Ad_to_Tce_F_FPKM_Tau_X$Tau,   Tms_B_Ad_to_Tce_F_FPKM_Tau_X$log2MF,    "Tms - B - X"),
+
+corr_and_plot(Tce_DG_Ad_to_Tce_F_FPKM_Tau_Auto , Tce_DG_Ad_to_Tce_F_FPKM_Tau_Auto$Tau,Tce_DG_Ad_to_Tce_F_FPKM_Tau_Auto$log2MF, "Tce - DG - A"),
+corr_and_plot(Tce_DG_Ad_to_Tce_F_FPKM_Tau_X    , Tce_DG_Ad_to_Tce_F_FPKM_Tau_X$Tau,   Tce_DG_Ad_to_Tce_F_FPKM_Tau_X$log2MF,    "Tce - DG - X"),
+corr_and_plot(Tms_DG_Ad_to_Tce_F_FPKM_Tau_Auto , Tms_DG_Ad_to_Tce_F_FPKM_Tau_Auto$Tau,Tms_DG_Ad_to_Tce_F_FPKM_Tau_Auto$log2MF, "Tms - DG - A"),
+corr_and_plot(Tms_DG_Ad_to_Tce_F_FPKM_Tau_X    , Tms_DG_Ad_to_Tce_F_FPKM_Tau_X$Tau,   Tms_DG_Ad_to_Tce_F_FPKM_Tau_X$log2MF,    "Tms - DG - X"),
+
+corr_and_plot(Tce_FB_Ad_to_Tce_F_FPKM_Tau_Auto , Tce_FB_Ad_to_Tce_F_FPKM_Tau_Auto$Tau,Tce_FB_Ad_to_Tce_F_FPKM_Tau_Auto$log2MF, "Tce - FB - A"),
+corr_and_plot(Tce_FB_Ad_to_Tce_F_FPKM_Tau_X    , Tce_FB_Ad_to_Tce_F_FPKM_Tau_X$Tau,   Tce_FB_Ad_to_Tce_F_FPKM_Tau_X$log2MF,    "Tce - FB - X"),
+corr_and_plot(Tms_FB_Ad_to_Tce_F_FPKM_Tau_Auto , Tms_FB_Ad_to_Tce_F_FPKM_Tau_Auto$Tau,Tms_FB_Ad_to_Tce_F_FPKM_Tau_Auto$log2MF, "Tms - FB - A"),
+corr_and_plot(Tms_FB_Ad_to_Tce_F_FPKM_Tau_X    , Tms_FB_Ad_to_Tce_F_FPKM_Tau_X$Tau,   Tms_FB_Ad_to_Tce_F_FPKM_Tau_X$log2MF,    "Tms - FB - X"),
+
+corr_and_plot(Tce_Fe_Ad_to_Tce_F_FPKM_Tau_Auto , Tce_Fe_Ad_to_Tce_F_FPKM_Tau_Auto$Tau,Tce_Fe_Ad_to_Tce_F_FPKM_Tau_Auto$log2MF, "Tce - Fe - A"),
+corr_and_plot(Tce_Fe_Ad_to_Tce_F_FPKM_Tau_X    , Tce_Fe_Ad_to_Tce_F_FPKM_Tau_X$Tau,   Tce_Fe_Ad_to_Tce_F_FPKM_Tau_X$log2MF,    "Tce - Fe - X"),
+corr_and_plot(Tms_Fe_Ad_to_Tce_F_FPKM_Tau_Auto , Tms_Fe_Ad_to_Tce_F_FPKM_Tau_Auto$Tau,Tms_Fe_Ad_to_Tce_F_FPKM_Tau_Auto$log2MF, "Tms - Fe - A"),
+corr_and_plot(Tms_Fe_Ad_to_Tce_F_FPKM_Tau_X    , Tms_Fe_Ad_to_Tce_F_FPKM_Tau_X$Tau,   Tms_Fe_Ad_to_Tce_F_FPKM_Tau_X$log2MF,    "Tms - Fe - X"),
+
+corr_and_plot(Tce_Gu_Ad_to_Tce_F_FPKM_Tau_Auto , Tce_Gu_Ad_to_Tce_F_FPKM_Tau_Auto$Tau,Tce_Gu_Ad_to_Tce_F_FPKM_Tau_Auto$log2MF, "Tce - Gu - A"),
+corr_and_plot(Tce_Gu_Ad_to_Tce_F_FPKM_Tau_X    , Tce_Gu_Ad_to_Tce_F_FPKM_Tau_X$Tau,   Tce_Gu_Ad_to_Tce_F_FPKM_Tau_X$log2MF,    "Tce - Gu - X"),
+corr_and_plot(Tms_Gu_Ad_to_Tce_F_FPKM_Tau_Auto , Tms_Gu_Ad_to_Tce_F_FPKM_Tau_Auto$Tau,Tms_Gu_Ad_to_Tce_F_FPKM_Tau_Auto$log2MF, "Tms - Gu - A"),
+corr_and_plot(Tms_Gu_Ad_to_Tce_F_FPKM_Tau_X    , Tms_Gu_Ad_to_Tce_F_FPKM_Tau_X$Tau,   Tms_Gu_Ad_to_Tce_F_FPKM_Tau_X$log2MF,    "Tms - Gu - X"),
+
+corr_and_plot(Tce_Ta_Ad_to_Tce_F_FPKM_Tau_Auto , Tce_Ta_Ad_to_Tce_F_FPKM_Tau_Auto$Tau,Tce_Ta_Ad_to_Tce_F_FPKM_Tau_Auto$log2MF, "Tce - Ta - A"),
+corr_and_plot(Tce_Ta_Ad_to_Tce_F_FPKM_Tau_X    , Tce_Ta_Ad_to_Tce_F_FPKM_Tau_X$Tau,   Tce_Ta_Ad_to_Tce_F_FPKM_Tau_X$log2MF,    "Tce - Ta - X"),
+corr_and_plot(Tms_Ta_Ad_to_Tce_F_FPKM_Tau_Auto , Tms_Ta_Ad_to_Tce_F_FPKM_Tau_Auto$Tau,Tms_Ta_Ad_to_Tce_F_FPKM_Tau_Auto$log2MF, "Tms - Ta - A"),
+corr_and_plot(Tms_Ta_Ad_to_Tce_F_FPKM_Tau_X    , Tms_Ta_Ad_to_Tce_F_FPKM_Tau_X$Tau,   Tms_Ta_Ad_to_Tce_F_FPKM_Tau_X$log2MF,    "Tms - Ta - X"),
+
+corr_and_plot(Tce_GoTe_Ad_to_Tce_F_FPKM_Tau_Auto , Tce_GoTe_Ad_to_Tce_F_FPKM_Tau_Auto$Tau,Tce_GoTe_Ad_to_Tce_F_FPKM_Tau_Auto$log2MF, "Tce - GoTe - A"),
+corr_and_plot(Tce_GoTe_Ad_to_Tce_F_FPKM_Tau_X    , Tce_GoTe_Ad_to_Tce_F_FPKM_Tau_X$Tau,   Tce_GoTe_Ad_to_Tce_F_FPKM_Tau_X$log2MF,    "Tce - GoTe - X"),
+corr_and_plot(Tms_GoTe_Ad_to_Tce_F_FPKM_Tau_Auto , Tms_GoTe_Ad_to_Tce_F_FPKM_Tau_Auto$Tau,Tms_GoTe_Ad_to_Tce_F_FPKM_Tau_Auto$log2MF, "Tms - GoTe - A"),
+corr_and_plot(Tms_GoTe_Ad_to_Tce_F_FPKM_Tau_X    , Tms_GoTe_Ad_to_Tce_F_FPKM_Tau_X$Tau,   Tms_GoTe_Ad_to_Tce_F_FPKM_Tau_X$log2MF,    "Tms - GoTe - X"),
+ncol = 4)
+dev.off()
+getwd() ## where has my plot gone...
+
+
+
+
+
+
+
+
+
+##################################################################################################################################################################
+##################################################################################################################################################################
 plot_MF_box <- function(df_sex, df_asex){
   sex_df_name  <- deparse(substitute(df_sex))
   asex_df_name <- deparse(substitute(df_asex))
@@ -716,10 +1546,13 @@ plot_MF_box <- function(df_sex, df_asex){
     scale_fill_manual(values=c("white", "darkorange", "white", "darkorange"))  + geom_hline(yintercept = 0) + geom_hline(yintercept = -1, linetype = 2) +
     ggtitle(paste(strsplit(sex_df_name, "_")[[1]][1] , strsplit(sex_df_name, "_")[[1]][2]))
   P_out <- P_out + theme(legend.position = "none")
-  
+
   return(P_out)
   
 }
+
+
+plot_MF_box(Tpa_A_Ad_to_Tpa_F_FPKM , Tge_A_Ad_to_Tpa_F_FPKM  )
 
 #### 
 plot_MF_box_df <- function(df_sex, df_asex){
@@ -1773,6 +2606,611 @@ getwd() ## where has my plot gone....?
 
 
 
+################################################################################################################################################
+#### hists
+
+
+
+
+plot_avFPKM_tissue_hist_XA <- function(df_sex, df_asex, max_x, want_tiss, want_spgroup){
+  df <- rbind(df_sex, df_asex)
+  max_FKPM = max(df$meanFPKM)
+  df$tiss <- ifelse(df$tiss == "Te", "Go", as.character(df$tiss))
+  df_tiss <- subset(df, df$tiss == want_tiss)
+  
+  df_tiss$rep_sex_XA <- paste(df_tiss$rep_m, df_tiss$sex_XA, sep = "_")
+  df_tiss$rep_sex_XA <- ordered(df_tiss$rep_sex_XA, levels = c("sex_F_A", "asex_F_A","sex_F_X", "asex_F_X","sex_M_A", "asex_M_A","sex_M_X", "asex_M_X"))
+  
+  df_tiss$sp_group <- ifelse(df_tiss$sp == "Tce", "Tce_Tms",
+                             ifelse(df_tiss$sp == "Tms", "Tce_Tms",
+                                    ifelse(df_tiss$sp == "Tpa", "Tpa_Tge",
+                                           ifelse(df_tiss$sp == "Tge", "Tpa_Tge",
+                                                  ifelse(df_tiss$sp == "Tps", "Tps_Tdi",
+                                                         ifelse(df_tiss$sp == "Tdi", "Tps_Tdi","ERROR"))))))
+  
+  df_tiss$sp_tiss <- paste(df_tiss$sp_group, df_tiss$tiss)
+  df_tiss_sp <- subset(df_tiss, df_tiss$sp_group == want_spgroup)
+  
+  
+  str(df_tiss_sp )
+  print(head(df_tiss_sp ))
+  
+  PMX <- ggplot(df_tiss_sp, aes(x=meanFPKM, fill=rep_sex_XA)) +
+    theme_bw() +
+    geom_density(data=subset(df_tiss_sp,rep_sex_XA == "asex_M_X"), color="darkblue", fill="blue", alpha = 0)  +
+    geom_density(data=subset(df_tiss_sp,rep_sex_XA == "sex_M_X"),  color="darkred",  fill="blue", alpha = 0)  + scale_x_log10(limits= c(0.1, max_x)) #+ ggtitle(paste("males, X, ", want_tiss, ", ", want_spgroup, sep = ""))  
+  
+  PMA <- ggplot(df_tiss_sp, aes(x=meanFPKM, fill=rep_sex_XA)) +
+    theme_bw() +
+    geom_density(data=subset(df_tiss_sp,rep_sex_XA == "asex_M_A"), color="darkblue", fill="blue", alpha = 0)  +
+    geom_density(data=subset(df_tiss_sp,rep_sex_XA == "sex_M_A"),  color="darkred",  fill="blue", alpha = 0)  + scale_x_log10(limits= c(0.1, max_x)) #+ ggtitle(paste("males, A, ", want_tiss, ", ", want_spgroup, sep = ""))   
+  
+  
+  PFX <- ggplot(df_tiss_sp, aes(x=meanFPKM, fill=rep_sex_XA)) +
+    theme_bw() +
+    geom_density(data=subset(df_tiss_sp,rep_sex_XA == "asex_F_X"), color="darkblue", fill="blue", alpha = 0)  +
+    geom_density(data=subset(df_tiss_sp,rep_sex_XA == "sex_F_X"),  color="darkred",  fill="blue", alpha = 0)  + scale_x_log10(limits= c(0.1, max_x)) #+ ggtitle(paste("females, X, ", want_tiss, ", ", want_spgroup, sep = "")) 
+  
+  PFA <- ggplot(df_tiss_sp, aes(x=meanFPKM, fill=rep_sex_XA)) +
+    theme_bw() +
+    geom_density(data=subset(df_tiss_sp,rep_sex_XA == "asex_F_A"), color="darkblue", fill="blue", alpha = 0)  +
+    geom_density(data=subset(df_tiss_sp,rep_sex_XA == "sex_F_A"),  color="darkred",  fill="blue", alpha = 0)  + scale_x_log10(limits= c(0.1, max_x)) #+ ggtitle(paste("females, A, ", want_tiss, ", ", want_spgroup, sep = ""))  
+  
+  
+  
+  ### scatter
+  
+  df_tiss_sp_sex <- subset(df_tiss_sp, df_tiss_sp$rep_m == "sex")
+  df_tiss_sp_sex_M <- subset(df_tiss_sp_sex, df_tiss_sp_sex$sex == "M") 
+  df_tiss_sp_sex_F <- subset(df_tiss_sp_sex, df_tiss_sp_sex$sex == "F")
+  
+  print(length(df_tiss_sp_sex_M$gene_id))
+  print(length(df_tiss_sp_sex_F$gene_id))
+  
+  ## are the genes the same and in same order?
+  print("are the genes the same and in same order?")
+  print(identical(df_tiss_sp_sex_M$gene_id, df_tiss_sp_sex_F$gene_id))
+  
+  df_tiss_sp_sex_MF <- as.data.frame(cbind(df_tiss_sp_sex_M$gene_id, df_tiss_sp_sex_M$XA, df_tiss_sp_sex_M$meanFPKM , df_tiss_sp_sex_F$meanFPKM ))
+  colnames(df_tiss_sp_sex_MF) <- c("gene_id", "XA", "male_FPKM", "female_FPKM")
+  
+  df_tiss_sp_sex_MF$male_FPKM <- as.numeric(as.character(df_tiss_sp_sex_MF$male_FPKM))
+  df_tiss_sp_sex_MF$female_FPKM <- as.numeric(as.character(df_tiss_sp_sex_MF$female_FPKM))
+  df_tiss_sp_sex_MF$XA <- as.factor(as.character(df_tiss_sp_sex_MF$XA))
+  
+  print(head(df_tiss_sp_sex_MF ))
+  
+  df_tiss_sp_sex_MF_X <- subset(df_tiss_sp_sex_MF, df_tiss_sp_sex_MF$XA == "X")
+  df_tiss_sp_sex_MF_A <- subset(df_tiss_sp_sex_MF, df_tiss_sp_sex_MF$XA == "A")  
+  
+  P_sex_scat_X <- ggplot(df_tiss_sp_sex_MF_X, aes(x=female_FPKM,male_FPKM)) + geom_point(color = "darkorange", size = 0.7) +
+    theme_bw() +  scale_x_continuous(trans="log2", limits = c(1, max_FKPM)) +  scale_y_continuous(trans="log2", limits = c(1, max_FKPM))  + 
+    geom_abline(intercept = 0, slope = 1)  + geom_abline(intercept = -2, slope = 1, linetype = 2) 
+    #+ ggtitle(paste("Sex X, ", want_tiss, ", ", want_spgroup, sep = ""))  
+  
+
+  P_sex_scat_A <- ggplot(df_tiss_sp_sex_MF_A, aes(x=female_FPKM,male_FPKM)) + geom_point(color = "grey", size = 0.7) +
+    theme_bw() +  scale_x_continuous(trans="log2", limits = c(1, max_FKPM)) +  scale_y_continuous(trans="log2", limits = c(1, max_FKPM))  + 
+    geom_abline(intercept = 0, slope = 1)  + geom_abline(intercept = -2, slope = 1, linetype = 2) 
+  # + ggtitle(paste("Sex A, ", want_tiss, ", ", want_spgroup, sep = ""))  
+    
+
+  #### asex  
+  df_tiss_sp_asex <- subset(df_tiss_sp, df_tiss_sp$rep_m == "asex")
+  df_tiss_sp_asex_M <- subset(df_tiss_sp_asex, df_tiss_sp_asex$sex == "M") 
+  df_tiss_sp_asex_F <- subset(df_tiss_sp_asex, df_tiss_sp_asex$sex == "F")
+  
+  print(length(df_tiss_sp_asex_M$gene_id))
+  print(length(df_tiss_sp_asex_F$gene_id))
+  
+  ## are the genes the same and in same order?
+  print("are the genes the same and in same order?")
+  print(identical(df_tiss_sp_asex_M$gene_id, df_tiss_sp_asex_F$gene_id))
+  
+  df_tiss_sp_asex_MF <- as.data.frame(cbind(df_tiss_sp_asex_M$gene_id, df_tiss_sp_asex_M$XA, df_tiss_sp_asex_M$meanFPKM , df_tiss_sp_asex_F$meanFPKM ))
+  colnames(df_tiss_sp_asex_MF) <- c("gene_id", "XA", "male_FPKM", "female_FPKM")
+  
+  df_tiss_sp_asex_MF$male_FPKM <- as.numeric(as.character(df_tiss_sp_asex_MF$male_FPKM))
+  df_tiss_sp_asex_MF$female_FPKM <- as.numeric(as.character(df_tiss_sp_asex_MF$female_FPKM))
+  df_tiss_sp_asex_MF$XA <- as.factor(as.character(df_tiss_sp_asex_MF$XA))
+  
+  print(head(df_tiss_sp_asex_MF ))
+  
+  df_tiss_sp_asex_MF_X <- subset(df_tiss_sp_asex_MF, df_tiss_sp_asex_MF$XA == "X")
+  df_tiss_sp_asex_MF_A <- subset(df_tiss_sp_asex_MF, df_tiss_sp_asex_MF$XA == "A")  
+  
+  P_asex_scat_X <- ggplot(df_tiss_sp_asex_MF_X, aes(x=female_FPKM,male_FPKM)) + geom_point(color = "darkorange", size = 0.7) +
+    theme_bw() +  scale_x_continuous(trans="log2", limits = c(1, max_FKPM)) +  scale_y_continuous(trans="log2", limits = c(1, max_FKPM))  + 
+    geom_abline(intercept = 0, slope = 1)  + geom_abline(intercept = -2, slope = 1, linetype = 2) 
+   # + ggtitle(paste("asex X, ", want_tiss, ", ", want_spgroup, sep = ""))  
+  
+  
+  P_asex_scat_A <- ggplot(df_tiss_sp_asex_MF_A, aes(x=female_FPKM,male_FPKM)) + geom_point(color = "grey", size = 0.7) +
+    theme_bw() +  scale_x_continuous(trans="log2", limits = c(1, max_FKPM)) +  scale_y_continuous(trans="log2", limits = c(1, max_FKPM))  + 
+    geom_abline(intercept = 0, slope = 1)  + geom_abline(intercept = -2, slope = 1, linetype = 2) 
+  #+ ggtitle(paste("asex A, ", want_tiss, ", ", want_spgroup, sep = ""))    
+    
+  
+  outlist = list("PMX" = PMX, "PMA" = PMA, "PFX" = PFX, "PFA" = PFA, "P_sex_scat_X" = P_sex_scat_X, "P_sex_scat_A" = P_sex_scat_A, "P_asex_scat_X" = P_asex_scat_X, "P_asex_scat_A" = P_asex_scat_A)
+  return(outlist)
+  
+}  
+
+png(filename = "Tpa_Tge_avFPKM_scatter.png", width = 20, height = 30, units = "in", bg = "white", res = 300)
+plot_grid(
+plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "A", "Tpa_Tge")$P_sex_scat_A,
+plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "A", "Tpa_Tge")$P_sex_scat_X,
+plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "A", "Tpa_Tge")$P_asex_scat_A,
+plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "A", "Tpa_Tge")$P_asex_scat_X,
+
+plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "B", "Tpa_Tge")$P_sex_scat_A,
+plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "B", "Tpa_Tge")$P_sex_scat_X,
+plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "B", "Tpa_Tge")$P_asex_scat_A,
+plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "B", "Tpa_Tge")$P_asex_scat_X,
+
+plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "DG", "Tpa_Tge")$P_sex_scat_A,
+plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "DG", "Tpa_Tge")$P_sex_scat_X,
+plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "DG", "Tpa_Tge")$P_asex_scat_A,
+plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "DG", "Tpa_Tge")$P_asex_scat_X,
+
+plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "FB", "Tpa_Tge")$P_sex_scat_A,
+plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "FB", "Tpa_Tge")$P_sex_scat_X,
+plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "FB", "Tpa_Tge")$P_asex_scat_A,
+plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "FB", "Tpa_Tge")$P_asex_scat_X,
+
+plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Fe", "Tpa_Tge")$P_sex_scat_A,
+plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Fe", "Tpa_Tge")$P_sex_scat_X,
+plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Fe", "Tpa_Tge")$P_asex_scat_A,
+plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Fe", "Tpa_Tge")$P_asex_scat_X,
+
+plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Gu", "Tpa_Tge")$P_sex_scat_A,
+plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Gu", "Tpa_Tge")$P_sex_scat_X,
+plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Gu", "Tpa_Tge")$P_asex_scat_A,
+plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Gu", "Tpa_Tge")$P_asex_scat_X,
+
+plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Ta", "Tpa_Tge")$P_sex_scat_A,
+plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Ta", "Tpa_Tge")$P_sex_scat_X,
+plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Ta", "Tpa_Tge")$P_asex_scat_A,
+plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Ta", "Tpa_Tge")$P_asex_scat_X,
+
+plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Go", "Tpa_Tge")$P_sex_scat_A,
+plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Go", "Tpa_Tge")$P_sex_scat_X,
+plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Go", "Tpa_Tge")$P_asex_scat_A,
+plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Go", "Tpa_Tge")$P_asex_scat_X
+, ncol = 4
+)
+dev.off()
+getwd() ## where
+
+
+
+pdf("Tce_Tms_avFPKM_scatter.pdf", width = 10, height = 15)
+plot_grid(
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "A", "Tce_Tms")$P_sex_scat_A,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "A", "Tce_Tms")$P_sex_scat_X,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "A", "Tce_Tms")$P_asex_scat_A,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "A", "Tce_Tms")$P_asex_scat_X,
+  
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "B", "Tce_Tms")$P_sex_scat_A,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "B", "Tce_Tms")$P_sex_scat_X,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "B", "Tce_Tms")$P_asex_scat_A,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "B", "Tce_Tms")$P_asex_scat_X,
+  
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "DG", "Tce_Tms")$P_sex_scat_A,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "DG", "Tce_Tms")$P_sex_scat_X,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "DG", "Tce_Tms")$P_asex_scat_A,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "DG", "Tce_Tms")$P_asex_scat_X,
+  
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "FB", "Tce_Tms")$P_sex_scat_A,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "FB", "Tce_Tms")$P_sex_scat_X,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "FB", "Tce_Tms")$P_asex_scat_A,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "FB", "Tce_Tms")$P_asex_scat_X,
+  
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Fe", "Tce_Tms")$P_sex_scat_A,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Fe", "Tce_Tms")$P_sex_scat_X,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Fe", "Tce_Tms")$P_asex_scat_A,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Fe", "Tce_Tms")$P_asex_scat_X,
+  
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Gu", "Tce_Tms")$P_sex_scat_A,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Gu", "Tce_Tms")$P_sex_scat_X,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Gu", "Tce_Tms")$P_asex_scat_A,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Gu", "Tce_Tms")$P_asex_scat_X,
+  
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Ta", "Tce_Tms")$P_sex_scat_A,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Ta", "Tce_Tms")$P_sex_scat_X,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Ta", "Tce_Tms")$P_asex_scat_A,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Ta", "Tce_Tms")$P_asex_scat_X,
+  
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Go", "Tce_Tms")$P_sex_scat_A,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Go", "Tce_Tms")$P_sex_scat_X,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Go", "Tce_Tms")$P_asex_scat_A,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Go", "Tce_Tms")$P_asex_scat_X
+  , ncol = 4
+)
+dev.off()
+getwd() ## where
+
+pdf("Tpa_Tge_avFPKM_scatter.pdf", width = 10, height = 15)
+plot_grid(
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "A", "Tpa_Tge")$P_sex_scat_A,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "A", "Tpa_Tge")$P_sex_scat_X,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "A", "Tpa_Tge")$P_asex_scat_A,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "A", "Tpa_Tge")$P_asex_scat_X,
+  
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "B", "Tpa_Tge")$P_sex_scat_A,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "B", "Tpa_Tge")$P_sex_scat_X,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "B", "Tpa_Tge")$P_asex_scat_A,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "B", "Tpa_Tge")$P_asex_scat_X,
+  
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "DG", "Tpa_Tge")$P_sex_scat_A,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "DG", "Tpa_Tge")$P_sex_scat_X,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "DG", "Tpa_Tge")$P_asex_scat_A,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "DG", "Tpa_Tge")$P_asex_scat_X,
+  
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "FB", "Tpa_Tge")$P_sex_scat_A,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "FB", "Tpa_Tge")$P_sex_scat_X,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "FB", "Tpa_Tge")$P_asex_scat_A,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "FB", "Tpa_Tge")$P_asex_scat_X,
+  
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Fe", "Tpa_Tge")$P_sex_scat_A,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Fe", "Tpa_Tge")$P_sex_scat_X,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Fe", "Tpa_Tge")$P_asex_scat_A,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Fe", "Tpa_Tge")$P_asex_scat_X,
+  
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Gu", "Tpa_Tge")$P_sex_scat_A,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Gu", "Tpa_Tge")$P_sex_scat_X,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Gu", "Tpa_Tge")$P_asex_scat_A,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Gu", "Tpa_Tge")$P_asex_scat_X,
+  
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Ta", "Tpa_Tge")$P_sex_scat_A,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Ta", "Tpa_Tge")$P_sex_scat_X,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Ta", "Tpa_Tge")$P_asex_scat_A,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Ta", "Tpa_Tge")$P_asex_scat_X,
+  
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Go", "Tpa_Tge")$P_sex_scat_A,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Go", "Tpa_Tge")$P_sex_scat_X,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Go", "Tpa_Tge")$P_asex_scat_A,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Go", "Tpa_Tge")$P_asex_scat_X
+  , ncol = 4
+)
+dev.off()
+getwd() ## where
+
+
+
+pdf("Tps_Tdi_avFPKM_scatter.pdf", width = 10, height = 15)
+plot_grid(
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "A", "Tps_Tdi")$P_sex_scat_A,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "A", "Tps_Tdi")$P_sex_scat_X,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "A", "Tps_Tdi")$P_asex_scat_A,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "A", "Tps_Tdi")$P_asex_scat_X,
+  
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "B", "Tps_Tdi")$P_sex_scat_A,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "B", "Tps_Tdi")$P_sex_scat_X,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "B", "Tps_Tdi")$P_asex_scat_A,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "B", "Tps_Tdi")$P_asex_scat_X,
+  
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "DG", "Tps_Tdi")$P_sex_scat_A,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "DG", "Tps_Tdi")$P_sex_scat_X,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "DG", "Tps_Tdi")$P_asex_scat_A,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "DG", "Tps_Tdi")$P_asex_scat_X,
+  
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "FB", "Tps_Tdi")$P_sex_scat_A,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "FB", "Tps_Tdi")$P_sex_scat_X,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "FB", "Tps_Tdi")$P_asex_scat_A,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "FB", "Tps_Tdi")$P_asex_scat_X,
+  
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Fe", "Tps_Tdi")$P_sex_scat_A,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Fe", "Tps_Tdi")$P_sex_scat_X,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Fe", "Tps_Tdi")$P_asex_scat_A,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Fe", "Tps_Tdi")$P_asex_scat_X,
+  
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Gu", "Tps_Tdi")$P_sex_scat_A,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Gu", "Tps_Tdi")$P_sex_scat_X,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Gu", "Tps_Tdi")$P_asex_scat_A,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Gu", "Tps_Tdi")$P_asex_scat_X,
+  
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Ta", "Tps_Tdi")$P_sex_scat_A,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Ta", "Tps_Tdi")$P_sex_scat_X,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Ta", "Tps_Tdi")$P_asex_scat_A,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Ta", "Tps_Tdi")$P_asex_scat_X,
+  
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Go", "Tps_Tdi")$P_sex_scat_A,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Go", "Tps_Tdi")$P_sex_scat_X,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Go", "Tps_Tdi")$P_asex_scat_A,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Go", "Tps_Tdi")$P_asex_scat_X
+  , ncol = 4
+)
+dev.off()
+getwd() ## where
+
+
+png(filename = "Tpa_Tge_avFPKM_hist_males.png", width = 5, height = 12, units = "in", bg = "white", res = 300)
+plot_grid(
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "A", "Tpa_Tge")$PMA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "A", "Tpa_Tge")$PMX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "B", "Tpa_Tge")$PMA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "B", "Tpa_Tge")$PMX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "DG", "Tpa_Tge")$PMA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "DG", "Tpa_Tge")$PMX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "FB", "Tpa_Tge")$PMA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "FB", "Tpa_Tge")$PMX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Fe", "Tpa_Tge")$PMA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Fe", "Tpa_Tge")$PMX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Gu", "Tpa_Tge")$PMA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Gu", "Tpa_Tge")$PMX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Ta", "Tpa_Tge")$PMA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Ta", "Tpa_Tge")$PMX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Go", "Tpa_Tge")$PMA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Go", "Tpa_Tge")$PMX, ncol = 2
+  )
+dev.off()
+getwd() ## where
+
+
+
+
+png(filename = "Tce_Tms_avFPKM_hist_males_females.png", width = 9, height = 12, units = "in", bg = "white", res = 300)
+plot_grid(
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "A", "Tce_Tms")$PMA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "A", "Tce_Tms")$PMX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "A", "Tce_Tms")$PFA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "A", "Tce_Tms")$PFX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "B", "Tce_Tms")$PMA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "B", "Tce_Tms")$PMX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "B", "Tce_Tms")$PFA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "B", "Tce_Tms")$PFX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "DG", "Tce_Tms")$PMA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "DG", "Tce_Tms")$PMX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "DG", "Tce_Tms")$PFA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "DG", "Tce_Tms")$PFX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "FB", "Tce_Tms")$PMA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "FB", "Tce_Tms")$PMX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "FB", "Tce_Tms")$PFA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "FB", "Tce_Tms")$PFX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Fe", "Tce_Tms")$PMA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Fe", "Tce_Tms")$PMX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Fe", "Tce_Tms")$PFA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Fe", "Tce_Tms")$PFX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Gu", "Tce_Tms")$PMA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Gu", "Tce_Tms")$PMX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Gu", "Tce_Tms")$PFA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Gu", "Tce_Tms")$PFX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Ta", "Tce_Tms")$PMA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Ta", "Tce_Tms")$PMX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Ta", "Tce_Tms")$PFA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Ta", "Tce_Tms")$PFX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Go", "Tce_Tms")$PMA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Go", "Tce_Tms")$PMX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Go", "Tce_Tms")$PFA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Go", "Tce_Tms")$PFX, ncol = 4
+)
+dev.off()
+getwd() ## where
+
+png(filename = "Tpa_Tge_avFPKM_hist_males_females.png", width = 9, height = 12, units = "in", bg = "white", res = 300)
+plot_grid(
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "A", "Tpa_Tge")$PMA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "A", "Tpa_Tge")$PMX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "A", "Tpa_Tge")$PFA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "A", "Tpa_Tge")$PFX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "B", "Tpa_Tge")$PMA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "B", "Tpa_Tge")$PMX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "B", "Tpa_Tge")$PFA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "B", "Tpa_Tge")$PFX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "DG", "Tpa_Tge")$PMA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "DG", "Tpa_Tge")$PMX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "DG", "Tpa_Tge")$PFA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "DG", "Tpa_Tge")$PFX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "FB", "Tpa_Tge")$PMA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "FB", "Tpa_Tge")$PMX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "FB", "Tpa_Tge")$PFA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "FB", "Tpa_Tge")$PFX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Fe", "Tpa_Tge")$PMA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Fe", "Tpa_Tge")$PMX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Fe", "Tpa_Tge")$PFA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Fe", "Tpa_Tge")$PFX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Gu", "Tpa_Tge")$PMA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Gu", "Tpa_Tge")$PMX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Gu", "Tpa_Tge")$PFA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Gu", "Tpa_Tge")$PFX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Ta", "Tpa_Tge")$PMA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Ta", "Tpa_Tge")$PMX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Ta", "Tpa_Tge")$PFA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Ta", "Tpa_Tge")$PFX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Go", "Tpa_Tge")$PMA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Go", "Tpa_Tge")$PMX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Go", "Tpa_Tge")$PFA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Go", "Tpa_Tge")$PFX, ncol = 4
+)
+dev.off()
+getwd() ## where
+
+
+png(filename = "Tps_Tdi_avFPKM_hist_males_females.png", width = 9, height = 12, units = "in", bg = "white", res = 300)
+plot_grid(
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "A", "Tps_Tdi")$PMA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "A", "Tps_Tdi")$PMX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "A", "Tps_Tdi")$PFA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "A", "Tps_Tdi")$PFX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "B", "Tps_Tdi")$PMA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "B", "Tps_Tdi")$PMX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "B", "Tps_Tdi")$PFA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "B", "Tps_Tdi")$PFX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "DG", "Tps_Tdi")$PMA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "DG", "Tps_Tdi")$PMX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "DG", "Tps_Tdi")$PFA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "DG", "Tps_Tdi")$PFX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "FB", "Tps_Tdi")$PMA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "FB", "Tps_Tdi")$PMX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "FB", "Tps_Tdi")$PFA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "FB", "Tps_Tdi")$PFX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Fe", "Tps_Tdi")$PMA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Fe", "Tps_Tdi")$PMX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Fe", "Tps_Tdi")$PFA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Fe", "Tps_Tdi")$PFX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Gu", "Tps_Tdi")$PMA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Gu", "Tps_Tdi")$PMX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Gu", "Tps_Tdi")$PFA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Gu", "Tps_Tdi")$PFX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Ta", "Tps_Tdi")$PMA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Ta", "Tps_Tdi")$PMX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Ta", "Tps_Tdi")$PFA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Ta", "Tps_Tdi")$PFX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Go", "Tps_Tdi")$PMA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Go", "Tps_Tdi")$PMX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Go", "Tps_Tdi")$PFA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Go", "Tps_Tdi")$PFX, ncol = 4
+)
+dev.off()
+getwd() ## where
+
+
+
+
+
+
+
+
+
+
+
+pdf("Tce_Tms_avFPKM_hist_males_females.pdf", width = 8, height = 12)
+plot_grid(
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "A", "Tce_Tms")$PMA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "A", "Tce_Tms")$PMX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "A", "Tce_Tms")$PFA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "A", "Tce_Tms")$PFX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "B", "Tce_Tms")$PMA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "B", "Tce_Tms")$PMX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "B", "Tce_Tms")$PFA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "B", "Tce_Tms")$PFX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "DG", "Tce_Tms")$PMA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "DG", "Tce_Tms")$PMX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "DG", "Tce_Tms")$PFA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "DG", "Tce_Tms")$PFX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "FB", "Tce_Tms")$PMA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "FB", "Tce_Tms")$PMX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "FB", "Tce_Tms")$PFA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "FB", "Tce_Tms")$PFX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Fe", "Tce_Tms")$PMA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Fe", "Tce_Tms")$PMX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Fe", "Tce_Tms")$PFA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Fe", "Tce_Tms")$PFX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Gu", "Tce_Tms")$PMA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Gu", "Tce_Tms")$PMX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Gu", "Tce_Tms")$PFA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Gu", "Tce_Tms")$PFX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Ta", "Tce_Tms")$PMA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Ta", "Tce_Tms")$PMX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Ta", "Tce_Tms")$PFA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Ta", "Tce_Tms")$PFX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Go", "Tce_Tms")$PMA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Go", "Tce_Tms")$PMX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Go", "Tce_Tms")$PFA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Go", "Tce_Tms")$PFX, ncol = 4
+)
+dev.off()
+getwd() ## where
+
+pdf("Tpa_Tge_avFPKM_hist_males_females.pdf", width = 8, height = 12)
+plot_grid(
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "A", "Tpa_Tge")$PMA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "A", "Tpa_Tge")$PMX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "A", "Tpa_Tge")$PFA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "A", "Tpa_Tge")$PFX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "B", "Tpa_Tge")$PMA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "B", "Tpa_Tge")$PMX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "B", "Tpa_Tge")$PFA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "B", "Tpa_Tge")$PFX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "DG", "Tpa_Tge")$PMA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "DG", "Tpa_Tge")$PMX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "DG", "Tpa_Tge")$PFA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "DG", "Tpa_Tge")$PFX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "FB", "Tpa_Tge")$PMA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "FB", "Tpa_Tge")$PMX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "FB", "Tpa_Tge")$PFA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "FB", "Tpa_Tge")$PFX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Fe", "Tpa_Tge")$PMA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Fe", "Tpa_Tge")$PMX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Fe", "Tpa_Tge")$PFA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Fe", "Tpa_Tge")$PFX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Gu", "Tpa_Tge")$PMA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Gu", "Tpa_Tge")$PMX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Gu", "Tpa_Tge")$PFA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Gu", "Tpa_Tge")$PFX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Ta", "Tpa_Tge")$PMA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Ta", "Tpa_Tge")$PMX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Ta", "Tpa_Tge")$PFA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Ta", "Tpa_Tge")$PFX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Go", "Tpa_Tge")$PMA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Go", "Tpa_Tge")$PMX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Go", "Tpa_Tge")$PFA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Go", "Tpa_Tge")$PFX, ncol = 4
+)
+dev.off()
+getwd() ## where
+
+
+pdf("Tps_Tdi_avFPKM_hist_males_females.pdf", width = 8, height = 12)
+plot_grid(
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "A", "Tps_Tdi")$PMA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "A", "Tps_Tdi")$PMX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "A", "Tps_Tdi")$PFA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "A", "Tps_Tdi")$PFX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "B", "Tps_Tdi")$PMA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "B", "Tps_Tdi")$PMX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "B", "Tps_Tdi")$PFA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "B", "Tps_Tdi")$PFX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "DG", "Tps_Tdi")$PMA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "DG", "Tps_Tdi")$PMX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "DG", "Tps_Tdi")$PFA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "DG", "Tps_Tdi")$PFX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "FB", "Tps_Tdi")$PMA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "FB", "Tps_Tdi")$PMX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "FB", "Tps_Tdi")$PFA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "FB", "Tps_Tdi")$PFX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Fe", "Tps_Tdi")$PMA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Fe", "Tps_Tdi")$PMX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Fe", "Tps_Tdi")$PFA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Fe", "Tps_Tdi")$PFX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Gu", "Tps_Tdi")$PMA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Gu", "Tps_Tdi")$PMX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Gu", "Tps_Tdi")$PFA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Gu", "Tps_Tdi")$PFX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Ta", "Tps_Tdi")$PMA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Ta", "Tps_Tdi")$PMX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Ta", "Tps_Tdi")$PFA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Ta", "Tps_Tdi")$PFX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Go", "Tps_Tdi")$PMA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Go", "Tps_Tdi")$PMX,
+  plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Go", "Tps_Tdi")$PFA, plot_avFPKM_tissue_hist_XA(sex_avFPKM_df, asex_avFPKM_df, 20000, "Go", "Tps_Tdi")$PFX, ncol = 4
+)
+dev.off()
+getwd() ## where
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#################################################################################################################
+#################################################################################################################
+#################################################################################################################
+#################################################################################################################
+
+
+
+#### 
+plot_MF_box_df_with_genename <- function(df_sex, df_asex){
+  sex_df_name  <- deparse(substitute(df_sex))
+  asex_df_name <- deparse(substitute(df_asex))
+  sex_sp  <- str_split(sex_df_name, "_")[[1]][1]
+  asex_sp <- str_split(asex_df_name, "_")[[1]][1] 
+  sex_tiss  <- str_split(sex_df_name, "_")[[1]][2] 
+  asex_tiss <- str_split(asex_df_name, "_")[[1]][2] 
+  print(sex_df_name)
+  print(asex_df_name) 
+  print(sex_sp)
+  print(asex_sp)
+  print(sex_tiss)
+  print(asex_tiss)
+  
+  df <- as.data.frame(cbind(
+    c(df_sex$log2MF, df_asex$log2MF),
+    c(df_sex$XA,     df_asex$XA),
+    c(rep(sex_sp, length(df_sex$log2MF)),  rep(asex_sp, length(df_asex$log2MF))),
+    c(rep(sex_tiss, length(df_sex$log2MF)),  rep(asex_tiss, length(df_asex$log2MF))),
+    c(rep(paste(sex_sp, "_", asex_sp, sep = ""), length(df_sex$log2MF)),  rep(paste(sex_sp, "_", asex_sp, sep = ""), length(df_asex$log2MF))),
+    c(df_sex$gene_id, df_asex$gene_id),
+    c(df_sex$Tau, df_asex$Tau)
+  ))
+  
+  colnames(df) <- c("log2MF", "XA", "sp", "tiss", "sp_pair", "gene_id", "Tau")
+  df$rep_m <- ifelse(df$sp == "Tps", "sex", 
+                     ifelse(df$sp == "Tdi", "asex", 
+                            ifelse(df$sp == "Tpa", "sex", 
+                                   ifelse(df$sp == "Tge", "asex", 
+                                          ifelse(df$sp == "Tce", "sex", 
+                                                 ifelse(df$sp == "Tms", "asex", 
+                                                        ifelse(df$sp == "Tcm", "sex", 
+                                                               ifelse(df$sp == "Tsi", "asex",                     
+                                                                      ifelse(df$sp == "Tbi", "sex", 
+                                                                             ifelse(df$sp == "Tte", "asex",  "ERROR")))))))))) 
+  
+  df$group <- paste(df$rep_m, df$XA, sep = "_")
+  df$group_o <- ordered(df$group, c("sex_A", "sex_X", "asex_A", "asex_X"))  
+  df$log2MF <- as.numeric(as.character(df$log2MF))
+  
+  print(head(df)) 
+  return(df)
+  
+}
+
+### plot reproductive
+
+MF_df_Tau <- rbind(
+  plot_MF_box_df_with_genename(Tce_GoTe_Ad_to_Tce_F_FPKM_Tau , Tms_GoTe_Ad_to_Tce_F_FPKM_Tau),
+  plot_MF_box_df_with_genename(Tpa_GoTe_Ad_to_Tpa_F_FPKM_Tau , Tge_GoTe_Ad_to_Tpa_F_FPKM_Tau),
+  plot_MF_box_df_with_genename(Tps_GoTe_Ad_to_Tps_F_FPKM_Tau , Tdi_GoTe_Ad_to_Tps_F_FPKM_Tau)
+)
+
+### get meiotic gene list
+
+meiosis_genes = read.csv("/Users/drp22jhz/Documents/University/Lausanne/Timema_transcriptomes/Timema_DC_MSCI_code/data/annot/meiosis_cell_cycle_genes.csv")
+head(meiosis_genes )
+MF_df_Tau$gene_class <- ifelse(MF_df_Tau$gene_id %in% meiosis_genes$x, "meiosis", "other")
+length(subset(MF_df_Tau, MF_df_Tau$gene_class == "meiosis")[,1])
+
+
+### housekeeping?
+
+MF_df_Tau$gene_class2 <- ifelse(MF_df_Tau$Tau <= 0.5, "housekeeping", "other")
+length(subset(MF_df_Tau, MF_df_Tau$gene_class2 == "housekeeping")[,1])
+
+MF_df_Tau_meiosis_genes <- subset(MF_df_Tau, MF_df_Tau$gene_class == "meiosis")
+MF_df_Tau_house_genes   <- subset(MF_df_Tau, MF_df_Tau$gene_class2 == "housekeeping")
+
+
+pdf("meiosis_houskeeping_MF_rep_tiss.pdf", width = 8, height = 8)
+plot_grid(
+ggplot(MF_df_Tau_meiosis_genes, aes(sp_pair, log2MF)) + 
+  theme_classic() +
+  geom_boxplot(aes(fill = factor(group_o)),position=position_dodge(0.6), width = 0.5, outlier.size = 0, outlier.shape = NA, notch=T) +
+  coord_cartesian(ylim=c(-5,5)) +
+  ylab ("log2(Male FPKM / Female FPKM)")  +
+  xlab ("Species pair") + 
+  scale_fill_manual(values=c("white", "darkorange","grey", "#2297E6"))   + geom_hline(yintercept = 0) + geom_hline(yintercept = -1, linetype = 2) +
+  ggtitle("Meiotic genes") + theme(legend.position = "none"),
+
+
+ggplot(MF_df_Tau_house_genes, aes(sp_pair, log2MF)) + 
+  theme_classic() +
+  geom_boxplot(aes(fill = factor(group_o)),position=position_dodge(0.6), width = 0.5, outlier.size = 0, outlier.shape = NA, notch=T) +
+  coord_cartesian(ylim=c(-5,5)) +
+  ylab ("log2(Male FPKM / Female FPKM)")  +
+  xlab ("Species pair") + 
+  scale_fill_manual(values=c("white", "darkorange","grey", "#2297E6"))   + geom_hline(yintercept = 0) + geom_hline(yintercept = -1, linetype = 2) +
+  ggtitle("Housekeeping genes") + theme(legend.position = "none"),
+ncol = 1)
+
+dev.off()
+getwd() ## where
+
+
+
+
+
+
+
 
 
 
@@ -2777,10 +4215,6 @@ rownames(TceTms_Ad_to_Tce_F_FPKM_A_for_heat) <- TceTms_Ad_to_Tce_F_FPKM_A[,1]
 TceTms_Ad_to_Tce_F_FPKM_A_for_heat_no_NA <- na.omit(TceTms_Ad_to_Tce_F_FPKM_A_for_heat)
 
 
-cal_z_score <- function(x){
-  (x - mean(x)) / sd(x)
-}
-
 TceTms_Ad_to_Tce_F_FPKM_X_for_heat_no_NA_zscore <- t(apply(TceTms_Ad_to_Tce_F_FPKM_X_for_heat_no_NA, 1, cal_z_score))
 
 
@@ -2811,9 +4245,6 @@ rownames(TpaTge_Ad_to_Tpa_F_FPKM_A_for_heat) <- TpaTge_Ad_to_Tpa_F_FPKM_A[,1]
 TpaTge_Ad_to_Tpa_F_FPKM_A_for_heat_no_NA <- na.omit(TpaTge_Ad_to_Tpa_F_FPKM_A_for_heat)
 
 
-cal_z_score <- function(x){
-  (x - mean(x)) / sd(x)
-}
 
 TpaTge_Ad_to_Tpa_F_FPKM_X_for_heat_no_NA_zscore <- t(apply(TpaTge_Ad_to_Tpa_F_FPKM_X_for_heat_no_NA, 1, cal_z_score))
 
@@ -2821,8 +4252,77 @@ TpaTge_Ad_to_Tpa_F_FPKM_X_for_heat_no_NA_zscore <- t(apply(TpaTge_Ad_to_Tpa_F_FP
 
 
 
+##### single LG 
+
+### forgot to add LG back...
+Tce_Lg1_scaf <- c(
+  "Tce_LRv5a_scf27",
+  "Tce_LRv5a_scf28",
+  "Tce_LRv5a_scf29",
+  "Tce_LRv5a_scf30",
+  "Tce_LRv5a_scf31",
+  "Tce_LRv5a_scf32",
+  "Tce_LRv5a_scf33",
+  "Tce_LRv5a_scf34",
+  "Tce_LRv5a_scf35",
+  "Tce_LRv5a_scf36",
+  "Tce_LRv5a_scf37",
+  "Tce_LRv5a_scf38",
+  "Tce_LRv5a_scf39",
+  "Tce_LRv5a_scf40",
+  "Tce_LRv5a_scf41")
+
+TceTms_Ad_to_Tce_F_MF_LG1 <- TceTms_Ad_to_Tce_F_MF[TceTms_Ad_to_Tce_F_MF$scaf %in% Tce_Lg1_scaf, ]
+TceTms_Ad_to_Tce_F_MF_LG1_for_heat = TceTms_Ad_to_Tce_F_MF_LG1[5:length((TceTms_Ad_to_Tce_F_MF_LG1[1,]))]
+rownames(TceTms_Ad_to_Tce_F_MF_LG1_for_heat) <- TceTms_Ad_to_Tce_F_MF_LG1[,1]
+TceTms_Ad_to_Tce_F_MF_LG1_for_heat_no_NA <- na.omit(TceTms_Ad_to_Tce_F_MF_LG1_for_heat)
+
+TpaTge_Ad_to_Tpa_F_MF_LG3 <- subset(TpaTge_Ad_to_Tpa_F_MF, TpaTge_Ad_to_Tpa_F_MF$scaf == "Tpa_LRv5a_scf3")
+TpaTge_Ad_to_Tpa_F_MF_LG3_for_heat = TpaTge_Ad_to_Tpa_F_MF_LG3[5:length((TpaTge_Ad_to_Tpa_F_MF_LG3[1,]))]
+rownames(TpaTge_Ad_to_Tpa_F_MF_LG3_for_heat) <- TpaTge_Ad_to_Tpa_F_MF_LG3[,1]
+TpaTge_Ad_to_Tpa_F_MF_LG3_for_heat_no_NA <- na.omit(TpaTge_Ad_to_Tpa_F_MF_LG3_for_heat)
+
+TpsTdi_Ad_to_Tps_F_MF_LG2 <- subset(TpsTdi_Ad_to_Tps_F_MF, TpsTdi_Ad_to_Tps_F_MF$scaf == "Tps_LRv5b_scf2")
+TpsTdi_Ad_to_Tps_F_MF_LG2_for_heat = TpsTdi_Ad_to_Tps_F_MF_LG2[5:length((TpsTdi_Ad_to_Tps_F_MF_LG2[1,]))]
+rownames(TpsTdi_Ad_to_Tps_F_MF_LG2_for_heat) <- TpsTdi_Ad_to_Tps_F_MF_LG2[,1]
+TpsTdi_Ad_to_Tps_F_MF_LG2_for_heat_no_NA <- na.omit(TpsTdi_Ad_to_Tps_F_MF_LG2_for_heat)
+
+
+#### filter mostly NA out
+
+filt_N = 8
+
+TceTms_Ad_to_Tce_F_MF_LG1_for_heat$N_NAs <- rowSums(is.na(TceTms_Ad_to_Tce_F_MF_LG1_for_heat ))
+TceTms_Ad_to_Tce_F_MF_LG1_for_heat_mostly_non_NAs <- subset(TceTms_Ad_to_Tce_F_MF_LG1_for_heat, TceTms_Ad_to_Tce_F_MF_LG1_for_heat$N_NAs <filt_N )
+TceTms_Ad_to_Tce_F_MF_LG1_for_heat_mostly_non_NAs = TceTms_Ad_to_Tce_F_MF_LG1_for_heat_mostly_non_NAs[1:length((TceTms_Ad_to_Tce_F_MF_LG1_for_heat_mostly_non_NAs[1,])) -1]
+
+TceTms_Ad_to_Tce_F_MF_X_for_heat$N_NAs <- rowSums(is.na(TceTms_Ad_to_Tce_F_MF_X_for_heat ))
+TceTms_Ad_to_Tce_F_MF_X_for_heat_mostly_non_NAs <- subset(TceTms_Ad_to_Tce_F_MF_X_for_heat, TceTms_Ad_to_Tce_F_MF_X_for_heat$N_NAs <filt_N )
+TceTms_Ad_to_Tce_F_MF_X_for_heat_mostly_non_NAs = TceTms_Ad_to_Tce_F_MF_X_for_heat_mostly_non_NAs[1:length((TceTms_Ad_to_Tce_F_MF_X_for_heat_mostly_non_NAs[1,])) -1]
+
+TpaTge_Ad_to_Tpa_F_MF_LG3_for_heat$N_NAs <- rowSums(is.na(TpaTge_Ad_to_Tpa_F_MF_LG3_for_heat ))
+TpaTge_Ad_to_Tpa_F_MF_LG3_for_heat_mostly_non_NAs <- subset(TpaTge_Ad_to_Tpa_F_MF_LG3_for_heat, TpaTge_Ad_to_Tpa_F_MF_LG3_for_heat$N_NAs <filt_N )
+TpaTge_Ad_to_Tpa_F_MF_LG3_for_heat_mostly_non_NAs = TpaTge_Ad_to_Tpa_F_MF_LG3_for_heat_mostly_non_NAs[1:length((TpaTge_Ad_to_Tpa_F_MF_LG3_for_heat_mostly_non_NAs[1,])) -1]
+
+TpaTge_Ad_to_Tpa_F_MF_X_for_heat$N_NAs <- rowSums(is.na(TpaTge_Ad_to_Tpa_F_MF_X_for_heat ))
+TpaTge_Ad_to_Tpa_F_MF_X_for_heat_mostly_non_NAs <- subset(TpaTge_Ad_to_Tpa_F_MF_X_for_heat, TpaTge_Ad_to_Tpa_F_MF_X_for_heat$N_NAs <filt_N )
+TpaTge_Ad_to_Tpa_F_MF_X_for_heat_mostly_non_NAs = TpaTge_Ad_to_Tpa_F_MF_X_for_heat_mostly_non_NAs[1:length((TpaTge_Ad_to_Tpa_F_MF_X_for_heat_mostly_non_NAs[1,])) -1]
+
+
+TpsTdi_Ad_to_Tps_F_MF_LG2_for_heat$N_NAs <- rowSums(is.na(TpsTdi_Ad_to_Tps_F_MF_LG2_for_heat ))
+TpsTdi_Ad_to_Tps_F_MF_LG2_for_heat_mostly_non_NAs <- subset(TpsTdi_Ad_to_Tps_F_MF_LG2_for_heat, TpsTdi_Ad_to_Tps_F_MF_LG2_for_heat$N_NAs <filt_N )
+TpsTdi_Ad_to_Tps_F_MF_LG2_for_heat_mostly_non_NAs = TpsTdi_Ad_to_Tps_F_MF_LG2_for_heat_mostly_non_NAs[1:length((TpsTdi_Ad_to_Tps_F_MF_LG2_for_heat_mostly_non_NAs[1,])) -1]
+
+TpsTdi_Ad_to_Tps_F_MF_X_for_heat$N_NAs <- rowSums(is.na(TpsTdi_Ad_to_Tps_F_MF_X_for_heat ))
+TpsTdi_Ad_to_Tps_F_MF_X_for_heat_mostly_non_NAs <- subset(TpsTdi_Ad_to_Tps_F_MF_X_for_heat, TpsTdi_Ad_to_Tps_F_MF_X_for_heat$N_NAs <filt_N )
+TpsTdi_Ad_to_Tps_F_MF_X_for_heat_mostly_non_NAs = TpsTdi_Ad_to_Tps_F_MF_X_for_heat_mostly_non_NAs[1:length((TpsTdi_Ad_to_Tps_F_MF_X_for_heat_mostly_non_NAs[1,])) -1]
+
+
+
+
 ##############################################################################################################################
 ### heatmaps
+### the dfs are ordered by position - so don't cluster etc to keepit this way
 ## set breaks ## 
 breaksList = c(-1114.25, -3.75, -3.25, -2.75, -2.25, -1.75, -1.25, -0.75, -0.25, 0.25,  0.75,  1.25, 1.75, 2.25, 2.75,3.25,3.75,1114.25) 
 
@@ -2927,6 +4427,103 @@ png(filename = "TpaTge_Ad_to_Tpa_F_MF_A_heatmap_no_NA.png", width = 10, height =
 pheatmap(t(TpaTge_Ad_to_Tpa_F_MF_A_for_heat_no_NA), cluster_rows = F, cluster_cols = F, color = colorRampPalette(rev(c("#08103A", "#08103A","#08306B","#08417C", "#08519C", "#2171B5", "#4292C6", "#6BAED6" ,"#9DCBE1","#9ECAE1", "#FFFFFF", "#FFFFFF"  ,"#FCBBA1","#FCBBA1" ,"#FC9272" ,"#FB6A4A" ,"#EF3B2C" ,"#CB181D" ,"#A50F15" ,"#67000D","#67000D")))(length(breaksList)), breaks = breaksList, show_colnames = F,border_color = NA, legend = F, main = "TpaTge_Ad_to_Tpa_F_MF_A_for_heat_no_NA")
 dev.off()
 getwd() ## where has my plot gone...
+
+
+
+
+
+pheatmap(TceTms_Ad_to_Tce_F_MF_LG1_for_heat, cluster_rows = F, cluster_cols = F, 
+         color = colorRampPalette(rev(c("#08103A", "#08103A","#08306B","#08417C", "#08519C", "#2171B5", "#4292C6", "#6BAED6" ,"#9DCBE1","#9ECAE1", "#FFFFFF", "#FFFFFF"  ,"#FCBBA1","#FCBBA1" ,"#FC9272" ,"#FB6A4A" ,"#EF3B2C" ,"#CB181D" ,"#A50F15" ,"#67000D","#67000D")))(length(breaksList)), 
+         breaks = breaksList, show_rownames = F, show_colnames = T,border_color = NA, legend = F, main = "TceTdi_Ad_to_Tce_F_MF_LG1_for_heat")
+
+
+pheatmap(TceTms_Ad_to_Tce_F_MF_X_for_heat, cluster_rows = F, cluster_cols = F, 
+         color = colorRampPalette(rev(c("#08103A", "#08103A","#08306B","#08417C", "#08519C", "#2171B5", "#4292C6", "#6BAED6" ,"#9DCBE1","#9ECAE1", "#FFFFFF", "#FFFFFF"  ,"#FCBBA1","#FCBBA1" ,"#FC9272" ,"#FB6A4A" ,"#EF3B2C" ,"#CB181D" ,"#A50F15" ,"#67000D","#67000D")))(length(breaksList)), 
+         breaks = breaksList, show_rownames = F, show_colnames = T,border_color = NA, legend = F, main = "TceTdi_Ad_to_Tce_F_MF_X_for_heat")
+
+
+
+pheatmap(TpaTge_Ad_to_Tpa_F_MF_LG3_for_heat, cluster_rows = F, cluster_cols = F, 
+         color = colorRampPalette(rev(c("#08103A", "#08103A","#08306B","#08417C", "#08519C", "#2171B5", "#4292C6", "#6BAED6" ,"#9DCBE1","#9ECAE1", "#FFFFFF", "#FFFFFF"  ,"#FCBBA1","#FCBBA1" ,"#FC9272" ,"#FB6A4A" ,"#EF3B2C" ,"#CB181D" ,"#A50F15" ,"#67000D","#67000D")))(length(breaksList)), 
+         breaks = breaksList, show_rownames = F, show_colnames = T,border_color = NA, legend = F, main = "TpaTdi_Ad_to_Tpa_F_MF_LG3_for_heat")
+
+
+pheatmap(TpaTge_Ad_to_Tpa_F_MF_X_for_heat, cluster_rows = F, cluster_cols = F, 
+         color = colorRampPalette(rev(c("#08103A", "#08103A","#08306B","#08417C", "#08519C", "#2171B5", "#4292C6", "#6BAED6" ,"#9DCBE1","#9ECAE1", "#FFFFFF", "#FFFFFF"  ,"#FCBBA1","#FCBBA1" ,"#FC9272" ,"#FB6A4A" ,"#EF3B2C" ,"#CB181D" ,"#A50F15" ,"#67000D","#67000D")))(length(breaksList)), 
+         breaks = breaksList, show_rownames = F, show_colnames = T,border_color = NA, legend = F, main = "TpaTdi_Ad_to_Tpa_F_MF_X_for_heat")
+
+
+pheatmap(TpsTdi_Ad_to_Tps_F_MF_LG2_for_heat, cluster_rows = F, cluster_cols = F, 
+         color = colorRampPalette(rev(c("#08103A", "#08103A","#08306B","#08417C", "#08519C", "#2171B5", "#4292C6", "#6BAED6" ,"#9DCBE1","#9ECAE1", "#FFFFFF", "#FFFFFF"  ,"#FCBBA1","#FCBBA1" ,"#FC9272" ,"#FB6A4A" ,"#EF3B2C" ,"#CB181D" ,"#A50F15" ,"#67000D","#67000D")))(length(breaksList)), 
+         breaks = breaksList, show_rownames = F, show_colnames = T,border_color = NA, legend = F, main = "TpsTdi_Ad_to_Tps_F_MF_LG2_for_heat")
+
+pheatmap(TpsTdi_Ad_to_Tps_F_MF_X_for_heat, cluster_rows = F, cluster_cols = F, 
+         color = colorRampPalette(rev(c("#08103A", "#08103A","#08306B","#08417C", "#08519C", "#2171B5", "#4292C6", "#6BAED6" ,"#9DCBE1","#9ECAE1", "#FFFFFF", "#FFFFFF"  ,"#FCBBA1","#FCBBA1" ,"#FC9272" ,"#FB6A4A" ,"#EF3B2C" ,"#CB181D" ,"#A50F15" ,"#67000D","#67000D")))(length(breaksList)), 
+         breaks = breaksList, show_rownames = F, show_colnames = T,border_color = NA, legend = F, main = "TpsTdi_Ad_to_Tps_F_MF_X_for_heat")
+
+
+
+
+  
+pdf("TceTms_Ad_to_Tce_F_MF_LG1_heatmap_mostly_no_NA.pdf", width = 4, height = 11)  
+pheatmap(TceTms_Ad_to_Tce_F_MF_LG1_for_heat_mostly_non_NAs, cluster_rows = F, cluster_cols = F, 
+           color = colorRampPalette(rev(c("#08103A", "#08103A","#08306B","#08417C", "#08519C", "#2171B5", "#4292C6", "#6BAED6" ,"#9DCBE1","#9ECAE1", "#FFFFFF", "#FFFFFF"  ,"#FCBBA1","#FCBBA1" ,"#FC9272" ,"#FB6A4A" ,"#EF3B2C" ,"#CB181D" ,"#A50F15" ,"#67000D","#67000D")))(length(breaksList)), 
+           breaks = breaksList, show_rownames = F, show_colnames = T,border_color = NA, legend = F, main = "TceTms_Ad_to_Tce_F_MF_LG1_for_heat")
+dev.off()  
+
+pdf("TceTms_Ad_to_Tce_F_MF_X_heatmap_mostly_no_NA.pdf", width = 4, height = 11)    
+pheatmap(TceTms_Ad_to_Tce_F_MF_X_for_heat_mostly_non_NAs, cluster_rows = F, cluster_cols = F, 
+           color = colorRampPalette(rev(c("#08103A", "#08103A","#08306B","#08417C", "#08519C", "#2171B5", "#4292C6", "#6BAED6" ,"#9DCBE1","#9ECAE1", "#FFFFFF", "#FFFFFF"  ,"#FCBBA1","#FCBBA1" ,"#FC9272" ,"#FB6A4A" ,"#EF3B2C" ,"#CB181D" ,"#A50F15" ,"#67000D","#67000D")))(length(breaksList)), 
+           breaks = breaksList, show_rownames = F, show_colnames = T,border_color = NA, legend = F, main = "TceTdi_Ad_to_Tce_F_MF_X_for_heat")
+dev.off()  
+
+pdf("TpaTge_Ad_to_Tpa_F_MF_LG3_heatmap_mostly_no_NA.pdf", width = 4, height = 11)  
+pheatmap(TpaTge_Ad_to_Tpa_F_MF_LG3_for_heat_mostly_non_NAs, cluster_rows = F, cluster_cols = F, 
+           color = colorRampPalette(rev(c("#08103A", "#08103A","#08306B","#08417C", "#08519C", "#2171B5", "#4292C6", "#6BAED6" ,"#9DCBE1","#9ECAE1", "#FFFFFF", "#FFFFFF"  ,"#FCBBA1","#FCBBA1" ,"#FC9272" ,"#FB6A4A" ,"#EF3B2C" ,"#CB181D" ,"#A50F15" ,"#67000D","#67000D")))(length(breaksList)), 
+           breaks = breaksList, show_rownames = F, show_colnames = T,border_color = NA, legend = F, main = "TpaTdi_Ad_to_Tpa_F_MF_LG3_for_heat")
+dev.off()  
+
+pdf("TpaTge_Ad_to_Tpa_F_MF_X_heatmap_mostly_no_NA.pdf", width = 4, height = 11)  
+pheatmap(TpaTge_Ad_to_Tpa_F_MF_X_for_heat_mostly_non_NAs, cluster_rows = F, cluster_cols = F, 
+           color = colorRampPalette(rev(c("#08103A", "#08103A","#08306B","#08417C", "#08519C", "#2171B5", "#4292C6", "#6BAED6" ,"#9DCBE1","#9ECAE1", "#FFFFFF", "#FFFFFF"  ,"#FCBBA1","#FCBBA1" ,"#FC9272" ,"#FB6A4A" ,"#EF3B2C" ,"#CB181D" ,"#A50F15" ,"#67000D","#67000D")))(length(breaksList)), 
+           breaks = breaksList, show_rownames = F, show_colnames = T,border_color = NA, legend = F, main = "TpaTdi_Ad_to_Tpa_F_MF_X_for_heat")
+dev.off()  
+
+pdf("TpsTdi_Ad_to_Tps_F_MF_LG2_heatmap_mostly_no_NA.pdf", width = 4, height = 11)  
+pheatmap(TpsTdi_Ad_to_Tps_F_MF_LG2_for_heat_mostly_non_NAs, cluster_rows = F, cluster_cols = F, 
+           color = colorRampPalette(rev(c("#08103A", "#08103A","#08306B","#08417C", "#08519C", "#2171B5", "#4292C6", "#6BAED6" ,"#9DCBE1","#9ECAE1", "#FFFFFF", "#FFFFFF"  ,"#FCBBA1","#FCBBA1" ,"#FC9272" ,"#FB6A4A" ,"#EF3B2C" ,"#CB181D" ,"#A50F15" ,"#67000D","#67000D")))(length(breaksList)), 
+           breaks = breaksList, show_rownames = F, show_colnames = T,border_color = NA, legend = F, main = "TpsTdi_Ad_to_Tps_F_MF_LG2_for_heat")
+dev.off()  
+
+pdf("TpsTdi_Ad_to_Tps_F_MF_X_heatmap_mostly_no_NA.pdf", width = 4, height = 11)  
+pheatmap(TpsTdi_Ad_to_Tps_F_MF_X_for_heat_mostly_non_NAs, cluster_rows = F, cluster_cols = F, 
+           color = colorRampPalette(rev(c("#08103A", "#08103A","#08306B","#08417C", "#08519C", "#2171B5", "#4292C6", "#6BAED6" ,"#9DCBE1","#9ECAE1", "#FFFFFF", "#FFFFFF"  ,"#FCBBA1","#FCBBA1" ,"#FC9272" ,"#FB6A4A" ,"#EF3B2C" ,"#CB181D" ,"#A50F15" ,"#67000D","#67000D")))(length(breaksList)), 
+           breaks = breaksList, show_rownames = F, show_colnames = T,border_color = NA, legend = F, main = "TpsTdi_Ad_to_Tps_F_MF_X_for_heat")
+dev.off()  
+
+# 
+# breaksList = c(-4.25, -3.75, -3.25, -2.75, -2.25, -1.75, -1.25, -0.75, -0.25, 0.25,  0.75,  1.25, 1.75, 2.25, 2.75,3.25,3.75,4.25) 
+# 
+# pdf("TpsTdi_Ad_to_Tps_F_MF_X_heatmap_mostly_no_NA_w_legend.pdf", width = 4, height = 11)  
+# pheatmap(TpsTdi_Ad_to_Tps_F_MF_X_for_heat_mostly_non_NAs, cluster_rows = F, cluster_cols = F, 
+#          color = colorRampPalette(rev(c("#08103A", "#08103A","#08306B","#08417C", "#08519C", "#2171B5", "#4292C6", "#6BAED6" ,"#9DCBE1","#9ECAE1", "#FFFFFF", "#FFFFFF"  ,"#FCBBA1","#FCBBA1" ,"#FC9272" ,"#FB6A4A" ,"#EF3B2C" ,"#CB181D" ,"#A50F15" ,"#67000D","#67000D")))(length(breaksList)), 
+#          breaks = breaksList, show_rownames = F, show_colnames = T,border_color = NA, legend = T, main = "TpsTdi_Ad_to_Tps_F_MF_X_for_heat")
+# dev.off()  
+# 
+# 
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 #############################################################################################
