@@ -1909,6 +1909,104 @@ comb_Te_MF_plot <- ggplot(Te_MF_df, aes(sp_pair, log2MF)) +
 
 
 
+
+###################################################################################################################################################
+######
+###################################################################################################################################################
+######  sex male vs asex male (and female?)
+
+
+### check same genes 
+identical(Tce_GoTe_Ad_to_Tce_F_FPKM$`subset_df[, 1]`, Tms_GoTe_Ad_to_Tce_F_FPKM$`subset_df[, 1]`)
+identical(Tpa_GoTe_Ad_to_Tpa_F_FPKM$`subset_df[, 1]`, Tge_GoTe_Ad_to_Tpa_F_FPKM$`subset_df[, 1]`)
+identical(Tps_GoTe_Ad_to_Tps_F_FPKM$`subset_df[, 1]`, Tdi_GoTe_Ad_to_Tps_F_FPKM$`subset_df[, 1]`)
+
+colnames(Tce_GoTe_Ad_to_Tce_F_FPKM)
+colnames(Tce_GoTe_Ad_to_Tce_F_FPKM[c(1:6,23:24)])
+colnames(Tms_GoTe_Ad_to_Tce_F_FPKM)
+colnames(Tms_GoTe_Ad_to_Tce_F_FPKM[23:24])
+
+TceTms_GoTe_Ad_to_Tce_F_FPKM <- cbind(Tce_GoTe_Ad_to_Tce_F_FPKM[c(1:6,23:24)],Tms_GoTe_Ad_to_Tce_F_FPKM[23:24])
+## +ve vals == higher in asex
+TceTms_GoTe_Ad_to_Tce_F_FPKM$log2_male_asex_male_sex     <- log2(TceTms_GoTe_Ad_to_Tce_F_FPKM$Tms_M_Te_Ad__meanFPKM / TceTms_GoTe_Ad_to_Tce_F_FPKM$Tce_M_Te_Ad__meanFPKM) 
+TceTms_GoTe_Ad_to_Tce_F_FPKM$log2_female_asex_female_sex <- log2(TceTms_GoTe_Ad_to_Tce_F_FPKM$Tms_F_Go_Ad__meanFPKM / TceTms_GoTe_Ad_to_Tce_F_FPKM$Tce_F_Go_Ad__meanFPKM) 
+TceTms_GoTe_Ad_to_Tce_F_FPKM$sp_pair = rep("Tce-Tms", length(TceTms_GoTe_Ad_to_Tce_F_FPKM[,1]))
+
+
+
+colnames(Tpa_GoTe_Ad_to_Tpa_F_FPKM)
+colnames(Tpa_GoTe_Ad_to_Tpa_F_FPKM[c(1:6,21:22)])
+colnames(Tge_GoTe_Ad_to_Tpa_F_FPKM)
+colnames(Tge_GoTe_Ad_to_Tpa_F_FPKM[21:22])
+
+TpaTge_GoTe_Ad_to_Tpa_F_FPKM <- cbind(Tpa_GoTe_Ad_to_Tpa_F_FPKM[c(1:6,21:22)],Tge_GoTe_Ad_to_Tpa_F_FPKM[21:22])
+## +ve vals == higher in asex
+TpaTge_GoTe_Ad_to_Tpa_F_FPKM$log2_male_asex_male_sex     <- log2(TpaTge_GoTe_Ad_to_Tpa_F_FPKM$Tge_M_Te_Ad__meanFPKM / TpaTge_GoTe_Ad_to_Tpa_F_FPKM$Tpa_M_Te_Ad__meanFPKM) 
+TpaTge_GoTe_Ad_to_Tpa_F_FPKM$log2_female_asex_female_sex <- log2(TpaTge_GoTe_Ad_to_Tpa_F_FPKM$Tge_F_Go_Ad__meanFPKM / TpaTge_GoTe_Ad_to_Tpa_F_FPKM$Tpa_F_Go_Ad__meanFPKM) 
+TpaTge_GoTe_Ad_to_Tpa_F_FPKM$sp_pair = rep("Tpa-Tge", length(TpaTge_GoTe_Ad_to_Tpa_F_FPKM[,1]))
+
+
+colnames(Tps_GoTe_Ad_to_Tps_F_FPKM)
+colnames(Tps_GoTe_Ad_to_Tps_F_FPKM[c(1:6,22:23)])
+colnames(Tdi_GoTe_Ad_to_Tps_F_FPKM)
+colnames(Tdi_GoTe_Ad_to_Tps_F_FPKM[22:23])
+
+TpsTdi_GoTe_Ad_to_Tps_F_FPKM <- cbind(Tps_GoTe_Ad_to_Tps_F_FPKM[c(1:6,22:23)],Tdi_GoTe_Ad_to_Tps_F_FPKM[22:23])
+## +ve vals == higher in asex
+TpsTdi_GoTe_Ad_to_Tps_F_FPKM$log2_male_asex_male_sex     <- log2(TpsTdi_GoTe_Ad_to_Tps_F_FPKM$Tdi_M_Te_Ad__meanFPKM / TpsTdi_GoTe_Ad_to_Tps_F_FPKM$Tps_M_Te_Ad__meanFPKM) 
+TpsTdi_GoTe_Ad_to_Tps_F_FPKM$log2_female_asex_female_sex <- log2(TpsTdi_GoTe_Ad_to_Tps_F_FPKM$Tdi_F_Go_Ad__meanFPKM / TpsTdi_GoTe_Ad_to_Tps_F_FPKM$Tps_F_Go_Ad__meanFPKM) 
+TpsTdi_GoTe_Ad_to_Tps_F_FPKM$sp_pair = rep("Tps-Tdi", length(TpsTdi_GoTe_Ad_to_Tps_F_FPKM[,1]))
+
+
+### join
+
+colnames(TceTms_GoTe_Ad_to_Tce_F_FPKM[c(1:4, 6, 11:13)])
+colnames(TpaTge_GoTe_Ad_to_Tpa_F_FPKM[c(1:4, 6, 11:13)])
+colnames(TpsTdi_GoTe_Ad_to_Tps_F_FPKM[c(1:4, 6, 11:13)])
+
+
+allsp_asex_sex_comp <- rbind(
+TceTms_GoTe_Ad_to_Tce_F_FPKM[c(1:4, 6, 11:13)],
+TpaTge_GoTe_Ad_to_Tpa_F_FPKM[c(1:4, 6, 11:13)],
+TpsTdi_GoTe_Ad_to_Tps_F_FPKM[c(1:4, 6, 11:13)])
+
+
+colnames(allsp_asex_sex_comp)
+
+pdf("allsp_asex_sex_comp.pdf", width = 8, height = 4)
+ggplot(allsp_asex_sex_comp, aes(sp_pair, log2_male_asex_male_sex)) + 
+  theme_classic() +
+  geom_boxplot(aes(fill = factor(XA)),position=position_dodge(0.6), width = 0.5, outlier.size = 0, outlier.shape = NA, notch=T) +
+  coord_cartesian(ylim=c(-3,3)) +
+  ylab ("log2(Parth male FPKM / Sexual male FPKM)")  +
+  xlab ("Species pair") + 
+  scale_fill_manual(values=c("white", "darkorange"))   + geom_hline(yintercept = 0) 
+dev.off()
+getwd() ## where has my plot gone...
+
+
+ggplot(allsp_asex_sex_comp, aes(sp_pair, log2_female_asex_female_sex)) + 
+  theme_classic() +
+  geom_boxplot(aes(fill = factor(XA)),position=position_dodge(0.6), width = 0.5, outlier.size = 0, outlier.shape = NA, notch=T) +
+  coord_cartesian(ylim=c(-3,3)) +
+  ylab ("log2(Parth female FPKM / Sexual female FPKM)")  +
+  xlab ("Species pair") + 
+  scale_fill_manual(values=c("white", "darkorange"))   + geom_hline(yintercept = 0) 
+
+
+#### add some stats
+
+p.adjust(c(
+wilcox.test(subset(TceTms_GoTe_Ad_to_Tce_F_FPKM, TceTms_GoTe_Ad_to_Tce_F_FPKM$XA == "X")$log2_male_asex_male_sex,
+            subset(TceTms_GoTe_Ad_to_Tce_F_FPKM, TceTms_GoTe_Ad_to_Tce_F_FPKM$XA == "A")$log2_male_asex_male_sex)$p.value,  
+
+wilcox.test(subset(TpaTge_GoTe_Ad_to_Tpa_F_FPKM, TpaTge_GoTe_Ad_to_Tpa_F_FPKM$XA == "X")$log2_male_asex_male_sex,
+            subset(TpaTge_GoTe_Ad_to_Tpa_F_FPKM, TpaTge_GoTe_Ad_to_Tpa_F_FPKM$XA == "A")$log2_male_asex_male_sex)$p.value,  
+
+wilcox.test(subset(TpsTdi_GoTe_Ad_to_Tps_F_FPKM, TpsTdi_GoTe_Ad_to_Tps_F_FPKM$XA == "X")$log2_male_asex_male_sex,
+            subset(TpsTdi_GoTe_Ad_to_Tps_F_FPKM, TpsTdi_GoTe_Ad_to_Tps_F_FPKM$XA == "A")$log2_male_asex_male_sex)$p.value), method = "fdr")
+
+
 ###################################################################################################################################################
 ###### plot average FPKM
 
@@ -4151,10 +4249,10 @@ write.csv(Tge_Ad_to_Tpa_F_avFPKM_2, file = "Tge_Ad_to_Tpa_F_avFPKM_2.csv", quote
 ######################################################################################
 ###
 ######## read back in
-
+getwd()
 
 ##### MF
-TpsTdi_Ad_to_Tps_F_MF <- read.csv("TpsTdi_Ad_to_Tps_F_MF_fheatmap.csv")
+TpsTdi_Ad_to_Tps_F_MF <- read.csv("../../output/TpsTdi_Ad_to_Tps_F_MF_fheatmap.csv")
 
 TpsTdi_Ad_to_Tps_F_MF_X <- subset(TpsTdi_Ad_to_Tps_F_MF, TpsTdi_Ad_to_Tps_F_MF$XA == "X")
 TpsTdi_Ad_to_Tps_F_MF_X_for_heat = TpsTdi_Ad_to_Tps_F_MF_X[5:length((TpsTdi_Ad_to_Tps_F_MF_X[1,]))]
@@ -4167,7 +4265,7 @@ rownames(TpsTdi_Ad_to_Tps_F_MF_A_for_heat) <- TpsTdi_Ad_to_Tps_F_MF_A[,1]
 TpsTdi_Ad_to_Tps_F_MF_A_for_heat_no_NA <- na.omit(TpsTdi_Ad_to_Tps_F_MF_A_for_heat)
 
 #### FPKM
-TpsTdi_Ad_to_Tps_F_FPKM <- read.csv("TpsTdi_Ad_to_Tps_F_avFPKM_2_fheatmap.csv")
+TpsTdi_Ad_to_Tps_F_FPKM <- read.csv("../../output/TpsTdi_Ad_to_Tps_F_avFPKM_2_fheatmap.csv")
 
 TpsTdi_Ad_to_Tps_F_FPKM_X <- subset(TpsTdi_Ad_to_Tps_F_FPKM, TpsTdi_Ad_to_Tps_F_FPKM$XA == "X")
 TpsTdi_Ad_to_Tps_F_FPKM_X_for_heat = TpsTdi_Ad_to_Tps_F_FPKM_X[5:length((TpsTdi_Ad_to_Tps_F_FPKM_X[1,]))]
@@ -4189,7 +4287,7 @@ TpsTdi_Ad_to_Tps_F_FPKM_X_for_heat_no_NA_zscore <- t(apply(TpsTdi_Ad_to_Tps_F_FP
 
 
 ##### MF
-TceTms_Ad_to_Tce_F_MF <- read.csv("TceTms_Ad_to_Tce_F_MF_fheatmap.csv")
+TceTms_Ad_to_Tce_F_MF <- read.csv("../../output/TceTms_Ad_to_Tce_F_MF_fheatmap.csv")
 
 TceTms_Ad_to_Tce_F_MF_X <- subset(TceTms_Ad_to_Tce_F_MF, TceTms_Ad_to_Tce_F_MF$XA == "X")
 TceTms_Ad_to_Tce_F_MF_X_for_heat = TceTms_Ad_to_Tce_F_MF_X[5:length((TceTms_Ad_to_Tce_F_MF_X[1,]))]
@@ -4202,7 +4300,7 @@ rownames(TceTms_Ad_to_Tce_F_MF_A_for_heat) <- TceTms_Ad_to_Tce_F_MF_A[,1]
 TceTms_Ad_to_Tce_F_MF_A_for_heat_no_NA <- na.omit(TceTms_Ad_to_Tce_F_MF_A_for_heat)
 
 #### FPKM
-TceTms_Ad_to_Tce_F_FPKM <- read.csv("TceTms_Ad_to_Tce_F_avFPKM_2_fheatmap.csv")
+TceTms_Ad_to_Tce_F_FPKM <- read.csv("../../output/TceTms_Ad_to_Tce_F_avFPKM_2_fheatmap.csv")
 
 TceTms_Ad_to_Tce_F_FPKM_X <- subset(TceTms_Ad_to_Tce_F_FPKM, TceTms_Ad_to_Tce_F_FPKM$XA == "X")
 TceTms_Ad_to_Tce_F_FPKM_X_for_heat = TceTms_Ad_to_Tce_F_FPKM_X[5:length((TceTms_Ad_to_Tce_F_FPKM_X[1,]))]
@@ -4219,7 +4317,7 @@ TceTms_Ad_to_Tce_F_FPKM_X_for_heat_no_NA_zscore <- t(apply(TceTms_Ad_to_Tce_F_FP
 
 
 ##### MF
-TpaTge_Ad_to_Tpa_F_MF <- read.csv("TpaTge_Ad_to_Tpa_F_MF_fheatmap.csv")
+TpaTge_Ad_to_Tpa_F_MF <- read.csv("../../output/TpaTge_Ad_to_Tpa_F_MF_fheatmap.csv")
 
 TpaTge_Ad_to_Tpa_F_MF_X <- subset(TpaTge_Ad_to_Tpa_F_MF, TpaTge_Ad_to_Tpa_F_MF$XA == "X")
 TpaTge_Ad_to_Tpa_F_MF_X_for_heat = TpaTge_Ad_to_Tpa_F_MF_X[5:length((TpaTge_Ad_to_Tpa_F_MF_X[1,]))]
@@ -4232,7 +4330,7 @@ rownames(TpaTge_Ad_to_Tpa_F_MF_A_for_heat) <- TpaTge_Ad_to_Tpa_F_MF_A[,1]
 TpaTge_Ad_to_Tpa_F_MF_A_for_heat_no_NA <- na.omit(TpaTge_Ad_to_Tpa_F_MF_A_for_heat)
 
 #### FPKM
-TpaTge_Ad_to_Tpa_F_FPKM <- read.csv("TpaTge_Ad_to_Tpa_F_avFPKM_2_fheatmap.csv")
+TpaTge_Ad_to_Tpa_F_FPKM <- read.csv("../../output/TpaTge_Ad_to_Tpa_F_avFPKM_2_fheatmap.csv")
 
 TpaTge_Ad_to_Tpa_F_FPKM_X <- subset(TpaTge_Ad_to_Tpa_F_FPKM, TpaTge_Ad_to_Tpa_F_FPKM$XA == "X")
 TpaTge_Ad_to_Tpa_F_FPKM_X_for_heat = TpaTge_Ad_to_Tpa_F_FPKM_X[5:length((TpaTge_Ad_to_Tpa_F_FPKM_X[1,]))]
@@ -4362,73 +4460,73 @@ pheatmap(t(log2(TpaTge_Ad_to_Tpa_F_FPKM_X_for_heat_no_NA)), cluster_rows = F, cl
 pheatmap(t(TpaTge_Ad_to_Tpa_F_FPKM_X_for_heat_no_NA_zscore), cluster_rows = F, cluster_cols = F, show_colnames = F,border_color = NA, legend = F)
 
 
-
-png(filename = "TpsTdi_Ad_to_Tps_F_MF_X_heatmap.png", width = 10, height = 5, units = "in", bg = "white", res = 300)
-pheatmap(t(TpsTdi_Ad_to_Tps_F_MF_X_for_heat), cluster_rows = F, cluster_cols = F, color = colorRampPalette(rev(c("#08103A", "#08103A","#08306B","#08417C", "#08519C", "#2171B5", "#4292C6", "#6BAED6" ,"#9DCBE1","#9ECAE1", "#FFFFFF", "#FFFFFF"  ,"#FCBBA1","#FCBBA1" ,"#FC9272" ,"#FB6A4A" ,"#EF3B2C" ,"#CB181D" ,"#A50F15" ,"#67000D","#67000D")))(length(breaksList)), breaks = breaksList, show_colnames = F,border_color = NA, legend = F, main = "TpsTdi_Ad_to_Tps_F_MF_X_for_heat")
-dev.off()
-getwd() ## where has my plot gone...
-
-png(filename = "TpsTdi_Ad_to_Tps_F_MF_A_heatmap.png", width = 10, height = 5, units = "in", bg = "white", res = 300)
-pheatmap(t(TpsTdi_Ad_to_Tps_F_MF_A_for_heat), cluster_rows = F, cluster_cols = F, color = colorRampPalette(rev(c("#08103A", "#08103A","#08306B","#08417C", "#08519C", "#2171B5", "#4292C6", "#6BAED6" ,"#9DCBE1","#9ECAE1", "#FFFFFF", "#FFFFFF"  ,"#FCBBA1","#FCBBA1" ,"#FC9272" ,"#FB6A4A" ,"#EF3B2C" ,"#CB181D" ,"#A50F15" ,"#67000D","#67000D")))(length(breaksList)), breaks = breaksList, show_colnames = F,border_color = NA, legend = F, main = "TpsTdi_Ad_to_Tps_F_MF_A_for_heat")
-dev.off()
-getwd() ## where has my plot gone...
-
-png(filename = "TpsTdi_Ad_to_Tps_F_MF_X_heatmap_no_NA.png", width = 10, height = 5, units = "in", bg = "white", res = 300)
-pheatmap(t(TpsTdi_Ad_to_Tps_F_MF_X_for_heat_no_NA), cluster_rows = F, cluster_cols = F, color = colorRampPalette(rev(c("#08103A", "#08103A","#08306B","#08417C", "#08519C", "#2171B5", "#4292C6", "#6BAED6" ,"#9DCBE1","#9ECAE1", "#FFFFFF", "#FFFFFF"  ,"#FCBBA1","#FCBBA1" ,"#FC9272" ,"#FB6A4A" ,"#EF3B2C" ,"#CB181D" ,"#A50F15" ,"#67000D","#67000D")))(length(breaksList)), breaks = breaksList, show_colnames = F,border_color = NA, legend = F, main = "TpsTdi_Ad_to_Tps_F_MF_X_for_heat_no_NA")
-dev.off()
-getwd() ## where has my plot gone...
-
-png(filename = "TpsTdi_Ad_to_Tps_F_MF_A_heatmap_no_NA.png", width = 10, height = 5, units = "in", bg = "white", res = 300)
-pheatmap(t(TpsTdi_Ad_to_Tps_F_MF_A_for_heat_no_NA), cluster_rows = F, cluster_cols = F, color = colorRampPalette(rev(c("#08103A", "#08103A","#08306B","#08417C", "#08519C", "#2171B5", "#4292C6", "#6BAED6" ,"#9DCBE1","#9ECAE1", "#FFFFFF", "#FFFFFF"  ,"#FCBBA1","#FCBBA1" ,"#FC9272" ,"#FB6A4A" ,"#EF3B2C" ,"#CB181D" ,"#A50F15" ,"#67000D","#67000D")))(length(breaksList)), breaks = breaksList, show_colnames = F,border_color = NA, legend = F, main = "TpsTdi_Ad_to_Tps_F_MF_A_for_heat_no_NA")
-dev.off()
-getwd() ## where has my plot gone...
-
-
-dev.off()
-
-
-png(filename = "TceTms_Ad_to_Tce_F_MF_X_heatmap.png", width = 10, height = 5, units = "in", bg = "white", res = 300)
-pheatmap(t(TceTms_Ad_to_Tce_F_MF_X_for_heat), cluster_rows = F, cluster_cols = F, color = colorRampPalette(rev(c("#08103A", "#08103A","#08306B","#08417C", "#08519C", "#2171B5", "#4292C6", "#6BAED6" ,"#9DCBE1","#9ECAE1", "#FFFFFF", "#FFFFFF"  ,"#FCBBA1","#FCBBA1" ,"#FC9272" ,"#FB6A4A" ,"#EF3B2C" ,"#CB181D" ,"#A50F15" ,"#67000D","#67000D")))(length(breaksList)), breaks = breaksList, show_colnames = F,border_color = NA, legend = F, main = "TceTms_Ad_to_Tce_F_MF_X_for_heat")
-dev.off()
-getwd() ## where has my plot gone...
-
-png(filename = "TceTms_Ad_to_Tce_F_MF_A_heatmap.png", width = 10, height = 5, units = "in", bg = "white", res = 300)
-pheatmap(t(TceTms_Ad_to_Tce_F_MF_A_for_heat), cluster_rows = F, cluster_cols = F, color = colorRampPalette(rev(c("#08103A", "#08103A","#08306B","#08417C", "#08519C", "#2171B5", "#4292C6", "#6BAED6" ,"#9DCBE1","#9ECAE1", "#FFFFFF", "#FFFFFF"  ,"#FCBBA1","#FCBBA1" ,"#FC9272" ,"#FB6A4A" ,"#EF3B2C" ,"#CB181D" ,"#A50F15" ,"#67000D","#67000D")))(length(breaksList)), breaks = breaksList, show_colnames = F,border_color = NA, legend = F, main = "TceTms_Ad_to_Tce_F_MF_A_for_heat")
-dev.off()
-getwd() ## where has my plot gone...
-
-png(filename = "TceTms_Ad_to_Tce_F_MF_X_heatmap_no_NA.png", width = 10, height = 5, units = "in", bg = "white", res = 300)
-pheatmap(t(TceTms_Ad_to_Tce_F_MF_X_for_heat_no_NA), cluster_rows = F, cluster_cols = F, color = colorRampPalette(rev(c("#08103A", "#08103A","#08306B","#08417C", "#08519C", "#2171B5", "#4292C6", "#6BAED6" ,"#9DCBE1","#9ECAE1", "#FFFFFF", "#FFFFFF"  ,"#FCBBA1","#FCBBA1" ,"#FC9272" ,"#FB6A4A" ,"#EF3B2C" ,"#CB181D" ,"#A50F15" ,"#67000D","#67000D")))(length(breaksList)), breaks = breaksList, show_colnames = F,border_color = NA, legend = F, main = "TceTms_Ad_to_Tce_F_MF_X_heatmap_no_NA")
-dev.off()
-getwd() ## where has my plot gone...
-
-png(filename = "TceTms_Ad_to_Tce_F_MF_A_heatmap_no_NA.png", width = 10, height = 5, units = "in", bg = "white", res = 300)
-pheatmap(t(TceTms_Ad_to_Tce_F_MF_A_for_heat_no_NA), cluster_rows = F, cluster_cols = F, color = colorRampPalette(rev(c("#08103A", "#08103A","#08306B","#08417C", "#08519C", "#2171B5", "#4292C6", "#6BAED6" ,"#9DCBE1","#9ECAE1", "#FFFFFF", "#FFFFFF"  ,"#FCBBA1","#FCBBA1" ,"#FC9272" ,"#FB6A4A" ,"#EF3B2C" ,"#CB181D" ,"#A50F15" ,"#67000D","#67000D")))(length(breaksList)), breaks = breaksList, show_colnames = F,border_color = NA, legend = F, main = "TceTms_Ad_to_Tce_F_MF_A_heatmap_no_NA")
-dev.off()
-getwd() ## where has my plot gone...
-
-
-png(filename = "TpaTge_Ad_to_Tpa_F_MF_X_heatmap.png", width = 10, height = 5, units = "in", bg = "white", res = 300)
-pheatmap(t(TpaTge_Ad_to_Tpa_F_MF_X_for_heat), cluster_rows = F, cluster_cols = F, color = colorRampPalette(rev(c("#08103A", "#08103A","#08306B","#08417C", "#08519C", "#2171B5", "#4292C6", "#6BAED6" ,"#9DCBE1","#9ECAE1", "#FFFFFF", "#FFFFFF"  ,"#FCBBA1","#FCBBA1" ,"#FC9272" ,"#FB6A4A" ,"#EF3B2C" ,"#CB181D" ,"#A50F15" ,"#67000D","#67000D")))(length(breaksList)), breaks = breaksList, show_colnames = F,border_color = NA, legend = F, main = "TpaTge_Ad_to_Tpa_F_MF_X_heatmap")
-dev.off()
-getwd() ## where has my plot gone...
-
-png(filename = "TpaTge_Ad_to_Tpa_F_MF_A_heatmap.png", width = 10, height = 5, units = "in", bg = "white", res = 300)
-pheatmap(t(TpaTge_Ad_to_Tpa_F_MF_A_for_heat), cluster_rows = F, cluster_cols = F, color = colorRampPalette(rev(c("#08103A", "#08103A","#08306B","#08417C", "#08519C", "#2171B5", "#4292C6", "#6BAED6" ,"#9DCBE1","#9ECAE1", "#FFFFFF", "#FFFFFF"  ,"#FCBBA1","#FCBBA1" ,"#FC9272" ,"#FB6A4A" ,"#EF3B2C" ,"#CB181D" ,"#A50F15" ,"#67000D","#67000D")))(length(breaksList)), breaks = breaksList, show_colnames = F,border_color = NA, legend = F, main = "TpaTge_Ad_to_Tpa_F_MF_A_heatmap")
-dev.off()
-getwd() ## where has my plot gone...
-
-png(filename = "TpaTge_Ad_to_Tpa_F_MF_X_heatmap_no_NA.png", width = 10, height = 5, units = "in", bg = "white", res = 300)
-pheatmap(t(TpaTge_Ad_to_Tpa_F_MF_X_for_heat_no_NA), cluster_rows = F, cluster_cols = F, color = colorRampPalette(rev(c("#08103A", "#08103A","#08306B","#08417C", "#08519C", "#2171B5", "#4292C6", "#6BAED6" ,"#9DCBE1","#9ECAE1", "#FFFFFF", "#FFFFFF"  ,"#FCBBA1","#FCBBA1" ,"#FC9272" ,"#FB6A4A" ,"#EF3B2C" ,"#CB181D" ,"#A50F15" ,"#67000D","#67000D")))(length(breaksList)), breaks = breaksList, show_colnames = F,border_color = NA, legend = F, main = "TpaTge_Ad_to_Tpa_F_MF_X_for_heat_no_NA")
-dev.off()
-getwd() ## where has my plot gone...
-
-png(filename = "TpaTge_Ad_to_Tpa_F_MF_A_heatmap_no_NA.png", width = 10, height = 5, units = "in", bg = "white", res = 300)
-pheatmap(t(TpaTge_Ad_to_Tpa_F_MF_A_for_heat_no_NA), cluster_rows = F, cluster_cols = F, color = colorRampPalette(rev(c("#08103A", "#08103A","#08306B","#08417C", "#08519C", "#2171B5", "#4292C6", "#6BAED6" ,"#9DCBE1","#9ECAE1", "#FFFFFF", "#FFFFFF"  ,"#FCBBA1","#FCBBA1" ,"#FC9272" ,"#FB6A4A" ,"#EF3B2C" ,"#CB181D" ,"#A50F15" ,"#67000D","#67000D")))(length(breaksList)), breaks = breaksList, show_colnames = F,border_color = NA, legend = F, main = "TpaTge_Ad_to_Tpa_F_MF_A_for_heat_no_NA")
-dev.off()
-getwd() ## where has my plot gone...
-
-
+# 
+# png(filename = "TpsTdi_Ad_to_Tps_F_MF_X_heatmap.png", width = 10, height = 5, units = "in", bg = "white", res = 300)
+# pheatmap(t(TpsTdi_Ad_to_Tps_F_MF_X_for_heat), cluster_rows = F, cluster_cols = F, color = colorRampPalette(rev(c("#08103A", "#08103A","#08306B","#08417C", "#08519C", "#2171B5", "#4292C6", "#6BAED6" ,"#9DCBE1","#9ECAE1", "#FFFFFF", "#FFFFFF"  ,"#FCBBA1","#FCBBA1" ,"#FC9272" ,"#FB6A4A" ,"#EF3B2C" ,"#CB181D" ,"#A50F15" ,"#67000D","#67000D")))(length(breaksList)), breaks = breaksList, show_colnames = F,border_color = NA, legend = F, main = "TpsTdi_Ad_to_Tps_F_MF_X_for_heat")
+# dev.off()
+# getwd() ## where has my plot gone...
+# 
+# png(filename = "TpsTdi_Ad_to_Tps_F_MF_A_heatmap.png", width = 10, height = 5, units = "in", bg = "white", res = 300)
+# pheatmap(t(TpsTdi_Ad_to_Tps_F_MF_A_for_heat), cluster_rows = F, cluster_cols = F, color = colorRampPalette(rev(c("#08103A", "#08103A","#08306B","#08417C", "#08519C", "#2171B5", "#4292C6", "#6BAED6" ,"#9DCBE1","#9ECAE1", "#FFFFFF", "#FFFFFF"  ,"#FCBBA1","#FCBBA1" ,"#FC9272" ,"#FB6A4A" ,"#EF3B2C" ,"#CB181D" ,"#A50F15" ,"#67000D","#67000D")))(length(breaksList)), breaks = breaksList, show_colnames = F,border_color = NA, legend = F, main = "TpsTdi_Ad_to_Tps_F_MF_A_for_heat")
+# dev.off()
+# getwd() ## where has my plot gone...
+# 
+# png(filename = "TpsTdi_Ad_to_Tps_F_MF_X_heatmap_no_NA.png", width = 10, height = 5, units = "in", bg = "white", res = 300)
+# pheatmap(t(TpsTdi_Ad_to_Tps_F_MF_X_for_heat_no_NA), cluster_rows = F, cluster_cols = F, color = colorRampPalette(rev(c("#08103A", "#08103A","#08306B","#08417C", "#08519C", "#2171B5", "#4292C6", "#6BAED6" ,"#9DCBE1","#9ECAE1", "#FFFFFF", "#FFFFFF"  ,"#FCBBA1","#FCBBA1" ,"#FC9272" ,"#FB6A4A" ,"#EF3B2C" ,"#CB181D" ,"#A50F15" ,"#67000D","#67000D")))(length(breaksList)), breaks = breaksList, show_colnames = F,border_color = NA, legend = F, main = "TpsTdi_Ad_to_Tps_F_MF_X_for_heat_no_NA")
+# dev.off()
+# getwd() ## where has my plot gone...
+# 
+# png(filename = "TpsTdi_Ad_to_Tps_F_MF_A_heatmap_no_NA.png", width = 10, height = 5, units = "in", bg = "white", res = 300)
+# pheatmap(t(TpsTdi_Ad_to_Tps_F_MF_A_for_heat_no_NA), cluster_rows = F, cluster_cols = F, color = colorRampPalette(rev(c("#08103A", "#08103A","#08306B","#08417C", "#08519C", "#2171B5", "#4292C6", "#6BAED6" ,"#9DCBE1","#9ECAE1", "#FFFFFF", "#FFFFFF"  ,"#FCBBA1","#FCBBA1" ,"#FC9272" ,"#FB6A4A" ,"#EF3B2C" ,"#CB181D" ,"#A50F15" ,"#67000D","#67000D")))(length(breaksList)), breaks = breaksList, show_colnames = F,border_color = NA, legend = F, main = "TpsTdi_Ad_to_Tps_F_MF_A_for_heat_no_NA")
+# dev.off()
+# getwd() ## where has my plot gone...
+# 
+# 
+# dev.off()
+# 
+# 
+# png(filename = "TceTms_Ad_to_Tce_F_MF_X_heatmap.png", width = 10, height = 5, units = "in", bg = "white", res = 300)
+# pheatmap(t(TceTms_Ad_to_Tce_F_MF_X_for_heat), cluster_rows = F, cluster_cols = F, color = colorRampPalette(rev(c("#08103A", "#08103A","#08306B","#08417C", "#08519C", "#2171B5", "#4292C6", "#6BAED6" ,"#9DCBE1","#9ECAE1", "#FFFFFF", "#FFFFFF"  ,"#FCBBA1","#FCBBA1" ,"#FC9272" ,"#FB6A4A" ,"#EF3B2C" ,"#CB181D" ,"#A50F15" ,"#67000D","#67000D")))(length(breaksList)), breaks = breaksList, show_colnames = F,border_color = NA, legend = F, main = "TceTms_Ad_to_Tce_F_MF_X_for_heat")
+# dev.off()
+# getwd() ## where has my plot gone...
+# 
+# png(filename = "TceTms_Ad_to_Tce_F_MF_A_heatmap.png", width = 10, height = 5, units = "in", bg = "white", res = 300)
+# pheatmap(t(TceTms_Ad_to_Tce_F_MF_A_for_heat), cluster_rows = F, cluster_cols = F, color = colorRampPalette(rev(c("#08103A", "#08103A","#08306B","#08417C", "#08519C", "#2171B5", "#4292C6", "#6BAED6" ,"#9DCBE1","#9ECAE1", "#FFFFFF", "#FFFFFF"  ,"#FCBBA1","#FCBBA1" ,"#FC9272" ,"#FB6A4A" ,"#EF3B2C" ,"#CB181D" ,"#A50F15" ,"#67000D","#67000D")))(length(breaksList)), breaks = breaksList, show_colnames = F,border_color = NA, legend = F, main = "TceTms_Ad_to_Tce_F_MF_A_for_heat")
+# dev.off()
+# getwd() ## where has my plot gone...
+# 
+# png(filename = "TceTms_Ad_to_Tce_F_MF_X_heatmap_no_NA.png", width = 10, height = 5, units = "in", bg = "white", res = 300)
+# pheatmap(t(TceTms_Ad_to_Tce_F_MF_X_for_heat_no_NA), cluster_rows = F, cluster_cols = F, color = colorRampPalette(rev(c("#08103A", "#08103A","#08306B","#08417C", "#08519C", "#2171B5", "#4292C6", "#6BAED6" ,"#9DCBE1","#9ECAE1", "#FFFFFF", "#FFFFFF"  ,"#FCBBA1","#FCBBA1" ,"#FC9272" ,"#FB6A4A" ,"#EF3B2C" ,"#CB181D" ,"#A50F15" ,"#67000D","#67000D")))(length(breaksList)), breaks = breaksList, show_colnames = F,border_color = NA, legend = F, main = "TceTms_Ad_to_Tce_F_MF_X_heatmap_no_NA")
+# dev.off()
+# getwd() ## where has my plot gone...
+# 
+# png(filename = "TceTms_Ad_to_Tce_F_MF_A_heatmap_no_NA.png", width = 10, height = 5, units = "in", bg = "white", res = 300)
+# pheatmap(t(TceTms_Ad_to_Tce_F_MF_A_for_heat_no_NA), cluster_rows = F, cluster_cols = F, color = colorRampPalette(rev(c("#08103A", "#08103A","#08306B","#08417C", "#08519C", "#2171B5", "#4292C6", "#6BAED6" ,"#9DCBE1","#9ECAE1", "#FFFFFF", "#FFFFFF"  ,"#FCBBA1","#FCBBA1" ,"#FC9272" ,"#FB6A4A" ,"#EF3B2C" ,"#CB181D" ,"#A50F15" ,"#67000D","#67000D")))(length(breaksList)), breaks = breaksList, show_colnames = F,border_color = NA, legend = F, main = "TceTms_Ad_to_Tce_F_MF_A_heatmap_no_NA")
+# dev.off()
+# getwd() ## where has my plot gone...
+# 
+# 
+# png(filename = "TpaTge_Ad_to_Tpa_F_MF_X_heatmap.png", width = 10, height = 5, units = "in", bg = "white", res = 300)
+# pheatmap(t(TpaTge_Ad_to_Tpa_F_MF_X_for_heat), cluster_rows = F, cluster_cols = F, color = colorRampPalette(rev(c("#08103A", "#08103A","#08306B","#08417C", "#08519C", "#2171B5", "#4292C6", "#6BAED6" ,"#9DCBE1","#9ECAE1", "#FFFFFF", "#FFFFFF"  ,"#FCBBA1","#FCBBA1" ,"#FC9272" ,"#FB6A4A" ,"#EF3B2C" ,"#CB181D" ,"#A50F15" ,"#67000D","#67000D")))(length(breaksList)), breaks = breaksList, show_colnames = F,border_color = NA, legend = F, main = "TpaTge_Ad_to_Tpa_F_MF_X_heatmap")
+# dev.off()
+# getwd() ## where has my plot gone...
+# 
+# png(filename = "TpaTge_Ad_to_Tpa_F_MF_A_heatmap.png", width = 10, height = 5, units = "in", bg = "white", res = 300)
+# pheatmap(t(TpaTge_Ad_to_Tpa_F_MF_A_for_heat), cluster_rows = F, cluster_cols = F, color = colorRampPalette(rev(c("#08103A", "#08103A","#08306B","#08417C", "#08519C", "#2171B5", "#4292C6", "#6BAED6" ,"#9DCBE1","#9ECAE1", "#FFFFFF", "#FFFFFF"  ,"#FCBBA1","#FCBBA1" ,"#FC9272" ,"#FB6A4A" ,"#EF3B2C" ,"#CB181D" ,"#A50F15" ,"#67000D","#67000D")))(length(breaksList)), breaks = breaksList, show_colnames = F,border_color = NA, legend = F, main = "TpaTge_Ad_to_Tpa_F_MF_A_heatmap")
+# dev.off()
+# getwd() ## where has my plot gone...
+# 
+# png(filename = "TpaTge_Ad_to_Tpa_F_MF_X_heatmap_no_NA.png", width = 10, height = 5, units = "in", bg = "white", res = 300)
+# pheatmap(t(TpaTge_Ad_to_Tpa_F_MF_X_for_heat_no_NA), cluster_rows = F, cluster_cols = F, color = colorRampPalette(rev(c("#08103A", "#08103A","#08306B","#08417C", "#08519C", "#2171B5", "#4292C6", "#6BAED6" ,"#9DCBE1","#9ECAE1", "#FFFFFF", "#FFFFFF"  ,"#FCBBA1","#FCBBA1" ,"#FC9272" ,"#FB6A4A" ,"#EF3B2C" ,"#CB181D" ,"#A50F15" ,"#67000D","#67000D")))(length(breaksList)), breaks = breaksList, show_colnames = F,border_color = NA, legend = F, main = "TpaTge_Ad_to_Tpa_F_MF_X_for_heat_no_NA")
+# dev.off()
+# getwd() ## where has my plot gone...
+# 
+# png(filename = "TpaTge_Ad_to_Tpa_F_MF_A_heatmap_no_NA.png", width = 10, height = 5, units = "in", bg = "white", res = 300)
+# pheatmap(t(TpaTge_Ad_to_Tpa_F_MF_A_for_heat_no_NA), cluster_rows = F, cluster_cols = F, color = colorRampPalette(rev(c("#08103A", "#08103A","#08306B","#08417C", "#08519C", "#2171B5", "#4292C6", "#6BAED6" ,"#9DCBE1","#9ECAE1", "#FFFFFF", "#FFFFFF"  ,"#FCBBA1","#FCBBA1" ,"#FC9272" ,"#FB6A4A" ,"#EF3B2C" ,"#CB181D" ,"#A50F15" ,"#67000D","#67000D")))(length(breaksList)), breaks = breaksList, show_colnames = F,border_color = NA, legend = F, main = "TpaTge_Ad_to_Tpa_F_MF_A_for_heat_no_NA")
+# dev.off()
+# getwd() ## where has my plot gone...
+# 
+# 
 
 
 
@@ -4501,25 +4599,47 @@ pheatmap(TpsTdi_Ad_to_Tps_F_MF_X_for_heat_mostly_non_NAs, cluster_rows = F, clus
            breaks = breaksList, show_rownames = F, show_colnames = T,border_color = NA, legend = F, main = "TpsTdi_Ad_to_Tps_F_MF_X_for_heat")
 dev.off()  
 
-# 
-# breaksList = c(-4.25, -3.75, -3.25, -2.75, -2.25, -1.75, -1.25, -0.75, -0.25, 0.25,  0.75,  1.25, 1.75, 2.25, 2.75,3.25,3.75,4.25) 
-# 
-# pdf("TpsTdi_Ad_to_Tps_F_MF_X_heatmap_mostly_no_NA_w_legend.pdf", width = 4, height = 11)  
-# pheatmap(TpsTdi_Ad_to_Tps_F_MF_X_for_heat_mostly_non_NAs, cluster_rows = F, cluster_cols = F, 
-#          color = colorRampPalette(rev(c("#08103A", "#08103A","#08306B","#08417C", "#08519C", "#2171B5", "#4292C6", "#6BAED6" ,"#9DCBE1","#9ECAE1", "#FFFFFF", "#FFFFFF"  ,"#FCBBA1","#FCBBA1" ,"#FC9272" ,"#FB6A4A" ,"#EF3B2C" ,"#CB181D" ,"#A50F15" ,"#67000D","#67000D")))(length(breaksList)), 
-#          breaks = breaksList, show_rownames = F, show_colnames = T,border_color = NA, legend = T, main = "TpsTdi_Ad_to_Tps_F_MF_X_for_heat")
-# dev.off()  
-# 
-# 
+
+
+########## clust genes by euclidean dist
 
 
 
+pdf("TceTms_Ad_to_Tce_F_MF_LG1_heatmap_mostly_no_NA_Eclustgenes.pdf", width = 4, height = 11)  
+pheatmap(TceTms_Ad_to_Tce_F_MF_LG1_for_heat_mostly_non_NAs, cluster_rows = T, cluster_cols = F, 
+         color = colorRampPalette(rev(c("#08103A", "#08103A","#08306B","#08417C", "#08519C", "#2171B5", "#4292C6", "#6BAED6" ,"#9DCBE1","#9ECAE1", "#FFFFFF", "#FFFFFF"  ,"#FCBBA1","#FCBBA1" ,"#FC9272" ,"#FB6A4A" ,"#EF3B2C" ,"#CB181D" ,"#A50F15" ,"#67000D","#67000D")))(length(breaksList)), 
+         breaks = breaksList, show_rownames = F, show_colnames = T,border_color = NA, legend = F, main = "TceTms_Ad_to_Tce_F_MF_LG1_for_heat")
+dev.off()  
 
+pdf("TceTms_Ad_to_Tce_F_MF_X_heatmap_mostly_no_NA_Eclustgenes.pdf", width = 4, height = 11)    
+pheatmap(TceTms_Ad_to_Tce_F_MF_X_for_heat_mostly_non_NAs, cluster_rows = T, cluster_cols = F, 
+         color = colorRampPalette(rev(c("#08103A", "#08103A","#08306B","#08417C", "#08519C", "#2171B5", "#4292C6", "#6BAED6" ,"#9DCBE1","#9ECAE1", "#FFFFFF", "#FFFFFF"  ,"#FCBBA1","#FCBBA1" ,"#FC9272" ,"#FB6A4A" ,"#EF3B2C" ,"#CB181D" ,"#A50F15" ,"#67000D","#67000D")))(length(breaksList)), 
+         breaks = breaksList, show_rownames = F, show_colnames = T,border_color = NA, legend = F, main = "TceTdi_Ad_to_Tce_F_MF_X_for_heat")
+dev.off()  
 
+pdf("TpaTge_Ad_to_Tpa_F_MF_LG3_heatmap_mostly_no_NA_Eclustgenes.pdf", width = 4, height = 11)  
+pheatmap(TpaTge_Ad_to_Tpa_F_MF_LG3_for_heat_mostly_non_NAs, cluster_rows = T, cluster_cols = F, 
+         color = colorRampPalette(rev(c("#08103A", "#08103A","#08306B","#08417C", "#08519C", "#2171B5", "#4292C6", "#6BAED6" ,"#9DCBE1","#9ECAE1", "#FFFFFF", "#FFFFFF"  ,"#FCBBA1","#FCBBA1" ,"#FC9272" ,"#FB6A4A" ,"#EF3B2C" ,"#CB181D" ,"#A50F15" ,"#67000D","#67000D")))(length(breaksList)), 
+         breaks = breaksList, show_rownames = F, show_colnames = T,border_color = NA, legend = F, main = "TpaTdi_Ad_to_Tpa_F_MF_LG3_for_heat")
+dev.off()  
 
+pdf("TpaTge_Ad_to_Tpa_F_MF_X_heatmap_mostly_no_NA_Eclustgenes.pdf", width = 4, height = 11)  
+pheatmap(TpaTge_Ad_to_Tpa_F_MF_X_for_heat_mostly_non_NAs, cluster_rows = T, cluster_cols = F, 
+         color = colorRampPalette(rev(c("#08103A", "#08103A","#08306B","#08417C", "#08519C", "#2171B5", "#4292C6", "#6BAED6" ,"#9DCBE1","#9ECAE1", "#FFFFFF", "#FFFFFF"  ,"#FCBBA1","#FCBBA1" ,"#FC9272" ,"#FB6A4A" ,"#EF3B2C" ,"#CB181D" ,"#A50F15" ,"#67000D","#67000D")))(length(breaksList)), 
+         breaks = breaksList, show_rownames = F, show_colnames = T,border_color = NA, legend = F, main = "TpaTdi_Ad_to_Tpa_F_MF_X_for_heat")
+dev.off()  
 
+pdf("TpsTdi_Ad_to_Tps_F_MF_LG2_heatmap_mostly_no_NA_Eclustgenes.pdf", width = 4, height = 11)  
+pheatmap(TpsTdi_Ad_to_Tps_F_MF_LG2_for_heat_mostly_non_NAs, cluster_rows = T, cluster_cols = F, 
+         color = colorRampPalette(rev(c("#08103A", "#08103A","#08306B","#08417C", "#08519C", "#2171B5", "#4292C6", "#6BAED6" ,"#9DCBE1","#9ECAE1", "#FFFFFF", "#FFFFFF"  ,"#FCBBA1","#FCBBA1" ,"#FC9272" ,"#FB6A4A" ,"#EF3B2C" ,"#CB181D" ,"#A50F15" ,"#67000D","#67000D")))(length(breaksList)), 
+         breaks = breaksList, show_rownames = F, show_colnames = T,border_color = NA, legend = F, main = "TpsTdi_Ad_to_Tps_F_MF_LG2_for_heat")
+dev.off()  
 
-
+pdf("TpsTdi_Ad_to_Tps_F_MF_X_heatmap_mostly_no_NA_Eclustgenes.pdf", width = 4, height = 11)  
+pheatmap(TpsTdi_Ad_to_Tps_F_MF_X_for_heat_mostly_non_NAs, cluster_rows = T, cluster_cols = F, 
+         color = colorRampPalette(rev(c("#08103A", "#08103A","#08306B","#08417C", "#08519C", "#2171B5", "#4292C6", "#6BAED6" ,"#9DCBE1","#9ECAE1", "#FFFFFF", "#FFFFFF"  ,"#FCBBA1","#FCBBA1" ,"#FC9272" ,"#FB6A4A" ,"#EF3B2C" ,"#CB181D" ,"#A50F15" ,"#67000D","#67000D")))(length(breaksList)), 
+         breaks = breaksList, show_rownames = F, show_colnames = T,border_color = NA, legend = F, main = "TpsTdi_Ad_to_Tps_F_MF_X_for_heat")
+dev.off()  
 
 
 
